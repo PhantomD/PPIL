@@ -1,0 +1,41 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Projet PPIL</title>
+	<link rel="stylesheet" href="css/model.css" />
+	<link rel="stylesheet" href="css/PpilBlue.min.css" />
+	<link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+	<div data-role="page" data-theme="b" id="page_inscription">
+		<div data-role="header" data-position="inline">
+			<h1>Modifier le profil</h1>
+		</div>
+		<input type="text" name="name" id="txt_name" value="Nom"/>
+		<input type="text" name="name" id="txt_firstName" value="Prénom"/>
+		<input type="text" name="name" id="txt_birthDate" value="Date de naiss.(JJ/MM/AAA)"/>
+
+		<fieldset data-role="controlgroup" data-type="horizontal">
+			<input name="rc_gender" id="rc_man" value="1" type="radio">
+			<label for="rc_man">Homme</label>
+			<input name="rc_gender" id="rc_woman" value="0" type="radio">
+			<label for="rc_woman">Femme</label>
+		</fieldset>
+
+		<input type="text" name="name" id="grimName" value="Adresse e-Mail"/>
+		<input type="text" name="name" id="grimName" value="Confirmation e-Mail"/>
+		<input type="text" name="name" id="grimName" value="Mot de passe"/>
+		<input type="text" name="name" id="grimName" value="Confirmation Mot de passe"/>
+
+		<label>
+			<input name="cb_removeAcount" type="checkbox">Supprimer le compte
+		</label>
+
+		<a href data-role="button">Enregistrer les modifications</a>
+	</div>
+</body>
+</html>
