@@ -21,11 +21,8 @@ class UsersController extends AppController{
 		if($this->request->is('post')){
 			$data = $this->request->data;
 
-
-
 			//cryptage mot de passe
 			$data['User']['password'] = $this->Auth->password($data['User']['password']);
-
 			//on met la date d'anniversaire dans le bon format
 			$tableauBirthday = explode("/",$data['User']['birthdate']);
 			$data['User']['birthdate'] = $tableauBirthday[2]."-".$tableauBirthday[1]."-".$tableauBirthday[0];
