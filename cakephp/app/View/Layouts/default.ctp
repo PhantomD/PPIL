@@ -36,8 +36,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 
 	echo $this->Html->css('http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css');
 
-	echo $this->Html->script('http://code.jquery.com/jquery-1.11.1.min.js');
-	echo $this->Html->script('http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js');
+	echo $this->Html->script('jquery-1.11.1.min.js');
+	echo $this->Html->script('jquery.mobile-1.4.5.min.js');
 
 
 
