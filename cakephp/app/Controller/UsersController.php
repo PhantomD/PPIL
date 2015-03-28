@@ -28,7 +28,7 @@ public function login(){
 
 				$this->Session->setFlash('<strong>Felicitation</strong>');
 
-				$this->redirect('/users/profil');
+					$this->redirect($this->Auth->redirectUrl());
 
 			}else{
 		
