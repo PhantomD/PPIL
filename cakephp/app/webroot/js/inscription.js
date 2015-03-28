@@ -9,9 +9,9 @@ function surligne(champ, erreur)
 
 function verifPseudo(champ)
 {
-  $(".pseudo p").empty();
-  if(champ.value.length < 2 || champ.value.length > 25)
-  {
+ $(".pseudo p").empty();
+ if(champ.value.length < 2 || champ.value.length > 25)
+ {
    $(".pseudo").append("<p class ='error'> pseudo incorrect (entre 2 et 25 caractères) </p>");
    surligne(champ, true);
    return false;
@@ -27,12 +27,12 @@ function verifPassword(champ){
    $(".password p").empty();
    if(champ.value.length < 2 || champ.value.length > 25)
    {
-    $(".pseudo").append("<p class ='error'> mot de passe incorrect (entre 2 et 25 caractères) </p>");
-    surligne(champ, true);
-    return false;
- }
- else
- {
+     $(".pseudo").append("<p class ='error'> mot de passe incorrect (entre 2 et 25 caractères) </p>");
+     surligne(champ, true);
+     return false;
+  }
+  else
+  {
    surligne(champ, false);
    return true;
 }
@@ -56,11 +56,11 @@ function verifName(champ){
 
 
 function verifFirstname(champ){
-  var regex = /^[a-zA-Z]+$/;
+ var regex = /^[a-zA-Z]+$/;
 
-  $(".prenom p").empty();
-  if(champ.value.length >= 2 && champ.value.length < 25)
-  {
+ $(".prenom p").empty();
+ if(champ.value.length >= 2 && champ.value.length < 25)
+ {
    if (regex.test(champ.value)){
       surligne(champ, false);
       return true;
@@ -73,10 +73,10 @@ return false;
 
 
 function verifBirthdate(champ){
-  var regex = /^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{4,4}$/;
+ var regex = /^[0-9]{2,2}\/[0-9]{2,2}\/[0-9]{4,4}$/;
 
-  $(".date p").empty();
-  if (regex.test(champ.value)){
+ $(".date p").empty();
+ if (regex.test(champ.value)){
    surligne(champ, false);
    return true;
 }
@@ -140,22 +140,22 @@ function  verifCorrespondancePassword(){
 
 function testerRadio(radio) {
 
-  
+ 
 
-      return false;
-   }
+   return false;
+}
 
 
 function verifGenre(){
 
-$(".gender p").empty();
-  var y = document.getElementById("gender0").checked;
-    var x = document.getElementById("gender1").checked;
+   $(".gender p").empty();
+   var y = document.getElementById("gender0").checked;
+   var x = document.getElementById("gender1").checked;
 
-if(x||y){
-   return true;
-}
-      $(".gender").append("<p class ='error'> Choississez votre genre </p>");
+   if(x||y){
+      return true;
+   }
+   $(".gender").append("<p class ='error'> Choississez votre genre </p>");
 
 }
 
