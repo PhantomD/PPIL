@@ -40,7 +40,6 @@ class AppController extends Controller {
                 'fields' => array('username' => 'pseudo')
             )
         )
-    )
-);
+    ), 'Session', 'DebugKit.Toolbar','RequestHandler');
 
 	}
