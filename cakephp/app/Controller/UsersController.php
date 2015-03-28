@@ -6,8 +6,8 @@ class UsersController extends AppController{
 
 
 	function beforeFilter(){
-		//on autorise l'inscription,la connexion et la deconnexion 
-		$this->Auth->allow(array('inscription','login','logout'));
+		//on autorise l'inscription,la connexion 
+		$this->Auth->allow(array('inscription','login'));
 	}
 
 
@@ -16,7 +16,7 @@ public function login(){
 		//si un utilisateur est deja connecter, on verifie la variable id dans sa session si non null alors on le renvoie vers son profil
 		if( !AuthComponent::user('id')==NULL){
 
-			$this->redirect('/users/profil');
+			$this->redirect($this->Auth->redirectUrl());
 		}
 
 
@@ -46,7 +46,12 @@ public function logout(){
 
 
 	public	function inscription(){
-	//	$this->Session->setFlash('<strong>Felicitation</strong>', 'flash_info');
+	
+
+if( !AuthComponent::user('id')==NULL){
+			$this->redirect($this->Auth->redirectUrl());
+		}
+
 		if($this->request->is('post')){
 			$data = $this->request->data;
 
@@ -92,6 +97,12 @@ public function logout(){
 
 	public	function profil(){
 		
+	}
+
+
+
+	public function main(){
+
 	}
 
 }

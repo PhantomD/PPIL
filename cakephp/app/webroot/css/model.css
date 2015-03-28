@@ -1,9 +1,3 @@
-#page_inscription {
+#page_inscription, #page_connexion, #page_profilEdit, #page_maonScreen {
 	text-align: center ;
 }
-
-#page_inscription .error {
-	color: red;
-	font-weight: bold;
-}
-
