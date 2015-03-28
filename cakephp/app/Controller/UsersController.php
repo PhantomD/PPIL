@@ -10,10 +10,10 @@ class UsersController extends AppController{
 		$this->Auth->allow(array('inscription'));
 	}
 
-	function profil(){
 
-	}
+public function login(){
 
+}
 
 	public	function inscription(){
 	//	$this->Session->setFlash('<strong>Felicitation</strong>', 'flash_info');

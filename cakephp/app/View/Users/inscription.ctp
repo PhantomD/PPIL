@@ -33,7 +33,7 @@ if(empty($this->request->data)){
 	</div>
 
 	<?php
-	echo $this->form->create(array('type'=>'post','action'=>'inscription','label'=> false, 'onsubmit' => "return verifFormulaire(this)",'id'=>'form1'));
+	echo $this->form->create(array('type'=>'post','action'=>'inscription','label'=> false, 'onsubmit' => "return verifFormulaire(this)"));
 
 
 //pseudo
