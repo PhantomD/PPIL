@@ -25,7 +25,9 @@
           <div data-role="popup" id="popupMenu" data-theme="b">
             <ul data-role="listview" data-inset="true" style="min-width:210px;">
               <li data-role="list-divider">Menu</li>
-              <li><a href="afficherProfil.html">Afficher profil</a></li>
+              <li><a href="#">Supprimer membres</a></li>
+              <li><a href="#">Modifier la liste</a></li>
+              <li><a href="#">Supprimer la liste</a></li>
               <li><a href="#popupDisconnect" data-rel="popup" data-transition="flow">Déconnexion</a></li>
             </ul> 
           </div>
@@ -41,11 +43,20 @@
         </div>
 		</div>
 		<div data-role="content">
-      <h4 class="ui-bar ui-bar-a">Aujourd'hui</h4>
-      Anniversaire de Paul-Edward <a href="afficherListe.html" data-role="button" data-inline="true" data-icon="carat-r" data-iconpos="notext" data-mini="true" >Consulter la liste</a><br/>
-      Emploi du temps <a href="afficherListe.html" data-role="button" data-inline="true" data-icon="carat-r" data-iconpos="notext" data-mini="true" >Consulter la liste</a><br/>
-      <h4 class="ui-bar ui-bar-a">Demain</h4>
-      Piquenique géant Pépinière Nancy <a href="afficherListe.html" data-role="button" data-inline="true" data-icon="carat-r" data-iconpos="notext" data-mini="true" >Consulter la liste</a><br/>
+      <h4 class="ui-bar ui-bar-a">Anniversaire de Paul-Edward</h4>
+      <form>
+      <fieldset data-role="controlgroup">
+        <input name="checkbox-v-2a" id="checkbox-v-2a" type="checkbox">
+        <label for="checkbox-v-2a">Acheter Champomy </label>
+        <a href="#" data-role="button" data-inline="true" data-icon="carat-r" data-iconpos="notext" data-mini="true" >Consulter la tâche</a>
+        <input name="checkbox-v-2b" id="checkbox-v-2b" type="checkbox">
+        <label for="checkbox-v-2b">Réserver gâteau</label>
+        <input name="checkbox-v-2c" id="checkbox-v-2c" type="checkbox">
+        <label for="checkbox-v-2c">Aller chercher gâteau</label>
+        <input name="checkbox-v-2c" id="checkbox-v-2d" type="checkbox">
+        <label for="checkbox-v-2d">Acheter ballons</label>
+      </fieldset>
+</form>
 		</div>
 	</div>
 </html>

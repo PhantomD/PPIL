@@ -17,9 +17,9 @@
 	<div data-role="page" data-theme="b" id="page_option">
 		<div data-role="content">
 			<h1>Inscription</h1>
-			<input type="text" name="name" id="txt_name" placeholder="Nom"/>
-			<input type="text" name="name" id="txt_firstName" placeholder="Prénom"/>
-			<input type="text" name="name" id="txt_birthDate" placeholder="Date de naiss.(JJ/MM/AAA)"/>
+			<input type="text" data-clear-btn="true" name="name" id="txt_name" placeholder="Nom"/>
+			<input type="text" data-clear-btn="true" name="firstName" id="txt_firstName" placeholder="Prénom"/>
+			<input type="text" data-clear-btn="true" name="birthDate" id="txt_birthDate" placeholder="Date de naiss.(JJ/MM/AAA)"/>
 
 			<fieldset data-role="controlgroup" data-type="horizontal">
 				<input name="rc_gender" id="rc_man" value="1" type="radio">
@@ -28,10 +28,10 @@
 				<label for="rc_woman">Femme</label>
 			</fieldset>
 
-			<input type="text" name="name" id="grimName" placeholder="Adresse e-Mail"/>
-			<input type="text" name="name" id="grimName" placeholder="Confirmation e-Mail"/>
-			<input type="password" name="name" id="grimName" placeholder="Mot de passe"/>
-			<input type="password" name="name" id="grimName" placeholder="Confirmation Mot de passe"/>
+			<input type="text" data-clear-btn="true" name="addressEMail" id="grimName" placeholder="Adresse e-Mail"/>
+			<input type="text" data-clear-btn="true" name="confAddressEMail" id="grimName" placeholder="Confirmation e-Mail"/>
+			<input type="password" data-clear-btn="true" name="passWd" id="grimName" placeholder="Mot de passe"/>
+			<input type="password" data-clear-btn="true" name="confPassWd" id="grimName" placeholder="Confirmation Mot de passe"/>
 			<a href="connexion.html" data-role="button">Inscription</a>
 	</div>
 	</div>

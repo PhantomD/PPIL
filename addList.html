@@ -23,12 +23,17 @@
 			</div>
 		</div>
 		<div data-role="content">
-			<input type="text" name="name" id="txt_name" placeholder="Intitulé de la liste"/>
+			<input type="text" data-clear-btn="true" name="nameList" id="txt_name" placeholder="Intitulé de la liste"/>
       <br/>
-			<input type="text" name="name" id="txt_firstName" placeholder="Commentaire"/>
-			<input type="text" name="name" id="txt_birthDate" placeholder="Date de début(JJ/MM/AAA)"/>
-			<input type="text" name="name" id="txt_birthDate" placeholder="Date de fin(JJ/MM/AAA)"/>
-      <a href="#" data-role="button" data-inline="true">Ajouter un Membre</a>
+      <div data-role="content" data-theme="c">
+        Facultatif
+        <input type="text" data-clear-btn="true" name="comment" id="txt_firstName" placeholder="Commentaire"/>
+        <input type="text" data-clear-btn="true" name="startDate" id="txt_birthDate" placeholder="Date de début(JJ/MM/AAA)"/>
+        <input type="text" data-clear-btn="true" name="endDate" id="txt_birthDate" placeholder="Date de fin(JJ/MM/AAA)"/>
+        <a href="#" data-role="button" data-inline="true">Ajouter un Membre</a>
+        
+      </div>
+      <br/>
       <a href="mainScreen.html" data-role="button" data-inline="true">Créer la liste</a>
 		</div>
 	</div>
