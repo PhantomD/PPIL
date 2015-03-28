@@ -12,12 +12,28 @@ class UsersController extends AppController{
 
 
 public function login(){
+/*
+		if( !AuthComponent::user('id')==NULL){
 
+			$this->redirect('/users/login');
+		}
+*/
+
+		debug($this->request->data);
+
+		if($this->request->is('post')){
+			if($this->Auth->login()){
+				$this->Session->setFlash('<strong>Felicitation</strong>');
+
+			}else{
+		
+					$this->Session->setFlash('<strong>vous etes null</strong>');
+			}
+		}
 }
 
 	public	function inscription(){
 	//	$this->Session->setFlash('<strong>Felicitation</strong>', 'flash_info');
-
 		if($this->request->is('post')){
 			$data = $this->request->data;
 
@@ -58,6 +74,10 @@ public function login(){
 
 			}
 		}
+	}
+
+	public	function profil(){
+		
 	}
 
 }

@@ -15,13 +15,15 @@ if(empty($this->request->data)){
 
 <div data-role="page" data-theme="b" id="page_inscription">
 		<div>
+			<?php echo $this->Session->flash(); ?>
 			<h1>Bienvenue</h1>
 			Veuillez vous connecter pour accéder à l'application
 		</div>
 
 <?php
 debug($this->request->data);
-	echo $this->form->create(array('type'=>'post','action'=>'login','label'=> false, 'onsubmit' => "return verifFormulaire(this)"));
+
+echo $this->form->create(array('type'=>'post','action'=>'login','label'=> false, 'onsubmit' => "return verifFormulaire(this)"));
 
 
 //pseudo
