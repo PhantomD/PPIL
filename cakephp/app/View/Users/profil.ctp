@@ -4,6 +4,15 @@
 			<h1>Bienvenue</h1>
 		</div>
 
+
+	<div>
+			<h3>se Deconnecter </h3>
+
+		<?php	echo $this->Html->link(
+    'Se deconnecter',
+    array( 'controller' => 'Users','action' => 'logout'));
+
+	?> 
 </div>
 
 

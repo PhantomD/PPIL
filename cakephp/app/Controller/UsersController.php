@@ -7,30 +7,37 @@ class UsersController extends AppController{
 
 
 	function beforeFilter(){
-		$this->Auth->allow(array('inscription'));
+		$this->Auth->allow(array('inscription','login','logout'));
 	}
 
 
 public function login(){
-/*
+
 		if( !AuthComponent::user('id')==NULL){
 
-			$this->redirect('/users/login');
+			$this->redirect('/users/profil');
 		}
-*/
+
 
 		debug($this->request->data);
 
 		if($this->request->is('post')){
 			if($this->Auth->login()){
 				$this->Session->setFlash('<strong>Felicitation</strong>');
-
+				$this->redirect('/users/profil');
 			}else{
 		
-					$this->Session->setFlash('<strong>vous etes null</strong>');
+					$this->Session->setFlash('<strong>Erreur de Mot de passe ou de pseudo</strong>');
 			}
 		}
 }
+
+
+public function logout(){
+    return $this->redirect($this->Auth->logout());
+}
+
+
 
 	public	function inscription(){
 	//	$this->Session->setFlash('<strong>Felicitation</strong>', 'flash_info');
@@ -55,9 +62,10 @@ public function login(){
 
 				if($mdp){
 					if($email){
-						$data['User']['password'] = $this->Auth->password($data['User']['password']);
+					
 						$this->User->save($data);
-						$this->Session->setFlash("nouveau utilisateur inscris");
+						$this->redirect('/users/login');
+						$this->Session->setFlash("nouveau utilisateur inscrit");
 					} else {
 						$erreur['mailConfirmation']= "les 2 mails sont différents";
 						$this->set($erreur);

@@ -23,7 +23,7 @@ if(empty($this->request->data)){
 <?php
 debug($this->request->data);
 
-echo $this->form->create(array('type'=>'post','action'=>'login','label'=> false, 'onsubmit' => "return verifFormulaire(this)"));
+echo $this->form->create(array('controller' => 'Users','type'=>'post','action'=>'login','label'=> false));
 
 
 //pseudo
