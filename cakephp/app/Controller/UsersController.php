@@ -5,26 +5,31 @@ class UsersController extends AppController{
 //	public $uses =...;
 
 
-
 	function beforeFilter(){
+		//on autorise l'inscription,la connexion et la deconnexion 
 		$this->Auth->allow(array('inscription','login','logout'));
 	}
 
 
 public function login(){
 
+		//si un utilisateur est deja connecter, on verifie la variable id dans sa session si non null alors on le renvoie vers son profil
 		if( !AuthComponent::user('id')==NULL){
 
 			$this->redirect('/users/profil');
 		}
 
 
-		debug($this->request->data);
-
+		//si c'est un POST
 		if($this->request->is('post')){
+
+			//on essaye de se connecter
 			if($this->Auth->login()){
+
 				$this->Session->setFlash('<strong>Felicitation</strong>');
+
 				$this->redirect('/users/profil');
+
 			}else{
 		
 					$this->Session->setFlash('<strong>Erreur de Mot de passe ou de pseudo</strong>');
@@ -34,6 +39,7 @@ public function login(){
 
 
 public function logout(){
+	//recupere la variable definie dans Auth ( AppControler)
     return $this->redirect($this->Auth->logout());
 }
 

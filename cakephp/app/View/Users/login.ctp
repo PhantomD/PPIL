@@ -21,8 +21,8 @@ if(empty($this->request->data)){
 		</div>
 
 <?php
-debug($this->request->data);
 
+//creation du formulaire de connexion
 echo $this->form->create(array('controller' => 'Users','type'=>'post','action'=>'login','label'=> false));
 
 
@@ -34,7 +34,7 @@ echo $this->form->create(array('controller' => 'Users','type'=>'post','action'=>
 	}
 	echo "</div>";
 
-//nom
+//mot de passe
 	echo "<div class='password'>";
 	echo $this->Form->input('', array('type' => 'password','name' => 'data[User][password]','id'=>'password', 'value'=> $tableau['password'], 'onblur' => 'verifPassword(this)'));
 	if(isset($erreurs['name'])){
@@ -43,6 +43,8 @@ echo $this->form->create(array('controller' => 'Users','type'=>'post','action'=>
 	echo "</div>";
 
 	echo $this->form->end('Connexion');
+
+//fin du formulaire connexion
 	echo "<br/>";
 	?>
 
@@ -55,6 +57,7 @@ echo $this->form->create(array('controller' => 'Users','type'=>'post','action'=>
 
 
 		<div>
+			<!-- inscrition !-->
 			<h3>Pas de compte ? </h3>
 
 		<?php	echo $this->Html->link(
@@ -62,15 +65,9 @@ echo $this->form->create(array('controller' => 'Users','type'=>'post','action'=>
     array( 'controller' => 'Users','action' => 'inscription'));
 
 	?> 
+	<!-- Fin inscrition !-->
 
 			<h4>OU</h4>
-
-
-
-
-
-
-
 
 <!--a faire -->
 

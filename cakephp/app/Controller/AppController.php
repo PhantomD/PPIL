@@ -31,15 +31,17 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+
 	public $components = array(
     'Session','Auth' => array(
-        'loginRedirect' => array('controller' => 'users', 'action' => 'profil'),
-            'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),
+        'loginRedirect' => array('controller' => 'users', 'action' => 'profil'),//lors d'une connexion reussi
+            'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),//lors d'une deconnexion
             'authenticate' => array(
             'Form' => array(
-                'fields' => array('username' => 'pseudo')
+                'fields' => array('username' => 'pseudo'), //notre moyen d'identification se base sur le pseudo, par defaut cakephp utilise le champs username
+                'userFields' => array('id') // Pour question de securite on ne garde que l'id dans la variable session
             )
         )
-    ), 'Session', 'DebugKit.Toolbar','RequestHandler');
+    ), 'DebugKit.Toolbar','RequestHandler') ;
 
 	}

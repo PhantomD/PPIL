@@ -60,6 +60,8 @@ class User extends AppModel{
 			));
 
 
+
+//fonction de hachage du mot de passe avant la sauvegarde des données
 public function beforeSave($options = array()) {
     if (isset($this->data[$this->alias]['password'])) {
         $passwordHasher = new SimplePasswordHasher();

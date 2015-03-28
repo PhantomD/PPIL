@@ -1,3 +1,4 @@
+<!-- Vue de test pour la deconnexion !-->
 <div data-role="page" data-theme="b" id="profil">
 		<div>
 			<?php echo $this->Session->flash(); ?>
