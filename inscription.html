@@ -14,12 +14,12 @@
 	<script src="css/jquery.mobile-1.4.5.min.js"></script>
 </head>
 <body>
-	<div data-role="page" data-theme="b" id="page_inscription">
+	<div data-role="page" data-theme="b" id="page_option">
 		<div data-role="content">
 			<h1>Inscription</h1>
-			<input type="text" name="name" id="txt_name" value="Nom"/>
-			<input type="text" name="name" id="txt_firstName" value="Prénom"/>
-			<input type="text" name="name" id="txt_birthDate" value="Date de naiss.(JJ/MM/AAA)"/>
+			<input type="text" name="name" id="txt_name" placeholder="Nom"/>
+			<input type="text" name="name" id="txt_firstName" placeholder="Prénom"/>
+			<input type="text" name="name" id="txt_birthDate" placeholder="Date de naiss.(JJ/MM/AAA)"/>
 
 			<fieldset data-role="controlgroup" data-type="horizontal">
 				<input name="rc_gender" id="rc_man" value="1" type="radio">
@@ -28,11 +28,11 @@
 				<label for="rc_woman">Femme</label>
 			</fieldset>
 
-			<input type="text" name="name" id="grimName" value="Adresse e-Mail"/>
-			<input type="text" name="name" id="grimName" value="Confirmation e-Mail"/>
-			<input type="text" name="name" id="grimName" value="Mot de passe"/>
-			<input type="text" name="name" id="grimName" value="Confirmation Mot de passe"/>
-			<a href data-role="button">Inscription</a>
+			<input type="text" name="name" id="grimName" placeholder="Adresse e-Mail"/>
+			<input type="text" name="name" id="grimName" placeholder="Confirmation e-Mail"/>
+			<input type="password" name="name" id="grimName" placeholder="Mot de passe"/>
+			<input type="password" name="name" id="grimName" placeholder="Confirmation Mot de passe"/>
+			<a href="connexion.html" data-role="button">Inscription</a>
 	</div>
 	</div>
 </body>
