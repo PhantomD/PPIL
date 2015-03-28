@@ -26,30 +26,30 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 		<?php echo $this->fetch('title'); ?>
 	</title>
 	<?php
-		echo $this->Html->meta('icon');
+	echo $this->Html->meta('icon');
 
 	//	echo $this->Html->css('cake.generic');
 
-echo $this->Html->css('model');
-echo $this->Html->css('PpilBlue.min');
-echo $this->Html->css('jquery.mobile.icons.min');
+	echo $this->Html->css('model');
+	echo $this->Html->css('PpilBlue.min');
+	echo $this->Html->css('jquery.mobile.icons.min');
 
-echo $this->Html->css('http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css');
+	echo $this->Html->css('http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css');
 
-echo $this->Html->script('http://code.jquery.com/jquery-1.11.1.min.js');
-echo $this->Html->script('http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js');
+	echo $this->Html->script('http://code.jquery.com/jquery-1.11.1.min.js');
+	echo $this->Html->script('http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js');
 
 
 
-		echo $this->fetch('meta');
-		echo $this->fetch('css');
-		echo $this->fetch('script');
+	echo $this->fetch('meta');
+	echo $this->fetch('css');
+	echo $this->fetch('script');
 	?>
 </head>
 <body>
 	<div id="container">
 		<div id="header">
-		 <!-- <h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1> -->
+			<!-- <h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1> -->
 		</div>
 		<div id="content">
 
@@ -68,9 +68,9 @@ echo $this->Html->script('http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.
 			<p>
 				<?php echo $cakeVersion; ?>
 			</p>
-			-->
-		</div>
+		-->
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
+</div>
+<?php echo $this->element('sql_dump'); ?>
 </body>
 </html>
