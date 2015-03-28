@@ -39,6 +39,7 @@ public function login(){
 
 				if($mdp){
 					if($email){
+						$data['User']['password'] = $this->Auth->password($data['User']['password']);
 						$this->User->save($data);
 						$this->Session->setFlash("nouveau utilisateur inscris");
 					} else {
