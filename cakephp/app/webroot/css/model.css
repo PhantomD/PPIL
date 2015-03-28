@@ -1,3 +1,9 @@
 #page_inscription {
 	text-align: center ;
 }
+
+#page_inscription .error {
+	color: red;
+	font-weight: bold;
+}
+
