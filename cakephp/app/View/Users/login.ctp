@@ -2,8 +2,8 @@
 echo $this->Html->script('inscription.js'); 
 
 if(empty($this->request->data)){
-	$tableau['pseudo'] = "Pseudo";
-	$tableau['password'] = "Mot de passe";
+	$tableau['pseudo'] = "";
+	$tableau['password'] = "";
 } else {
 	$user = $this->request->data['User'];
 	$tableau['pseudo'] = $user['pseudo'];
@@ -13,7 +13,7 @@ if(empty($this->request->data)){
 
 
 
-<div data-role="page" data-theme="b" id="page_inscription">
+<div data-role="page" data-theme="b" id="page_option">
 		<div>
 			<?php echo $this->Session->flash(); ?>
 			<h1>Bienvenue</h1>
@@ -28,7 +28,7 @@ echo $this->form->create(array('controller' => 'Users','type'=>'post','action'=>
 
 //pseudo
 	echo "<div class='pseudo'>";
-	echo $this->Form->input('', array('type' => 'text','name' => 'data[User][pseudo]','id'=>'pseudo', 'value'=>$tableau['pseudo'], 'onblur' => 'verifPseudo(this)'));
+	echo $this->Form->input('', array('type' => 'text','name' => 'data[User][pseudo]','id'=>'pseudo', 'value'=>$tableau['pseudo'],'data-clear-btn' =>true, 'placeholder'=>"Pseudo"));
 	if(isset($erreurs['pseudo'])){
 		echo "<p class ='error'>".$erreurs['pseudo'][0]."</p>";
 	}
@@ -36,7 +36,7 @@ echo $this->form->create(array('controller' => 'Users','type'=>'post','action'=>
 
 //mot de passe
 	echo "<div class='password'>";
-	echo $this->Form->input('', array('type' => 'password','name' => 'data[User][password]','id'=>'password', 'value'=> $tableau['password'], 'onblur' => 'verifPassword(this)'));
+	echo $this->Form->input('', array('type' => 'password','name' => 'data[User][password]','id'=>'password', 'value'=> $tableau['password'],'data-clear-btn' =>true, 'placeholder'=>"mot de passe"));
 	if(isset($erreurs['name'])){
 		echo "<p class ='error'>".$erreurs['name'][0]."</p>";
 	}

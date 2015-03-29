@@ -21,9 +21,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <html>
 <head>
 	<?php echo $this->Html->charset(); ?>
+//	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>
-		<?php echo $cakeDescription ?>:
-		<?php echo $this->fetch('title'); ?>
+Projet PPIL
 	</title>
 	<?php
 	echo $this->Html->meta('icon');
@@ -34,10 +34,10 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	echo $this->Html->css('PpilBlue.min');
 	echo $this->Html->css('jquery.mobile.icons.min');
 
-	echo $this->Html->css('http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css');
+	echo $this->Html->css('jquery.mobile.structure-1.4.5.min');
 
-	echo $this->Html->script('jquery-1.11.1.min.js');
-	echo $this->Html->script('jquery.mobile-1.4.5.min.js');
+	echo $this->Html->script('jquery-1.11.1.min');
+	echo $this->Html->script('jquery.mobile-1.4.5.min');
 
 
 

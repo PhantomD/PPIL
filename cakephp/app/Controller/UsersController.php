@@ -11,9 +11,10 @@ class UsersController extends AppController{
 	}
 
 
-public function login(){
 
-		//si un utilisateur est deja connecter, on verifie la variable id dans sa session si non null alors on le renvoie vers son profil
+	
+	public function login(){
+		//si un utilisateur est deja connecté, on verifie la variable id dans sa session si non null alors on le renvoie vers l'url redirect
 		if( !AuthComponent::user('id')==NULL){
 
 			$this->redirect($this->Auth->redirectUrl());
@@ -26,29 +27,28 @@ public function login(){
 			//on essaye de se connecter
 			if($this->Auth->login()){
 
-				$this->Session->setFlash('<strong>Felicitation</strong>');
-
-					$this->redirect($this->Auth->redirectUrl());
+				$this->Session->setFlash(__('Bienvenue'),'default', array('class' => 'flash-message-success'));
+				$this->redirect($this->Auth->redirectUrl());
 
 			}else{
-		
-					$this->Session->setFlash('<strong>Erreur de Mot de passe ou de pseudo</strong>');
+
+				$this->Session->setFlash(__('Les informations transmises n\'ont pas permis de vous authentifier'),'default', array('class' => 'flash-message-error'));
 			}
 		}
-}
+	}
 
 
-public function logout(){
+	public function logout(){
 	//recupere la variable definie dans Auth ( AppControler)
-    return $this->redirect($this->Auth->logout());
-}
+		return $this->redirect($this->Auth->logout());
+	}
 
 
 
 	public	function inscription(){
-	
 
-if( !AuthComponent::user('id')==NULL){
+
+		if( !AuthComponent::user('id')==NULL){
 			$this->redirect($this->Auth->redirectUrl());
 		}
 
@@ -73,10 +73,12 @@ if( !AuthComponent::user('id')==NULL){
 
 				if($mdp){
 					if($email){
-					
+
 						$this->User->save($data);
+						$this->Session->setFlash(__('nouvel utilisateur inscrit', null), 
+							'default', 
+							array('class' => 'flash-message-success'));
 						$this->redirect('/users/login');
-						$this->Session->setFlash("nouveau utilisateur inscrit");
 					} else {
 						$erreur['mailConfirmation']= "les 2 mails sont différents";
 						$this->set($erreur);

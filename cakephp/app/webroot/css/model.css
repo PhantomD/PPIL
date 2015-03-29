@@ -1,3 +1,22 @@
 #page_option{
 	text-align: center ;
 }
+
+
+
+
+
+
+/* MERCI DE NE PAS TOUCHER */
+.error{
+	color : red;
+}
+
+.flash-message-success {
+  color: green;
+}
+
+.flash-message-error{
+	color : red;
+}
+/************************/

@@ -24,10 +24,10 @@ else
 }
 
 function verifPassword(champ){
-   $(".password p").empty();
+   $(".passwordDiv p").empty();
    if(champ.value.length < 2 || champ.value.length > 25)
    {
-     $(".pseudo").append("<p class ='error'> mot de passe incorrect (entre 2 et 25 caractères) </p>");
+     $(".passwordDiv").append("<p class ='error'> mot de passe incorrect (entre 2 et 25 caractères) </p>");
      surligne(champ, true);
      return false;
   }
