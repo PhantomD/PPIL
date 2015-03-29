@@ -1,0 +1,36 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Inscription PPIL</title>
+	<link rel="stylesheet" href="css/model.css" />
+	<link rel="stylesheet" href="css/PpilBlue.min.css" />
+	<link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+	<div data-role="page" data-theme="b" id="page_option">
+		<div data-role="content">
+			<h1>Inscription</h1>
+			<input type="text" data-clear-btn="true" name="name" id="txt_name" placeholder="Nom"/>
+			<input type="text" data-clear-btn="true" name="firstName" id="txt_firstName" placeholder="Prénom"/>
+			<input type="text" data-clear-btn="true" name="birthDate" id="txt_birthDate" placeholder="Date de naiss.(JJ/MM/AAA)"/>
+
+			<fieldset data-role="controlgroup" data-type="horizontal">
+				<input name="rc_gender" id="rc_man" value="1" type="radio">
+				<label for="rc_man">Homme</label>
+				<input name="rc_gender" id="rc_woman" value="0" type="radio">
+				<label for="rc_woman">Femme</label>
+			</fieldset>
+
+			<input type="text" data-clear-btn="true" name="addressEMail" id="grimName" placeholder="Adresse e-Mail"/>
+			<input type="text" data-clear-btn="true" name="confAddressEMail" id="grimName" placeholder="Confirmation e-Mail"/>
+			<input type="password" data-clear-btn="true" name="passWd" id="grimName" placeholder="Mot de passe"/>
+			<input type="password" data-clear-btn="true" name="confPassWd" id="grimName" placeholder="Confirmation Mot de passe"/>
+			<a href="connexion.html" data-role="button">Inscription</a>
+	</div>
+	</div>
+</body>
+</html>
