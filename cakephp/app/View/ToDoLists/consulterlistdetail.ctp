@@ -17,7 +17,9 @@
 			<h1>Accueil</h1>
 			<div data-role="controlgroup" data-type="horizontal" data-mini="true" class="ui-btn-right">
 				<a data-role="button" data-inline="true" data-icon="recycle" data-iconpos="notext" data-mini="true" >Rafraichir</a>
-				<a href="addList.html" data-role="button" data-inline="true" data-icon="plus" data-iconpos="notext" data-mini="true" >Ajouter une liste</a>
+				<?php 
+				$url = array('controller'=>'Todolists','action'=>'newlist');
+				echo $this->form->button('', array('type' => 'button','data-inline'=>'true','data-icon'=>'plus','data-iconpos'=>'notext', 'data-mini'=>'true','onclick' => "location.href='".$this->Html->url($url)."'")); ?>
 				<a href="#popupMenu" data-role="button" data-rel="popup" data-inline="true" data-icon="bars" data-iconpos="notext" data-mini="true" data-transition="slidedown">Menu</a>
           <div data-role="popup" id="popupMenu" data-theme="b">
             <ul data-role="listview" data-inset="true" style="min-width:210px;">
