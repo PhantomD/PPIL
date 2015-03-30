@@ -1,5 +1,5 @@
 <?php
 
-class ToDoList extends AppModel{
+class Todolist extends AppModel{
 	public $useTable = 'todolist';
 }
