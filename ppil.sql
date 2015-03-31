@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 25 Mars 2015 à 17:43
+-- Généré le :  Mar 31 Mars 2015 à 12:20
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -47,34 +47,34 @@ CREATE TABLE IF NOT EXISTS `notification` (
   `reciever_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `task`
+-- Structure de la table `tasks`
 --
 
-CREATE TABLE IF NOT EXISTS `task` (
+CREATE TABLE IF NOT EXISTS `tasks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL,
-  `idChecked` tinyint(1) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `idChecked` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `todolist`
+-- Structure de la table `todolists`
 --
 
-CREATE TABLE IF NOT EXISTS `todolist` (
+CREATE TABLE IF NOT EXISTS `todolists` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
-  `text` text NOT NULL,
-  `dateBegin` date NOT NULL,
-  `dateEnd` date NOT NULL,
-  `frequency` int(11) NOT NULL,
+  `text` text,
+  `dateBegin` date DEFAULT NULL,
+  `dateEnd` date DEFAULT NULL,
+  `frequency` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `birthdate` date NOT NULL COMMENT 'date',
   `gender` tinyint(1) NOT NULL COMMENT 'le sexe',
   `phone` varchar(20) NOT NULL,
-  `password` varchar(20) NOT NULL,
+  `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `pseudo` (`pseudo`,`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
