@@ -1,5 +1,5 @@
 <?php 
-//echo $this->Html->script('inscription.js'); 
+echo $this->Html->script('inscription.js'); 
 
 if(empty($this->request->data)){
 	$tableau['pseudo'] = "";

@@ -12,7 +12,7 @@ function verifPseudo(champ)
  $(".pseudo p").empty();
  if(champ.value.length < 2 || champ.value.length > 25)
  {
-   $(".pseudo").append("<p class ='error'> pseudo incorrect (entre 2 et 25 caractères) </p>");
+   $(".pseudo").append("<p class ='error'> Le pseudo doit avoir une longueur comprise entre 5 et 15 caractéres. </p>");
    surligne(champ, true);
    return false;
 }
@@ -27,7 +27,7 @@ function verifPassword(champ){
    $(".passwordDiv p").empty();
    if(champ.value.length < 2 || champ.value.length > 25)
    {
-     $(".passwordDiv").append("<p class ='error'> mot de passe incorrect (entre 2 et 25 caractères) </p>");
+     $(".passwordDiv").append("<p class ='error'> Le mot de passe doit avoir une longueur comprise entre 5 et 15 caractéres. </p>");
      surligne(champ, true);
      return false;
   }
@@ -106,8 +106,8 @@ function verifEmail(champ){
 
 function verifCorrespondanceMail(){
 
-   var inputMail= document.getElementById('email');
-   var inputMailConfirmation = document.getElementById('mailConfirmation');
+   var inputMail= document.getElementById('UserEmail');
+   var inputMailConfirmation = document.getElementById('UserMailConfirmation');
 
    $(".emailConfirmation p").empty();
 
@@ -122,8 +122,8 @@ function verifCorrespondanceMail(){
 }
 
 function  verifCorrespondancePassword(){
-   var inputPassword= document.getElementById('password');
-   var inputPasswordConfirmation = document.getElementById('passwordConfirmation');
+   var inputPassword= document.getElementById('UserPassword');
+   var inputPasswordConfirmation = document.getElementById('UserPasswordConfirmation');
 
    $(".mdpConfirmation p").empty();
 
@@ -149,8 +149,8 @@ function testerRadio(radio) {
 function verifGenre(){
 
    $(".gender p").empty();
-   var y = document.getElementById("gender0").checked;
-   var x = document.getElementById("gender1").checked;
+   var y = document.getElementById("UserGender0").checked;
+   var x = document.getElementById("UserGender1").checked;
 
    if(x||y){
       return true;
@@ -164,12 +164,12 @@ function verifGenre(){
 function verifFormulaire(form){
 
 
-   var nom = verifName(form.nom);
-   var prenom = verifFirstname(form.prenom);
-   var pseudo = verifPseudo(form.pseudo);
-   var date = verifBirthdate(form.date);
-   var password = verifPassword(form.password);
-   var email = verifEmail(form.email);
+   var nom = verifName(form.UserName);
+   var prenom = verifFirstname(form.UserFirstname);
+   var pseudo = verifPseudo(form.UserPseudo);
+   var date = verifBirthdate(form.UserBirthdate);
+   var password = verifPassword(form.UserPassword);
+   var email = verifEmail(form.UserEmail);
 
    var sexe = verifGenre();
 
@@ -183,8 +183,12 @@ function verifFormulaire(form){
    if(password)
       coresspondancePassword = verifCorrespondancePassword();
 
-   if(nom && prenom && pseudo && date && password && email && verifCorrespondanceMail && verifCorrespondancePassword && sexe){
+   if(nom && prenom && pseudo && date && password && email && coresspondanceMail && coresspondancePassword && sexe){
       return true;
    }
    return false;
 }
+
+
+
+
