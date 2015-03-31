@@ -1,32 +1,24 @@
-<?php
-if(empty($this->request->data)){
 
-	$tableau['name'] = "";
-	$tableau['text'] = "";
-	$tableau['dateBegin'] = "";
-	$tableau['dateEnd'] = "";
-	$tableau['frequency'] = "";
-}
-else{
-
-	$todolist = $this->request->data['Todolist'];
-	$tableau['name'] = $todolist['name'];
-	$tableau['text'] =  $todolist['text'];
-	$tableau['dateBegin'] =  $todolist['dateBegin'];
-	$tableau['dateEnd'] =  $todolist['dateEnd'];
-	$tableau['frequency'] =  $todolist['frequency'];
-
-}
-?>
-
+		<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Projet PPIL</title>
+	<link rel="stylesheet" href="css/model.css" />
+	<link rel="stylesheet" href="css/PpilBlue.min.css" />
+	<link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+</body>
 	<div data-role="page" data-theme="a" id="page_mainScreen">
 		<div data-role="header" data-position="inline" data-theme="a">
 			<h1>Accueil</h1>
 			<div data-role="controlgroup" data-type="horizontal" data-mini="true" class="ui-btn-right">
 				<a data-role="button" data-inline="true" data-icon="recycle" data-iconpos="notext" data-mini="true" >Rafraichir</a>
-				<?php 
-				$url = array('controller'=>'Todolists','action'=>'newlist');
-				echo $this->form->button('', array('type' => 'button','data-inline'=>'true','data-icon'=>'plus','data-iconpos'=>'notext', 'data-mini'=>'true','onclick' => "location.href='".$this->Html->url($url)."'")); ?>
+				<a href="addList.html" data-role="button" data-inline="true" data-icon="plus" data-iconpos="notext" data-mini="true" >Ajouter un élément</a>
 				<a href="#popupMenu" data-role="button" data-rel="popup" data-inline="true" data-icon="bars" data-iconpos="notext" data-mini="true" data-transition="slidedown">Menu</a>
           <div data-role="popup" id="popupMenu" data-theme="b">
             <ul data-role="listview" data-inset="true" style="min-width:210px;">
@@ -47,26 +39,20 @@ else{
         </div>
 		</div>
 		<div data-role="content">
-      <h4 class="ui-bar ui-bar-a">Détails Todolist : <?php echo $name[0]['Todolist']['name'] ?></h4>
+      <h4 class="ui-bar ui-bar-a">Aujourd'hui</h4>
+      <?php
 
-     <?php
-
-     echo $this->form->create(array('type'=>'post',array('action'=>'modifylist')));
-
-     	echo "Nom : "; 
-     	echo $this->form->input("", array('type' => 'text','name' => 'data[Todolist][name]','id'=>'name', 'value'=>$name[0]['Todolist']['name']));
-		echo "Description : ";
-		echo $this->form->input("", array('type' => 'text','name' => 'data[Todolist][text]','id'=>'text', 'value'=>$text[0]['Todolist']['text']));
-		?> <br><br> <?php
-		echo "Date de début : ";
-		echo $this->form->input("", array('type' => 'text','name' => 'data[Todolist][dateBegin]','id'=>'dateBegin', 'value'=>$dateBegin[0]['Todolist']['dateBegin']));
-		?> <br><br> <?php
-		echo "Date de fin : ";
-		echo $this->form->input("", array('type' => 'text','name' => 'data[Todolist][dateEnd]','id'=>'dateEnd', 'value'=>$dateEnd[0]['Todolist']['dateEnd']));
-		?> <br><br> <?php
-		echo $this->form->end('Valider Changement',array('id'=>'modifylist'));
-
+		$ligne = 0;
+		for ($ligne = 0; $ligne < $this->requestAction('/Task/taillelist'); $ligne++) {
+			$name = $this->requestAction('/Task/consultertask/'.($ligne));
+			$url = array('controller'=>'Task','action'=>'consultertaskdetail',$name);
+			echo $name/*$this->form->button($name, array('type' => 'button','name' => 'aa','id'=>'name', 'value'=>'','onclick' => "location.href='".$this->Html->url($url)."'"))*/;
+			echo $this->form->button('f', array('type' => 'button','name' => 'aa','id'=>'name', 'value'=>'','data-inline'=>'true','data-icon'=>'carat-r','data-iconpos'=>'notext', 'data-mini'=>'true','onclick' => "location.href='".$this->Html->url($url)."'")); ?> <br> <?php
+		}
 		?>
+ <br/>
+      <h4 class="ui-bar ui-bar-a">Demain</h4>
+   <br/>
 		</div>
 	</div>
 </html>

@@ -1,3 +1,4 @@
+
   <div data-role="page" data-theme="a" id="page_mainScreen">
     <div data-role="header" data-position="inline" data-theme="a">
       <h1>Accueil</h1>
@@ -5,6 +6,7 @@
         <a data-role="button" data-inline="true" data-icon="recycle" data-iconpos="notext" data-mini="true" >Rafraichir</a>
         <a href="addList.html" data-role="button" data-inline="true" data-icon="plus" data-iconpos="notext" data-mini="true" >Ajouter une liste</a>
         <a href="#popupMenu" data-role="button" data-rel="popup" data-inline="true" data-icon="bars" data-iconpos="notext" data-mini="true" data-transition="slidedown">Menu</a>
+
           <div data-role="popup" id="popupMenu" data-theme="b">
             <ul data-role="listview" data-inset="true" style="min-width:210px;">
               <li data-role="list-divider">Menu</li>
