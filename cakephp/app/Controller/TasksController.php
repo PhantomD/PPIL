@@ -1,6 +1,6 @@
 <?php
 
-class TaskController extends AppController{
+class TasksController extends AppController{
 
 	function beforeFilter(){
 		$this->Auth->allow(array('newtask','consultertask','taillelist','consultertaskdetail'));
@@ -12,7 +12,9 @@ class TaskController extends AppController{
 	public function newtask(){
 
 			if($this->request->is('post')){
-				$data = $this->request->data;
+				$data = $this->request->data['Task'];
+
+				debug($data);
 
 				// On envoie les données à la vue
 				$this->Task->set($data);
@@ -20,7 +22,7 @@ class TaskController extends AppController{
 				// On sauvegarde les données dans la BDD
 				$this->Task->save($data);
 
-				return $this->redirect($this->Auth->redirect(array('controller' => 'Task', 'action' => 'consultertask')));
+				return $this->redirect($this->Auth->redirect(array('action' => 'consultertask')));
 			}
 
 	}

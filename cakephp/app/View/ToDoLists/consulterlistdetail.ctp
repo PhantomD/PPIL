@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
   <div data-role="page" data-theme="a" id="page_mainScreen">
     <div data-role="header" data-position="inline" data-theme="a">
       <h1>Accueil</h1>

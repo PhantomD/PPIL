@@ -20,8 +20,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <!DOCTYPE html>
 <html>
 <head>
-	<?php echo $this->Html->charset(); ?>
-//	<meta name="viewport" content="width=device-width, initial-scale=1">
+<?php echo $this->Html->charset(); ?>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>
 Projet PPIL
 	</title>
@@ -36,8 +36,8 @@ Projet PPIL
 
 	echo $this->Html->css('jquery.mobile.structure-1.4.5.min');
 
-	echo $this->Html->script('jquery-1.11.1.min');
-	echo $this->Html->script('jquery.mobile-1.4.5.min');
+	//echo $this->Html->script('jquery-1.11.1.min');
+	//echo $this->Html->script('jquery.mobile-1.4.5.min');
 
 
 

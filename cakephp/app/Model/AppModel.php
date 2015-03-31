@@ -30,4 +30,21 @@ App::uses('Model', 'Model');
  * @package       app.Model
  */
 class AppModel extends Model {
+
+
+
+/**
+     * Retourne TRUE si les deux champs ont la même valeur.
+     */
+    function estEgal($field=array(), $compare_field=null){
+        foreach( $field as $key => $value ){
+            $v1 = $value;
+            $v2 = $this->data[$this->name][ $compare_field ];                 
+            if($v1 !== $v2) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

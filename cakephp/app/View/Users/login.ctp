@@ -12,7 +12,6 @@ if(empty($this->request->data)){
 ?>
 
 
-
 <div data-role="page" data-theme="b" id="page_option">
 		<div>
 			<?php echo $this->Session->flash(); ?>
@@ -23,7 +22,7 @@ if(empty($this->request->data)){
 <?php
 
 //creation du formulaire de connexion
-echo $this->form->create(array('controller' => 'Users','type'=>'post','action'=>'login','label'=> false));
+echo $this->form->create('login',array('data-ajax' => 'false'));
 
 
 //pseudo

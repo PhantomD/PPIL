@@ -3,8 +3,16 @@
     <div data-role="header" data-position="inline" data-theme="a">
       <h1>Accueil</h1>
       <div data-role="controlgroup" data-type="horizontal" data-mini="true" class="ui-btn-right">
+
+      <!--
         <a data-role="button" data-inline="true" data-icon="recycle" data-iconpos="notext" data-mini="true" >Rafraichir</a>
-        <a href="addList.html" data-role="button" data-inline="true" data-icon="plus" data-iconpos="notext" data-mini="true" >Ajouter une liste</a>
+      -->
+        <?php echo $this->Html->link('Rafraichir',array('controller' => 'Todolists','action' => 'consulterlist'), array('data-role'=>'button','data-inline'=>true,'data-icon'=>'recycle', 'data-iconpos'=>'notext', 'data-mini'=>true)); ?>
+<!--
+        <a href="addList.html" data-role="button" data-inline="true" data-icon="plus" data-iconpos="notext" data-mini="true" >Ajouter une liste</a> -->
+
+         <?php echo $this->Html->link('Ajouter une liste',array('controller' => 'Todolists','action' => 'newlist'), array('data-role'=>'button','data-inline'=>true,'data-icon'=>'plus', 'data-iconpos'=>'notext', 'data-mini'=>true)); ?>
+
         <a href="#popupMenu" data-role="button" data-rel="popup" data-inline="true" data-icon="bars" data-iconpos="notext" data-mini="true" data-transition="slidedown">Menu</a>
 
           <div data-role="popup" id="popupMenu" data-theme="b">

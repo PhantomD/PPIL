@@ -44,4 +44,5 @@ class AppController extends Controller {
         )
     ), 'DebugKit.Toolbar','RequestHandler') ;
 
+
 	}

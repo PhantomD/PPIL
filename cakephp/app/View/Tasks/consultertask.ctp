@@ -42,10 +42,15 @@
       <h4 class="ui-bar ui-bar-a">Aujourd'hui</h4>
       <?php
 
+
+      debug($this->request->data);
+
 		$ligne = 0;
-		for ($ligne = 0; $ligne < $this->requestAction('/Task/taillelist'); $ligne++) {
-			$name = $this->requestAction('/Task/consultertask/'.($ligne));
-			$url = array('controller'=>'Task','action'=>'consultertaskdetail',$name);
+		for ($ligne = 0; $ligne < $this->requestAction('/Tasks/taillelist'); $ligne++) {
+		
+			$name = $this->requestAction('/Tasks/consultertask/'.($ligne));
+			debug($name);
+			$url = array('controller'=>'Tasks','action'=>'consultertaskdetail',$name);
 			echo $name/*$this->form->button($name, array('type' => 'button','name' => 'aa','id'=>'name', 'value'=>'','onclick' => "location.href='".$this->Html->url($url)."'"))*/;
 			echo $this->form->button('f', array('type' => 'button','name' => 'aa','id'=>'name', 'value'=>'','data-inline'=>'true','data-icon'=>'carat-r','data-iconpos'=>'notext', 'data-mini'=>'true','onclick' => "location.href='".$this->Html->url($url)."'")); ?> <br> <?php
 		}
