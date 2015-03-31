@@ -3,7 +3,7 @@
 class TodolistsController extends AppController{
 
 	function beforeFilter(){
-		$this->Auth->allow(array('newlist','consulterlist','taillelist','consulterlistdetail','modifylist'));
+	
 	}
 
 
@@ -11,23 +11,33 @@ class TodolistsController extends AppController{
 
 	public function newlist(){
 
-			if($this->request->is('post')){
-				$data = $this->request->data;
+		if($this->request->is('post')){
+			$data = $this->request->data;
+			debug($data);
 
 				// Conversion des dates dans le bon format
-				$tableaudateDebut = explode("/",$data['Todolist']['dateBegin']);
+			$tableaudateDebut = explode("/",$data['Todolist']['dateBegin']);
+			if(count($tableaudateDebut)==3)
 				$data['Todolist']['dateBegin'] = $tableaudateDebut[2]."-".$tableaudateDebut[1]."-".$tableaudateDebut[0];
-				$tableaudateEnd = explode("/",$data['Todolist']['dateEnd']);
-				$data['Todolist']['dateEnd'] = $tableaudateEnd[2]."-".$tableaudateEnd[1]."-".$tableaudateEnd[0];
 
+
+			$tableaudateEnd = explode("/",$data['Todolist']['dateEnd']);
+			if (count($tableaudateEnd)==3)
+				$data['Todolist']['dateEnd'] = $tableaudateEnd[2]."-".$tableaudateEnd[1]."-".$tableaudateEnd[0];
+			
 				// On envoie les données à la vue
-				$this->Todolist->set($data);
+			$this->Todolist->set($data['Todolist']);
+
+
+			if ($this->Todolist->validates()){
 
 				// On sauvegarde les données dans la BDD
 				$this->Todolist->save($data);
-
-				return $this->redirect($this->Auth->redirect(array('controller' => 'Todolists', 'action' => 'consulterlist')));
+				$this->redirect(array('controller'=>'Users', 'action'=>'main'));
+			} else {
+				$this->Session->setFlash(__('erreur liste non ajouté'),'default', array('class' => 'flash-message-error'));
 			}
+		}
 
 	}
 

@@ -17,25 +17,8 @@ else{
 	$tableau['frequency'] =  $todolist['frequency'];
 
 }
-
-
 ?>
 
-
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Projet PPIL</title>
-	<link rel="stylesheet" href="css/model.css" />
-	<link rel="stylesheet" href="css/PpilBlue.min.css" />
-	<link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
-	<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
-	<script src="js/jquery-1.11.1.min.js"></script>
-	<script src="js/jquery.mobile-1.4.5.min.js"></script>
-</head>
-<body>
-</body>
 	<div data-role="page" data-theme="a" id="page_mainScreen">
 		<div data-role="header" data-position="inline" data-theme="a">
 			<h1>Accueil</h1>

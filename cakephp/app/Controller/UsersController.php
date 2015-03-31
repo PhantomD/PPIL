@@ -28,6 +28,8 @@ class UsersController extends AppController{
 			if($this->Auth->login()){
 
 				$this->Session->setFlash(__('Bienvenue'),'default', array('class' => 'flash-message-success'));
+
+
 				$this->redirect($this->Auth->redirectUrl());
 
 			}else{

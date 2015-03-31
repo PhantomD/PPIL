@@ -17,23 +17,8 @@ else{
 	$tableau['frequency'] =  $todolist['frequency'];
 
 }
-
-
 ?>
 
-	<html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Ajouter liste PPIL</title>
-	<link rel="stylesheet" href="css/model.css" />
-	<link rel="stylesheet" href="css/PpilBlue.min.css" />
-	<link rel="stylesheet" href="css/jquery.mobile.icons.min.css" />
-	<link rel="stylesheet" href="css/jquery.mobile.structure-1.4.5.min.css" />
-	<script src="js/jquery-1.11.1.min.js"></script>
-	<script src="js/jquery.mobile-1.4.5.min.js"></script>
-</head>
-<body>
 	<div data-role="page" data-theme="b" id="page_option">
 		<div data-role="header" data-theme="a">
 			<h1>Ajouter une liste</h1>
@@ -45,20 +30,41 @@ else{
 			</div>
 		</div>
 		<div data-role="content">
-			<form action="newlist" method="post">
-			<input type="text" data-clear-btn="true" name="data[Todolist][name]" id="name" placeholder="Intitulé de la liste"/>
-      <br/>
-      <div data-role="content" data-theme="c">
-        Facultatif
-        <input type="text" data-clear-btn="true" name="data[Todolist][text]" id="text" placeholder="Commentaire"/>
-        <input type="text" data-clear-btn="true" name="data[Todolist][dateBegin]" id="dateBegin" placeholder="Date de début(JJ/MM/AAA)"/>
-        <input type="text" data-clear-btn="true" name="data[Todolist][dateEnd]" id="dateEnd" placeholder="Date de fin(JJ/MM/AAA)"/>
-        <a href="#" data-role="button" data-inline="true">Ajouter un Membre</a>
-        
-      </div>
-      <br/>
-      <input type="submit" value="Créer la liste" name="envoyer" />
+		<!--	<form action="newlist" method="post">
+		<input type="text" data-clear-btn="true" name="data[Todolist][name]" id="name" placeholder="Intitulé de la liste"/> -->
+
+		<?php
+		echo $this->Form->create('newlist',array(
+			'type'=>'post',
+			'data-ajax' => 'false',
+			'inputDefaults' => array(
+				'label' => false,
+				
+				)));
+
+		echo $this->Form->input('Todolist.name', array('type' => 'text','value'=>$tableau['name'], 'placeholder'=>"Intitulé de la liste"));
+		?>
+
+		<br/>
+		<div data-role="content" data-theme="c">
+			Facultatif
+
+			<?php
+			echo $this->Form->input('Todolist.text', array('type' => 'text','value'=>$tableau['text'], 'placeholder'=>"Commentaire"));
+			echo $this->Form->input('Todolist.dateBegin', array('type' =>'text','value'=>$tableau['dateBegin'], 'placeholder'=>"Date de début(JJ/MM/AAA)"));
+
+// Todolist 'name' => 'data[Todolist][dateEnd]','id'=>'dateEnd'
+			echo $this->Form->input('Todolist.dateEnd', array('type' => 'text','label'=>false,'value'=>$tableau['dateEnd'], 'placeholder'=>"Date de fin(JJ/MM/AAA)"));
+
+//plus tard
+// echo $this->Form->input('User.id', array('type' => 'hidden'));
+
+			?>
+
+			<a href="#" data-role="button" data-inline="true">Ajouter un Membre</a>
+
 		</div>
+		<br/>
+		<?php echo $this->form->end('Créer la liste'); ?>
 	</div>
-</body>
-</html>
+</div>
