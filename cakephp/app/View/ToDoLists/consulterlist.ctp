@@ -42,9 +42,8 @@
 
 		$ligne = 0;
 		for ($ligne = 0; $ligne < $this->requestAction('/Todolists/taillelist'); $ligne++) {
-			$name = $this->requestAction('/Todolists/consulterlist/'.($ligne));
-			$url = array('controller'=>'Todolists','action'=>'consulterlistdetail',$name);
-			echo $name/*$this->form->button($name, array('type' => 'button','name' => 'aa','id'=>'name', 'value'=>'','onclick' => "location.href='".$this->Html->url($url)."'"))*/;
+      echo $name[$ligne]['Todolist']['name'];
+			$url = array('controller'=>'Todolists','action'=>'consulterlistdetail',$name[$ligne]['Todolist']['name']);
 			echo $this->form->button('f', array('type' => 'button','name' => 'aa','id'=>'name', 'value'=>'','data-inline'=>'true','data-icon'=>'carat-r','data-iconpos'=>'notext', 'data-mini'=>'true','onclick' => "location.href='".$this->Html->url($url)."'")); ?> <br> <?php
 		}
 		?>
