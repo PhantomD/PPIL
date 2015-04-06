@@ -53,16 +53,13 @@ else{
 
      echo $this->form->create(array('type'=>'post',array('action'=>'modifylist')));
 
-     	echo "Nom : "; 
-     	echo $this->form->input("", array('type' => 'text','name' => 'data[Todolist][name]','id'=>'name', 'value'=>$name[0]['Todolist']['name']));
-		echo "Description : ";
-		echo $this->form->input("", array('type' => 'text','name' => 'data[Todolist][text]','id'=>'text', 'value'=>$text[0]['Todolist']['text']));
+     	echo $this->form->input("Todolist.name", array('type' => 'text','id'=>'name', 'value'=>$name[0]['Todolist']['name']));
+     	?> <br><br> <?php
+		echo $this->form->input("Todolist.text", array('type' => 'text','id'=>'text', 'value'=>$text[0]['Todolist']['text']));
 		?> <br><br> <?php
-		echo "Date de début : ";
-		echo $this->form->input("", array('type' => 'text','name' => 'data[Todolist][dateBegin]','id'=>'dateBegin', 'value'=>$dateBegin[0]['Todolist']['dateBegin']));
+		echo $this->form->input("Todolist.dateBegin", array('type' => 'text','id'=>'dateBegin', 'value'=>$dateBegin[0]['Todolist']['dateBegin']));
 		?> <br><br> <?php
-		echo "Date de fin : ";
-		echo $this->form->input("", array('type' => 'text','name' => 'data[Todolist][dateEnd]','id'=>'dateEnd', 'value'=>$dateEnd[0]['Todolist']['dateEnd']));
+		echo $this->form->input("Todolist.dateEnd", array('type' => 'text','id'=>'dateEnd', 'value'=>$dateEnd[0]['Todolist']['dateEnd']));
 		?> <br><br> <?php
 		echo $this->form->end('Valider Changement',array('id'=>'modifylist'));
 

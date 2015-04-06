@@ -59,12 +59,14 @@ class TodolistsController extends AppController{
 				// On envoie les données à la vue
 				$this->Todolist->set($data);
 
+
 				// On sauvegarde les données dans la BDD
 				if ($this->Todolist->validates()){
-					/*$this->Todolist->updateAll(array('Todolist.name' => $data['Todolist']['name'],
+					$nom = $Todolist->value($name, 'string');
+					$this->Todolist->updateAll(array('Todolist.name' => $data['Todolist']['name'],
 						'Todolist.text' => $data['Todolist']['text'],
 						'Todolist.dateBegin' => $data['Todolist']['dateBegin'],
-						'Todolist.dateEnd' => $data['Todolist']['dateEnd']),array('Todolist.name' => $name));*/
+						'Todolist.dateEnd' => $data['Todolist']['dateEnd']),array('Todolist.name' => $nom));
 					return $this->redirect($this->Auth->redirect(array('controller' => 'Todolists', 'action' => 'consulterlist')));
 				}
 				else{
