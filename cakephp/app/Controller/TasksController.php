@@ -28,7 +28,7 @@ class TasksController extends AppController{
 	}
 
 	public function taillelist(){
-		// retourne le nombre de todolist
+		// retourne le nombre de l'élément
 		$taille = $this->Task->find('count');
 		return $taille;
 
@@ -48,7 +48,7 @@ class TasksController extends AppController{
 
 	public function consultertaskdetail($nom){
 
-		// On recupere les données de la liste associées au nom
+		// On recupere les données de l'élément associées au nom
 		$task = array('name' => $this->Task->find('all', array('fields' => array('Task.name'),'conditions' => array('Task.name' => $nom)))
 			);
 
