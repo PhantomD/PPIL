@@ -3,7 +3,7 @@
 class TodolistsController extends AppController{
 
 	function beforeFilter(){
-	
+		$this->Auth->allow(array('newlist','modifylist','taillelist','consulterlist','consulterlistdetail'));
 	}
 
 
@@ -56,22 +56,22 @@ class TodolistsController extends AppController{
 			if($this->request->is('post')){
 				$data = $this->request->data;
 
-				// Conversion des dates dans le bon format
-			//	$tableaudateDebut = explode("/",$data['Todolist']['dateBegin']);
-			//	$data['Todolist']['dateBegin'] = $tableaudateDebut[2]."-".$tableaudateDebut[1]."-".$tableaudateDebut[0];
-			//	$tableaudateEnd = explode("/",$data['Todolist']['dateEnd']);
-			//	$data['Todolist']['dateEnd'] = $tableaudateEnd[2]."-".$tableaudateEnd[1]."-".$tableaudateEnd[0];
-
 				// On envoie les données à la vue
 				$this->Todolist->set($data);
 
+
 				// On sauvegarde les données dans la BDD
-				$this->Todolist->save($data);
-
-				// On supprimer l'ancienne donnée
-				$this->Todolist->deleteAll(array('Todolist.name' => $name), false);
-
-				return $this->redirect($this->Auth->redirect(array('controller' => 'Todolists', 'action' => 'consulterlist')));
+				if ($this->Todolist->validates()){
+					$nom = $Todolist->value($name, 'string');
+					$this->Todolist->updateAll(array('Todolist.name' => $data['Todolist']['name'],
+						'Todolist.text' => $data['Todolist']['text'],
+						'Todolist.dateBegin' => $data['Todolist']['dateBegin'],
+						'Todolist.dateEnd' => $data['Todolist']['dateEnd']),array('Todolist.name' => $nom));
+					return $this->redirect($this->Auth->redirect(array('controller' => 'Todolists', 'action' => 'consulterlist')));
+				}
+				else{
+					$this->Session->setFlash(__('erreur liste non modifiée'),'default', array('class' => 'flash-message-error'));
+				}
 			}
 	}
 
@@ -82,21 +82,13 @@ class TodolistsController extends AppController{
 
 	}
 
-	public function consulterlist($ligne){
+	public function consulterlist(){
 
 		// On récupère le nom des todolists
-		$list = $this->Todolist->find('all', array(
-			'fields' => array('Todolist.name'),
-			'order' => array('dateBegin DESC')	));
+		$lists = array('name' => $this->Todolist->find('all', array('fields' => array('Todolist.name'))));
+		// On envoie les données à la vue
+		$this->set($lists);
 
-
-			$data['jeffrey']= $this->Todolist->find('all', array(
-			'fields' => array('Todolist.name'),
-			'order' => array('dateBegin DESC')	));
-			$this->set($data);
-
-
-			return $list["$ligne"]["Todolist"]["name"];
 
 
 

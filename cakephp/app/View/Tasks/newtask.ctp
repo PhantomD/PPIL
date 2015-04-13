@@ -5,8 +5,8 @@ if(empty($this->request->data)){
 
 else{
 
-	$task = $this->request->data['Task'];
-	$tableau['name'] = $task['name'];
+	$tasks = $this->request->data['Task'];
+	$tableau['name'] = $tasks['name'];
 }
 
 
@@ -36,13 +36,23 @@ else{
 			</div>
 		</div>
 		<div data-role="content">
+
+<?php
+		echo $this->Form->create('newlist',array(
+			'type'=>'post',
+			'data-ajax' => 'false',
+			'inputDefaults' => array(
+				'label' => false,	
+				)));
+
+		echo $this->Form->input('Task.name', array('type' => 'text','value'=>$tableau['name'], 'placeholder'=>"Intitulé de l'élément"));
+
+		?>
+
 			<form action="newtask" method="post">
-			<input type="text" data-clear-btn="true" name="data[Task][name]" id="name" placeholder="Intitulé de l'élément"/>
+	
       <br/>
-      <div data-role="content" data-theme="c">       
-        <a href="#" data-role="button" data-inline="true">Ajouter un Membre</a>
-        
-      </div>
+      
       <br/>
       <input type="submit" value="Créer l'élément" name="envoyer" />
 		</div>

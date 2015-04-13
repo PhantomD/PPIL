@@ -39,24 +39,24 @@
         </div>
 		</div>
 		<div data-role="content">
-      <h4 class="ui-bar ui-bar-a">Aujourd'hui</h4>
+      <h4 class="ui-bar ui-bar-a">Nom de la liste</h4>
       <?php
 
 
-      debug($this->request->data);
+      //debug($this->request->data);
 
 		$ligne = 0;
 		for ($ligne = 0; $ligne < $this->requestAction('/Tasks/taillelist'); $ligne++) {
 		
 			$name = $this->requestAction('/Tasks/consultertask/'.($ligne));
-			debug($name);
+			//debug($name);
 			$url = array('controller'=>'Tasks','action'=>'consultertaskdetail',$name);
 			echo $name/*$this->form->button($name, array('type' => 'button','name' => 'aa','id'=>'name', 'value'=>'','onclick' => "location.href='".$this->Html->url($url)."'"))*/;
 			echo $this->form->button('f', array('type' => 'button','name' => 'aa','id'=>'name', 'value'=>'','data-inline'=>'true','data-icon'=>'carat-r','data-iconpos'=>'notext', 'data-mini'=>'true','onclick' => "location.href='".$this->Html->url($url)."'")); ?> <br> <?php
 		}
 		?>
  <br/>
-      <h4 class="ui-bar ui-bar-a">Demain</h4>
+      
    <br/>
 		</div>
 	</div>
