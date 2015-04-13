@@ -1,7 +1,8 @@
 <?php
 
 class Todolist extends AppModel{
-		public $useTable = 'todolist';
+
+
 		public $validate = array(
 			'name' => array(
 				'rule' => 'alphanumeric',

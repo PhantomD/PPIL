@@ -1,5 +1,5 @@
 <?php 
-echo $this->Html->script('inscription.js'); 
+//echo $this->Html->script('inscription.js'); 
 
 if(empty($this->request->data)){
 	$tableau['pseudo'] = "";
@@ -27,7 +27,7 @@ if(empty($this->request->data)){
 }
 ?>
 
-
+	
 <div data-role="page" data-theme="b" id="page_option">
 	<div>
 		<?php echo $this->Session->flash();?>
@@ -37,12 +37,12 @@ if(empty($this->request->data)){
 	<?php
 
 
-		echo $this->Form->create('inscription',array(
-			'type'=>'post',
-			'data-ajax' => 'false',
-			'inputDefaults' => array(
-				'label' => false,
-				'data-clear-btn' =>true),
+	echo $this->Form->create('inscription',array(
+		'type'=>'post',
+		'data-ajax' => 'false',
+		'inputDefaults' => array(
+			'label' => false,
+			'data-clear-btn' =>true),
 		'onsubmit' => "return verifFormulaire(this)"));
 
 
@@ -70,8 +70,9 @@ if(empty($this->request->data)){
 //sexe
 	echo "<div class='gender'>";
 	echo "<fieldset data-role='controlgroup' data-type='horizontal'>";
+
 	$options = array('1' => 'Homme', '0' => 'Femme');
-	echo $this->Form->radio('User.gender', $options, array('legend' => false,'value'=>$tableau['gender']));
+	echo $this->Form->radio('User.gender',$options, array('legend' => false,'value'=>$tableau['gender']));
 	echo "</div>";
 	echo "</fieldset>";
 
@@ -96,6 +97,7 @@ if(empty($this->request->data)){
 	echo $this->Form->input('User.passwordConfirmation', array('type'=>'password','value'=>$tableau['mdpConfirmation'],'placeholder'=>'mot de passe'));
 	echo "</div>";
 
+	echo "<br/><br/><br/>";
 	echo $this->Form->input('User.id', array('type' => 'hidden'));
 	echo $this->form->end('Inscription',array("inscription"));
 

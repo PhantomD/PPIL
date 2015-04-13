@@ -26,3 +26,47 @@
 
 	background-color: #6b7b9a;
 }
+
+#inscriptionInscriptionForm{
+
+	margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+}
+#inscriptionInscriptionForm input,#inscriptionInscriptionForm .ui-input-text {
+	background-color: white;
+	color:gray;
+}
+
+.ui-radio .ui-btn,  .ui-radio .ui-page-theme-b .ui-btn .ui-btn-active{
+	background-color: #6b7b9a;
+	background-image: url("boutonselect.gif");
+	background-repeat: no-repeat;
+	border: none;
+	background-position: left;
+	padding-left: 30px;
+
+}
+
+.ui-radio .ui-btn{
+	background-image: url("boutonselect.gif");
+}
+
+
+
+ .ui-radio  .ui-btn-active{
+	background-image: url("boutonselect2.gif");
+}
+
+
+
+
+
+
+.ui-radio .ui-btn:hover{
+background-color: #6b7b9a;
+}
+
+.ui-radio  .ui-btn.ui-btn-active{
+background-color: #6b7b9a;
+}
