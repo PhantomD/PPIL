@@ -30,13 +30,12 @@ if(empty($this->request->data)){
 
 <div data-role="page" data-theme="b" id="page_option">
 	<div>
-		<?php echo $this->Session->flash();  debug($erreurs);?>
-		<h1>Inscription é</h1>
+		<?php echo $this->Session->flash();?>
+		<h1>Inscription </h1>
 	</div>
 
 	<?php
 
-debug($this->request->data);
 
 		echo $this->Form->create('inscription',array(
 			'type'=>'post',

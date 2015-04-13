@@ -17,7 +17,7 @@ class UsersController extends AppController{
 		//si un utilisateur est deja connecté, on verifie la variable id dans sa session si non null alors on le renvoie vers l'url redirect
 		if( !AuthComponent::user('id')==NULL){
 
-			$this->redirect($this->Auth->redirectUrl());
+			$this->redirect($this->Auth->loginRedirect);
 		}
 
 
@@ -30,7 +30,7 @@ class UsersController extends AppController{
 				$this->Session->setFlash(__('Bienvenue'),'default', array('class' => 'flash-message-success'));
 
 
-				$this->redirect($this->Auth->redirectUrl());
+				$this->redirect($this->Auth->loginRedirect);
 
 			}else{
 

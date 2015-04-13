@@ -33,7 +33,7 @@ class TodolistsController extends AppController{
 
 				// On sauvegarde les données dans la BDD
 				$this->Todolist->save($data);
-				$this->redirect(array('controller'=>'Users', 'action'=>'main'));
+				$this->redirect(array('action'=>'consulterlist'));
 			} else {
 				$this->Session->setFlash(__('erreur liste non ajouté'),'default', array('class' => 'flash-message-error'));
 			}
@@ -89,7 +89,20 @@ class TodolistsController extends AppController{
 			'fields' => array('Todolist.name'),
 			'order' => array('dateBegin DESC')	));
 
+
+			$data['jeffrey']= $this->Todolist->find('all', array(
+			'fields' => array('Todolist.name'),
+			'order' => array('dateBegin DESC')	));
+			$this->set($data);
+
+
 			return $list["$ligne"]["Todolist"]["name"];
+
+
+
+
+
+
 
 	}
 

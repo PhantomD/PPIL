@@ -40,6 +40,7 @@
       <h4 class="ui-bar ui-bar-a">Aujourd'hui</h4>
       <?php
 
+
 		$ligne = 0;
 		for ($ligne = 0; $ligne < $this->requestAction('/Todolists/taillelist'); $ligne++) {
 			$name = $this->requestAction('/Todolists/consulterlist/'.($ligne));
@@ -54,3 +55,16 @@
 		</div>
 	</div>
 </html>
+
+
+ <!--function estEgal($field=array(), $compare_field=null){
+        foreach( $field as $key => $value ){
+            $v1 = $value;
+            $v2 = $this->data[$this->name][ $compare_field ];                 
+            if($v1 !== $v2) {
+                return false;
+            }
+        }
+        return true;
+    }
+    -->

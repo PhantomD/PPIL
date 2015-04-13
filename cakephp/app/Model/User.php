@@ -9,7 +9,7 @@ class User extends AppModel{
 			array(
 				'rule' => 'alphanumeric',
 				'required' => true,
-				'message' => "seuls les chiffres et lettres sont autorisées pour le speudo.",
+				'message' => "seuls les chiffres et lettres sont autorisées pour le pseudo.",
 				'allowEmpty' =>false,
 				),
 			array(
