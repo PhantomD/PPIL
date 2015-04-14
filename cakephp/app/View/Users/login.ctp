@@ -48,11 +48,12 @@ echo $this->form->create('login',array('data-ajax' => 'false'));
 	?>
 
 <!--a faire -->
-		<a href data-role="button">Connexion via Facebook</a>
-		<a href data-role="button">Connexion via Google+</a>
+		<!--<a href data-role="button">Connexion via Google+</a> -->
 
-
-
+		<?php	echo $this->Html->link(
+    'Connexion via Facebook',
+    array( 'controller' => 'Users','action' => 'inscription'),array('data-role'=>'button','style'=>'margin-left: auto;margin-right: auto;width: 70%;'));
+	?> 
 
 
 		<div>
@@ -62,18 +63,16 @@ echo $this->form->create('login',array('data-ajax' => 'false'));
 		<?php	echo $this->Html->link(
     'S\'inscrire au site',
     array( 'controller' => 'Users','action' => 'inscription'));
-
 	?> 
+
 	<!-- Fin inscrition !-->
 
+<!--
 			<h4>OU</h4>
-
-<!--a faire -->
-
-
 			<a href data-role="button">Inscription via Facebook</a>
 			ou
 			<a href data-role="button">Inscription via Google+</a>
+-->
 		</div>
 	</div>
 
