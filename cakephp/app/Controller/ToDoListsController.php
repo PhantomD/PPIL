@@ -3,7 +3,7 @@
 class TodolistsController extends AppController{
 
 	function beforeFilter(){
-parent::beforeFilter();
+		parent::beforeFilter();
 	}
 
 
@@ -61,9 +61,9 @@ parent::beforeFilter();
 				// On sauvegarde les données dans la BDD
 			$nom = $list['name']['0'];
 			debug($data['Todolist']);
-		
+			
 			if ($this->Todolist->validates()){
-debug($data);
+				debug($data);
 
 				$this->Todolist->updateAll(
 					array('Todolist.name' => "'".$data['Todolist']['name']."'",
@@ -121,7 +121,7 @@ debug($data);
 
 
 			// On passe les variables à la vues 
-			$this->set($list);
+		$this->set($list);
 
 	}
 

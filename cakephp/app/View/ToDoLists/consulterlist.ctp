@@ -4,7 +4,7 @@
 
           <h1 style="text-align:left;">
       <?php echo $this->Html->image('icone_entete.png', array('alt' => 'icone_entete','style'=>'vertical-align : middle'));?>
-      Accueil
+      Accueil  <?php echo $tableau['name']; ?>
     </h1>
 
 

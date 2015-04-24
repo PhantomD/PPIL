@@ -3,12 +3,12 @@
     <div data-role="header" data-position="inline" data-theme="a">
                 <h1 style="text-align:left;">
       <?php echo $this->Html->image('icone_entete.png', array('alt' => 'icone_entete','style'=>'vertical-align : middle'));?>
-      Liste
+      Liste 
     </h1>
 
       <div data-role="controlgroup" data-type="horizontal" data-mini="true" class="ui-btn-right">
         <a data-role="button" data-inline="true" data-icon="recycle" data-iconpos="notext" data-mini="true" >Rafraichir</a>
-        <a href="addList.html" data-role="button" data-inline="true" data-icon="plus" data-iconpos="notext" data-mini="true" >Ajouter une liste</a>
+     
          <a href="#popupMenu" data-role="button" data-rel="popup" data-inline="true" data-icon="bars" data-iconpos="notext" data-mini="true" data-transition="slidedown">Menu</a>
 
           <div data-role="popup" id="popupMenu" data-theme="b">
