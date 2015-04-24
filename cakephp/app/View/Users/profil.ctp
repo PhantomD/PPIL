@@ -25,6 +25,7 @@ $profil['name'] = ucfirst($profil['name']);
 
 
 		<div data-role="content">
+		<?php echo $this->Session->flash(); ?>
 			<?php echo  "<h2 style='text-align:left;margin-left:22%';>". $profil['firstname']." ".$profil['name']."</h2>"; ?>
 
 			<p style="text-align:left;margin-left:20%;margin-bottom:20%">

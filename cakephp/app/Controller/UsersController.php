@@ -6,7 +6,7 @@ class UsersController extends AppController{
 
 
 	function beforeFilter(){
-		      parent::beforeFilter();
+		parent::beforeFilter();
 		//on autorise l'inscription,la connexion 
 		$this->Auth->allow(array('inscription','login','logout'));
 	}
@@ -147,8 +147,10 @@ class UsersController extends AppController{
 						);
 
 					$this->Session->setFlash(__('les informations personnelles ont été mises à jour', null), 
-					'default', 
-					array('class' => 'flash-message-success'));
+						'default', 
+						array('class' => 'flash-message-success'));
+
+					$this->redirect(array('action'=>'profil'));
 				}
 
 			// modification mdp
@@ -172,23 +174,24 @@ class UsersController extends AppController{
 
 					$nouveauMdp = $passwordHasher->hash($profil['password']);
 
-				$this->User->updateAll(
+					$this->User->updateAll(
 						array('User.password' => "'".$nouveauMdp."'"),
 						array('User.id' => $user['id'])
 						);
 
 					$this->Session->setFlash(__('le mot de passe a été changé', null), 
-					'default', 
-					array('class' => 'flash-message-success'));
+						'default', 
+						array('class' => 'flash-message-success'));
+					$this->redirect(array('action'=>'profil'));
 				}	
 			}
 
 		} 
 			// non post
-			$user = AuthComponent::user();
-			$data['profil'] = $this->User->find('first',array('conditions'=> array('User.id'=>$user['id'])));
-			$data['profil'] = current($data['profil'] );
-			$this->set($data);
+		$user = AuthComponent::user();
+		$data['profil'] = $this->User->find('first',array('conditions'=> array('User.id'=>$user['id'])));
+		$data['profil'] = current($data['profil'] );
+		$this->set($data);
 		
 	}
 

@@ -8,17 +8,17 @@ if(isset($liste) && !empty($liste)){
 
 	$tableaudateBegin = explode("-",$tableau['dateBegin']);
 	if(count($tableaudateBegin)==3){
-	$tableau['dateBegin'] = $tableaudateBegin[2]."/".$tableaudateBegin[1]."/".$tableaudateBegin[0];
-} else {
-	$tableau['dateBegin'] ="";
-}
+		$tableau['dateBegin'] = $tableaudateBegin[2]."/".$tableaudateBegin[1]."/".$tableaudateBegin[0];
+	} else {
+		$tableau['dateBegin'] ="";
+	}
 
 	$tableaudateEnd = explode("-",$tableau['dateEnd']);
 	if(count($tableaudateEnd)==3){
-	$tableau['dateEnd'] = $tableaudateEnd[2]."/".$tableaudateEnd[1]."/".$tableaudateEnd[0];
-} else {
-	$tableau['dateEnd'] ="";
-}
+		$tableau['dateEnd'] = $tableaudateEnd[2]."/".$tableaudateEnd[1]."/".$tableaudateEnd[0];
+	} else {
+		$tableau['dateEnd'] ="";
+	}
 
 
 
@@ -42,7 +42,7 @@ else{
 			Modification de la liste <?php echo $tableau['name']; ?>
 		</h1>
 		<div data-role="controlgroup" data-type="horizontal" data-mini="true" class="ui-btn-right">
-			 <!-- <a data-role="button" data-inline="true" data-icon="recycle" data-iconpos="notext" data-mini="true" >Rafraichir</a> -->
+			<!-- <a data-role="button" data-inline="true" data-icon="recycle" data-iconpos="notext" data-mini="true" >Rafraichir</a> -->
 			<a href="#popupMenu" data-role="button" data-rel="popup" data-inline="true" data-icon="bars" data-iconpos="notext" data-mini="true" data-transition="slidedown">Menu</a>
 			<div data-role="popup" id="popupMenu" data-theme="b">
 				<ul data-role="listview" data-inset="true" style="min-width:210px;">
@@ -84,18 +84,18 @@ else{
 
 			<?php
 			echo $this->form->input("Todolist.text", array('type' => 'text','id'=>'text','label'=>false, 'value'=>$tableau['text'],'placeholder'=>"Commentaire"));
-		
+			
 			echo $this->form->input("Todolist.dateBegin", array('type' => 'text','id'=>'dateBegin','label'=>false, 'value'=>$tableau['dateBegin'],'placeholder'=>"Date de début(JJ/MM/AAA)"));
 			
 			echo $this->form->input("Todolist.dateEnd", array('type' => 'text','id'=>'dateEnd','label'=>false, 'value'=>$tableau['dateEnd'],'placeholder'=>"Date de fin(JJ/MM/AAA)"));
-		?>	
-		<a href="#" data-role="button" data-inline="true" style ="margin-top:20px;">Ajouter un Membre</a>
-				</fieldset>
+			?>	
+			<a href="#" data-role="button" data-inline="true" style ="margin-top:20px;">Ajouter un Membre</a>
+		</fieldset>
 	</div>
 	<br/>
-		<?php echo $this->form->end('enregistrer les modifications',array('id'=>'modifylist'));
+	<?php echo $this->form->end('enregistrer les modifications',array('id'=>'modifylist'));
 
-		?>
-	</div>
+	?>
+</div>
 </div>
 </html>
