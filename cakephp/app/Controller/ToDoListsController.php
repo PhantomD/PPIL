@@ -61,7 +61,7 @@ class TodolistsController extends AppController{
 				// On sauvegarde les données dans la BDD
 			$nom = $list['name']['0'];
 			debug($data['Todolist']);
-			
+
 			if ($this->Todolist->validates()){
 				debug($data);
 
@@ -100,15 +100,28 @@ class TodolistsController extends AppController{
 		$lists = array('name' => $this->Todolist->find('all', array('fields' => array('Todolist.name'))));
 		// On envoie les données à la vue
 		$this->set($lists);
+}
+
+		public function supprimer($nom){
+
+			$this->autoRender = false;
+			if(!empty($nom)){
+				if ($this->Todolist->deleteAll(array('Todolist.name'=>$nom))){
+
+					$this->Session->setFlash(__('liste supprimée', null), 
+						'default', 
+						array('class' => 'flash-message-success'));
+
+					return $this->redirect(array('controller'=>'Todolists','action' => 'consulterlist'));
+				}
+			}
+		}
 
 
 
 
 
-
-
-
-	}
+	
 
 	public function consulterlistdetail($nom){
 

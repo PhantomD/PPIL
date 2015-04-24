@@ -17,7 +17,7 @@
 <!--
         <a href="addList.html" data-role="button" data-inline="true" data-icon="plus" data-iconpos="notext" data-mini="true" >Ajouter une liste</a> -->
 
-         <?php echo $this->Html->link('Ajouter une liste',array('controller' => 'Todolists','action' => 'newlist'), array('data-role'=>'button','data-inline'=>true,'data-icon'=>'plus', 'data-iconpos'=>'notext', 'data-mini'=>true)); ?>
+         <?php echo $this->Html->link('Ajouter une liste',array('controller' => 'Todolists','action' => 'newlist'), array('data-role'=>'button','data-inline'=>true,'data-icon'=>'plus', 'data-iconpos'=>'notext', 'data-mini'=>true,"data-ajax"=> false)); ?>
 
         <a href="#popupMenu" data-role="button" data-rel="popup" data-inline="true" data-icon="bars" data-iconpos="notext" data-mini="true" data-transition="slidedown">Menu</a>
 
