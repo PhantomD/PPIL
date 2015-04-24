@@ -57,5 +57,17 @@ class TasksController extends AppController{
 
 	}
 
+	public function supprimer($nom){
+		$this->autoRender = false;
+		if(!empty($nom)){
+			if ($this->Tasks->deleteAll(array('Tasks.name'=>$nom))){
+				$this->Session->setFlash(__('élément supprimé', null), 
+					'default', 
+					array('class' => 'flash-message-success'));
+				return $this->redirect(array('controller'=>'Tasks','action' => 'consultertask'));
+			}
+		}
+	}
+
 
 }
