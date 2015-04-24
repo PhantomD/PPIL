@@ -233,11 +233,5 @@ class UsersController extends AppController{
 			debug($test);
 			return $this->redirect(array('controller' => 'Users', 'action' => 'modificationProfil'));
 		}
-
 	}
-
-	public function main(){
-
-	}
-
 }
