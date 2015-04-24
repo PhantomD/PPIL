@@ -8,7 +8,7 @@ class UsersController extends AppController{
 	function beforeFilter(){
 		      parent::beforeFilter();
 		//on autorise l'inscription,la connexion 
-		$this->Auth->allow(array('inscription','login'));
+		$this->Auth->allow(array('inscription','login','logout'));
 	}
 	
 	public function login(){
@@ -42,7 +42,6 @@ class UsersController extends AppController{
 
 	public function logout(){
 	//recupere la variable definie dans Auth ( AppControler)
-
 		return $this->redirect($this->Auth->logout());
 	}
 

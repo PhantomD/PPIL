@@ -21,7 +21,10 @@ else{
 
 <div data-role="page" data-theme="b" id="page_option" data-dom-cache="false">
 	<div data-role="header" data-theme="a">
-		<h1 style="text-align:left">Ajouter une liste</h1>
+		<h1 style="text-align:left;">
+			<?php echo $this->Html->image('icone_entete.png', array('alt' => 'icone_entete','style'=>'vertical-align : middle'));?>
+			Nouvelle liste
+		</h1>
 		<div data-role="controlgroup" data-type="horizontal" data-mini="true" class="ui-btn-right">
 			<?php 
 			$url = array('controller'=>'Todolists','action'=>'consulterlist');
@@ -39,24 +42,27 @@ else{
 				'label' => false,	
 				)));
 
-		echo $this->Form->input('Todolist.name', array('type' => 'text','value'=>$tableau['name'], 'placeholder'=>"Intitulé de la liste"));
+		echo "<div data-role='content' data-theme='c'>";
+		echo $this->Form->input('Todolist.name', array('type' => 'text','required'=>true,'value'=>$tableau['name'], 'placeholder'=>"Intitulé de la liste"));
 
-		echo "<br/> <div data-role='content' data-theme='c'>";
-		echo "Facultatif";
-
-		echo $this->Form->input('Todolist.text', array('type' => 'text','value'=>$tableau['text'], 'placeholder'=>"Commentaire"));
 		
-		echo $this->Form->input('Todolist.dateBegin', array('type' =>'text','value'=>$tableau['dateBegin'], 'placeholder'=>"Date de début(JJ/MM/AAA)"));
+		?>
+		<fieldset>
+			<legend>Facultatif</legend>
 
-		echo $this->Form->input('Todolist.dateEnd', array('type' => 'text','label'=>false,'value'=>$tableau['dateEnd'], 'placeholder'=>"Date de fin(JJ/MM/AAA)"));
+			<?php
+			echo $this->Form->input('Todolist.text', array('type' => 'text','value'=>$tableau['text'], 'placeholder'=>"Commentaire"));
+
+			echo $this->Form->input('Todolist.dateBegin', array('type' =>'text','required'=>false,'value'=>$tableau['dateBegin'], 'placeholder'=>"Date de début(JJ/MM/AAA)"));
+
+			echo $this->Form->input('Todolist.dateEnd', array('type' => 'text','required'=>false,'value'=>$tableau['dateEnd'], 'placeholder'=>"Date de fin(JJ/MM/AAA)"));
 
 //plus tard
 // echo $this->Form->input('User.id', array('type' => 'hidden'));
 
-		?>
-
-		<a href="#" data-role="button" data-inline="true">Ajouter un Membre</a>
-
+			?>
+			<a href="#" data-role="button" data-inline="true" style ="margin-top:20px;">Ajouter un Membre</a>
+		</fieldset>
 	</div>
 	<br/>
 	<?php echo $this->form->end('Créer la liste'); ?>

@@ -25,7 +25,7 @@ body{
 	background-color: #6b7b9a;
 }
 
-#inscriptionInscriptionForm, #loginLoginForm, #UserModificationProfilForm, .ui-link .ui-btn .ui-shadow .ui-corner-all{
+#inscriptionInscriptionForm, #loginLoginForm, #UserModificationProfilForm,#newlistNewlistForm,#modifylistModifylistForm, .ui-link .ui-btn .ui-shadow .ui-corner-all{
 
 	margin-left: auto;
 	margin-right: auto;
@@ -34,10 +34,32 @@ body{
 
 
 
-#inscriptionInscriptionForm input,#inscriptionInscriptionForm .ui-input-text, #loginLoginForm input,  #loginLoginForm .ui-input-text, #UserModificationProfilForm input ,#UserModificationProfilForm .ui-input-text {
+#inscriptionInscriptionForm input,#inscriptionInscriptionForm .ui-input-text, #loginLoginForm input,  #loginLoginForm .ui-input-text,
+#UserModificationProfilForm input ,#UserModificationProfilForm .ui-input-text, #newlistNewlistForm input, #newlistNewlistForm .ui-input-text,
+#modifylistModifylistForm input, #modifylistModifylistForm .ui-input-text{
 	background-color: white;
 	color:gray;
 }
+
+/* FORMULAIRE NOUVELLE LISTE // MODIFICATION LISTE */
+#newlistNewlistForm .ui-body-c, #modifylistModifylistForm .ui-body-c{
+background-color: transparent;
+}
+
+#newlistNewlistForm .ui-body-c fieldset, #modifylistModifylistForm .ui-body-c fieldset{
+padding: 5px 15px;
+margin : 5px 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #e1e4ea;
+  border-radius: 13px;
+
+ }
+#newlistNewlistForm .ui-body-c fieldset legend,  #modifylistModifylistForm .ui-body-c fieldset legend{
+margin-left: 20px;
+}
+
+/************************************************/
 
 
 

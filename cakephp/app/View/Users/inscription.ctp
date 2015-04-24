@@ -28,7 +28,7 @@ if(empty($this->request->data)){
 ?>
 
 	
-<div data-role="page" data-theme="b" id="page_option" data-dom-cache="false">
+<div data-role="page" data-theme="b" id="page_option">
 	<div>
 		<?php echo $this->Session->flash();?>
 		<h1>Inscription </h1>

@@ -1,7 +1,13 @@
 
   <div data-role="page" data-theme="a" id="page_mainScreen" data-dom-cache="false">
     <div data-role="header" data-position="inline" data-theme="a">
-      <h1 style="text-align:left">Accueil</h1>
+
+          <h1 style="text-align:left;">
+      <?php echo $this->Html->image('icone_entete.png', array('alt' => 'icone_entete','style'=>'vertical-align : middle'));?>
+      Accueil
+    </h1>
+
+
       <div data-role="controlgroup" data-type="horizontal" data-mini="true" class="ui-btn-right">
 
       <!--
@@ -21,7 +27,7 @@
                          <!--  <li><a href="afficherProfil.html">Afficher profil</a></li> -->
                  <li>   <?php echo $this->Html->link('Afficher profil',array('controller' => 'Users','action' => 'profil')); ?></li>
             <!--  <li><a href="#popupDisconnect" data-rel="popup" data-transition="flow">Déconnexion</a></li> -->
-          <li>   <?php echo $this->Html->link('Deconnexion',array('controller' => 'Users','action' => 'logout')); ?></li>
+          <li>   <?php echo $this->Html->link('Deconnexion',array('controller' => 'Users','action' => 'logout'),array("data-ajax"=> "false")); ?></li>
             </ul> 
           </div>
         <a href="#popupDisconnect" data-role="button" data-rel="popup" data-inline="true" data-icon="back" data-iconpos="notext" data-mini="true" >Deconnexion</a>
@@ -31,7 +37,7 @@
               <h3 class="ui-title">Voulez-vous vraiment vous déconnecter ?</h3>
               <a href="#" data-role="button" data-inline="true" data-icon="delete" data-rel="back">Annuler</a>
             <!--  <a href="connexion.html" data-role="button" data-inline="true" data-icon="check">Valider</a> -->
-             <?php echo $this->Html->link('Valider',array('controller' => 'Users','action' => 'logout'),array('data-role'=>'button','data-inline'=>true,'data-icon'=>'check')); ?>
+             <?php echo $this->Html->link('Valider',array('controller' => 'Users','action' => 'logout'),array('data-role'=>'button','data-inline'=>true,'data-icon'=>'check',"data-ajax"=>"false")); ?>
              
             </div>
           </div>

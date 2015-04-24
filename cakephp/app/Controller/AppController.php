@@ -38,7 +38,7 @@ class AppController extends Controller {
 	public $components = array(
         'Session','Auth' => array(
         'loginRedirect' => array('controller' => 'Todolists', 'action' => 'consulterlist'),//lors d'une connexion reussi
-            'logoutRedirect' => array('controller' => 'Users', 'action' => 'login'),//lors d'une deconnexion
+        'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),//lors d'une deconnexion
             'authenticate' => array(
                 'Form' => array(
                 'fields' => array('username' => 'pseudo'), //notre moyen d'identification se base sur le pseudo, par defaut cakephp utilise le champs username
