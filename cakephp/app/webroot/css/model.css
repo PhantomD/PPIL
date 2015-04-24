@@ -25,7 +25,7 @@ body{
 	background-color: #6b7b9a;
 }
 
-#inscriptionInscriptionForm, #loginLoginForm, .ui-link .ui-btn .ui-shadow .ui-corner-all{
+#inscriptionInscriptionForm, #loginLoginForm, #UserModificationProfilForm, .ui-link .ui-btn .ui-shadow .ui-corner-all{
 
 	margin-left: auto;
 	margin-right: auto;
@@ -34,7 +34,7 @@ body{
 
 
 
-#inscriptionInscriptionForm input,#inscriptionInscriptionForm .ui-input-text, #loginLoginForm input,  #loginLoginForm .ui-input-text{
+#inscriptionInscriptionForm input,#inscriptionInscriptionForm .ui-input-text, #loginLoginForm input,  #loginLoginForm .ui-input-text, #UserModificationProfilForm input ,#UserModificationProfilForm .ui-input-text {
 	background-color: white;
 	color:gray;
 }

@@ -3,10 +3,8 @@
 class TodolistsController extends AppController{
 
 	function beforeFilter(){
-		$this->Auth->allow(array('newlist','modifylist','taillelist','consulterlist','consulterlistdetail'));
+parent::beforeFilter();
 	}
-
-
 
 
 	public function newlist(){

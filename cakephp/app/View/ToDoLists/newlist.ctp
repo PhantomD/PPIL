@@ -19,9 +19,9 @@ else{
 }
 ?>
 
-<div data-role="page" data-theme="b" id="page_option">
+<div data-role="page" data-theme="b" id="page_option" data-dom-cache="false">
 	<div data-role="header" data-theme="a">
-		<h1>Ajouter une liste</h1>
+		<h1 style="text-align:left">Ajouter une liste</h1>
 		<div data-role="controlgroup" data-type="horizontal" data-mini="true" class="ui-btn-right">
 			<?php 
 			$url = array('controller'=>'Todolists','action'=>'consulterlist');

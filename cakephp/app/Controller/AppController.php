@@ -30,19 +30,28 @@ App::uses('Controller', 'Controller');
  * @package		app.Controller
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
+
+App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
+
 class AppController extends Controller {
 
 	public $components = array(
-    'Session','Auth' => array(
+        'Session','Auth' => array(
         'loginRedirect' => array('controller' => 'Todolists', 'action' => 'consulterlist'),//lors d'une connexion reussi
             'logoutRedirect' => array('controller' => 'Users', 'action' => 'login'),//lors d'une deconnexion
             'authenticate' => array(
-            'Form' => array(
+                'Form' => array(
                 'fields' => array('username' => 'pseudo'), //notre moyen d'identification se base sur le pseudo, par defaut cakephp utilise le champs username
                 'userFields' => array('id') //  on ne garde que l'id dans la variable session
-            )
-        )
-    ), 'DebugKit.Toolbar','RequestHandler') ;
+                )
+                )
+            ), 'DebugKit.Toolbar','RequestHandler') ;
 
 
-	}
+
+    public function beforeFilter(){
+        $this->disableCache();
+         $this->response->disableCache();
+
+    }
+}

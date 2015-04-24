@@ -3,10 +3,9 @@
 class TasksController extends AppController{
 
 	function beforeFilter(){
-		$this->Auth->allow(array('newtask','consultertask','taillelist','consultertaskdetail'));
+		parent::beforeFilter();
+
 	}
-
-
 
 
 	public function newtask(){

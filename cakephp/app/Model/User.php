@@ -5,7 +5,7 @@ class User extends AppModel{
 
 
 	public $validate = array(
-		'pseudo' => array(
+/*		'pseudo' => array(
 			array(
 				'rule' => 'alphanumeric',
 				'required' => true,
@@ -21,6 +21,7 @@ class User extends AppModel{
         'message' => "Le pseudo doit avoir une longueur comprise entre 5 et 15 caractéres."
 				)
 			),
+			*/
 		'email' => array(
 			array(
 				'rule' => 'email',
@@ -28,10 +29,10 @@ class User extends AppModel{
 				'message' => "l'adresse mail n'est pas correct",
 				'allowEmpty' =>false,
 				),
-			array(
-				'rule' => 'isUnique',
-				'message' => "l'adresse mail est déjà prise"
-				)
+				'estUnique'=>array(
+					'rule' => 'isUnique',
+					'message' => "l'adresse mail est déjà prise")
+			
 			),
 		'password' => array(
 			array(
@@ -41,8 +42,8 @@ class User extends AppModel{
 			'message ' => "seuls les chiffres et lettres sont autorisées pour le mot de passe."
 			),
 			array(
- 		'rule'    => array('between', 5, 15),
-        'message' => "Le mot de passe doit avoir une longueur comprise entre 5 et 15 caractéres."
+ 		'rule'    => array('between', 6, 15),
+        'message' => "Le mot de passe doit avoir une longueur comprise entre 6 et 15 caractéres."
 				)
 
 			),
@@ -77,7 +78,12 @@ class User extends AppModel{
 		'mailConfirmation' => array(
 			'rule'    => array('estEgal','email'),
 			'message' => 'les 2 mails sont différents.'
+			),
+		'oldpassword' => array(
+			'rule'    => array('estEgal','mdpCourant'),
+			'message' => 'ancien mot de passe incorrect'
 			)
+
 		);
 
 

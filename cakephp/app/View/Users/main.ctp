@@ -8,9 +8,11 @@
           <div data-role="popup" id="popupMenu" data-theme="b">
             <ul data-role="listview" data-inset="true" style="min-width:210px;">
               <li data-role="list-divider">Menu</li>
-              <li><a href="afficherProfil.html">Afficher profil</a></li>
+            <!--  <li><a href="afficherProfil.html">Afficher profil</a></li> -->
+                 <li>   <?php echo $this->Html->link('Affffficher profil',array('controller' => 'Users','action' => 'profil')); ?></li>
             <!--  <li><a href="#popupDisconnect" data-rel="popup" data-transition="flow">Déconnexion</a></li> -->
-          <li>   <?php echo $this->Html->link('Déconnexion',array('controller' => 'Users','action' => 'logout')); ?></li>
+          <li>   <?php echo $this->Html->link('Déconnexionnn',array('controller' => 'Users','action' => 'logout')); ?></li>
+
             </ul> 
           </div>
         <a href="#popupDisconnect" data-role="button" data-rel="popup" data-inline="true" data-icon="back" data-iconpos="notext" data-mini="true" >Déconnexion</a>
@@ -26,6 +28,8 @@
           </div>
         </div>
     </div>
+
+    
     <div data-role="content">
       <?php echo $this->Session->flash(); ?>
       <h4 class="ui-bar ui-bar-a">Aujourd'hui</h4>

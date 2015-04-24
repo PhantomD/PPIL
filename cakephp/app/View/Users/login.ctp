@@ -12,7 +12,7 @@ if(empty($this->request->data)){
 ?>
 
 
-<div data-role="page" data-theme="b" id="page_option">
+<div data-role="page" data-theme="b" id="page_option" data-dom-cache="false">
 		<div>
 			<?php echo $this->Session->flash(); ?>
 			<h1>Bienvenue</h1>

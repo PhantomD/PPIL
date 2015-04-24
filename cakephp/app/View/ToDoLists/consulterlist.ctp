@@ -1,7 +1,7 @@
 
-  <div data-role="page" data-theme="a" id="page_mainScreen">
+  <div data-role="page" data-theme="a" id="page_mainScreen" data-dom-cache="false">
     <div data-role="header" data-position="inline" data-theme="a">
-      <h1>Accueil</h1>
+      <h1 style="text-align:left">Accueil</h1>
       <div data-role="controlgroup" data-type="horizontal" data-mini="true" class="ui-btn-right">
 
       <!--
@@ -18,7 +18,8 @@
           <div data-role="popup" id="popupMenu" data-theme="b">
             <ul data-role="listview" data-inset="true" style="min-width:210px;">
               <li data-role="list-divider">Menu</li>
-              <li><a href="afficherProfil.html">Afficher profil</a></li>
+                         <!--  <li><a href="afficherProfil.html">Afficher profil</a></li> -->
+                 <li>   <?php echo $this->Html->link('Afficher profil',array('controller' => 'Users','action' => 'profil')); ?></li>
             <!--  <li><a href="#popupDisconnect" data-rel="popup" data-transition="flow">Déconnexion</a></li> -->
           <li>   <?php echo $this->Html->link('Deconnexion',array('controller' => 'Users','action' => 'logout')); ?></li>
             </ul> 
