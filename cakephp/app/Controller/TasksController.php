@@ -57,6 +57,15 @@ class TasksController extends AppController{
 			$this->set($task);
 
 	}
-
+        public function checkTask($nom){
+            $task = $this->Task->find('all',array('fields'=> array('Task.name','Task.idChecked'),'conditions'=> array('Task.name'=> $nom)));
+            if($task->idChecked=0){
+                $this->Task->set($nom,$values = 1,$types = tinyint);
+            }else{
+                $this->Task->set($nom,$values = 0,$types = tinyint);
+            }
+                
+            
+        }
 
 }
