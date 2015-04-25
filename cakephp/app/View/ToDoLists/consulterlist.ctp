@@ -85,17 +85,15 @@
 
 </div>
 
-
-
-
-<script type="text/javascript">
-  $(document).on({
-    "pageshow": function () {
+<script>
+  $(document).bind('pagecreate', function() {
+    setTimeout(function(){
       var msg='<?PHP echo $message;?>';
 
       if(!(msg === "")){
-        $("#popupErreur").popup('open');
+        $("#popupErreur").popup();
+        $("#popupErreur").popup("open");
       }
-    }
-  }, "#page_mainScreen");
+    }, 100);
+  });
 </script>

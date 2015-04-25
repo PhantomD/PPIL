@@ -51,7 +51,9 @@
     </div>
   </div>
   <div data-role="content">
-     <?php echo $this->Session->flash(); ?>
+     <?php echo $this->Session->flash(); 
+     ?>
+     
     <h4 class="ui-bar ui-bar-a"><?php echo $liste['name'] ?></h4>
     <?php
 

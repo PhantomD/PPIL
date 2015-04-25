@@ -2,7 +2,7 @@
 class UsersController extends AppController{
 
 	public $scaffold;
-	public $uses = array('User','Todolist');
+	public $uses = array('User','Todolist_user');
 
 	function beforeFilter(){
 		parent::beforeFilter();
@@ -40,11 +40,13 @@ class UsersController extends AppController{
 
 				$this->Session->setFlash(__('Bienvenue'),'default', array('class' => 'flash-message-success'));
 
-				$d = $this->Todolist->find("all",array('fields'=>array('Todolist.id'),'recursive' => -1,'conditions'=> array('User_id'=>AuthComponent::user('id'))));
-				
+				$id_user = AuthComponent::user('id');
+				$d = $this->Todolist_user->find("all",array('recursive' => 1,'fields'=>array('Todolist.user_id', 'Todolist.id'), 'conditions'=> array('Todolist_user.user_id'=>$id_user)));
+
 				foreach( $d as $key => $value ){
-					$v1 = $value['Todolist']['id'];
-					$this->Session->write('Auth.User.Todolist.'.$key, $v1);
+					$id_liste = $value['Todolist']['id'];
+					$proprietaire = ($value['Todolist']['user_id']==$id_user?1:0);
+					$this->Session->write('Auth.User.Todolist.'.$id_liste, $proprietaire);
 				}
 
 				$this->redirect($this->Auth->loginRedirect);

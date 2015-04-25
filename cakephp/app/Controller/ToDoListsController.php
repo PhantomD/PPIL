@@ -30,10 +30,14 @@ class TodolistsController extends AppController{
 	}
 
 
-	public function newlist($id_user){
+	public function newlist(){
 
+//$this->Menu->getLastInsertId();
 		if($this->request->is('post')){
 			$data = $this->request->data;
+
+			// 2 array car c'est une association hasmany
+			$data['Todolist_user']=array(array('user_id'=>$data['Todolist']['user_id']));
 
 				// Conversion des dates dans le bon format
 			$tableaudateDebut = explode("/",$data['Todolist']['dateBegin']);
@@ -48,17 +52,22 @@ class TodolistsController extends AppController{
 				// On envoie les données à la vue
 			$this->Todolist->set($data);	
 
-			if ($this->Todolist->validates()){
 
-				// On sauvegarde les données dans la BDD
-				$this->Todolist->save($data);
+			if ($this->Todolist->validates()){
+				$this->Todolist->saveAssociated($data,array('deep'=>true,'atomic'=>true));
+
+				$id = $this->Todolist->getLastInsertId();
+				$this->Session->write('Auth.User.Todolist.'.$id, 1);
+
 				$this->Session->setFlash(__('liste ajoutée'),'default', array('class' => 'flash-message-success'));
 				$this->redirect(array('action'=>'consulterlist'));
+
 			} else {
 				$this->Session->setFlash(__('erreur liste non ajoutée'),'default', array('class' => 'flash-message-error'));
 			}
 		}
 	}
+
 
 	public function modifylist($name){
 
@@ -111,42 +120,60 @@ class TodolistsController extends AppController{
 
 	public function consulterlist(){
 
-		// On récupère le nom des todolists
-		$d['listes'] = $this->Todolist->find('all', array('recursive'=>-1,'fields' => array('Todolist.name, Todolist.id')));
-		// On envoie les données à la vue
-		$this->set($d);
+
+		$id_user = AuthComponent::user('id');
+/*
+    $this->Todolist->unbindModel( array('hasMany' => array('Task','Todolist_user')));
+$d['listes'] = $this->Todolist->find('all', array(
+            'recursive'=>-1,
+            'fields' => array('Todolist.id'),
+            'joins' => array(
+                array(
+                    'table' => 'todolist_users',
+                    'alias' => 't',
+                    'type' => 'INNER',
+                    'conditions' => array(
+                        't.todolist_id = todolist.id',
+                        't.user_id' => $id_user
+                    )
+                )
+            )
+        ));
+*/
+$listes = $this->Session->read('Auth.User.Todolist');
+$id_listes = array_keys($listes);
+$this->Todolist->unbindModel( array('hasMany' => array('Task','Todolist_user')));
+$d['listes'] = $this->Todolist->find('all',array('fields'=>array('id','name'),'conditions'=> array ('Todolist.id'=> $id_listes)));
+
+$this->set($d);
+}
+
+public function supprimer($id_liste){
+
+	$this->autoRender = false;
+
+	if ($this->Todolist->delete($id_liste)){
+
+		$this->Session->setFlash(__('liste supprimée', null), 
+			'default', 
+			array('class' => 'flash-message-success'));
 	}
 
-	public function supprimer($id_liste){
-
-		$this->autoRender = false;
-
-			if ($this->Todolist->delete($id_liste)){
-
-				$this->Session->setFlash(__('liste supprimée', null), 
-					'default', 
-					array('class' => 'flash-message-success'));
-			}
-
-				return $this->redirect(array('controller'=>'Todolists','action' => 'consulterlist'));
-
-		
-	}
+	return $this->redirect(array('controller'=>'Todolists','action' => 'consulterlist'));
+}
 
 
-	public function consulterlistdetail($id){
+public function consulterlistdetail($id){
 
 		//$id = $this->request->params['id'];
-
 		// On recupere les données de la liste associées au nom
-		$d['liste'] = $this->Todolist->find('first', array('conditions' => array('Todolist.id'=>$id)));
+	$d['liste'] = $this->Todolist->find('first', array('conditions' => array('Todolist.id'=>$id)));
 
-		$data['liste'] = $d['liste']['Todolist'];
-		$data['taches'] = $d['liste']['Task']; 
-		
+	$data['liste'] = $d['liste']['Todolist'];
+	$data['taches'] = $d['liste']['Task']; 
 			// On passe les variables à la vues 
-		$this->set($data);
+	$this->set($data);
 
-	}
+}
 
 }

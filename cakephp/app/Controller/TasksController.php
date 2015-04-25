@@ -14,39 +14,38 @@ class TasksController extends AppController{
 
 		if ($this->action ==='newtask'){
 			$id_liste = $this->request->params['pass'][0];
-			$liste_user = $this->Session->read('Auth.User.Todolist');
 
-			if (in_array($id_liste,$liste_user)){
+			if ($this->Session->read('Auth.User.Todolist.'.$id_liste)==1){
 				return true;
 			}
 			$this->Auth->authError ="Vous n avez pas les autorisations recquis pour ajouter une tâche";
 			return false;
 		}
-		
 		return true;
 	}
 
 
 	public function newtask(){
 
-			if($this->request->is('post')){
-				$data = current($this->request->data);
+		if($this->request->is('post')){
+			$data = current($this->request->data);
 
 				// On envoie les données à la vue
-				$this->Task->set($data);
-				
-				if($this->Task->validates()){
+			$this->Task->set($data);
+			
+			if($this->Task->validates()){
 
 				// On sauvegarde les données dans la BDD
 				$this->Task->save($data);
 
-				$this->Session->setFlash(__('tache ajoutée', null), 
-				'default', 
-				array('class' => 'flash-message-success'));
 
-				}
-				return $this->redirect($this->Auth->redirect(array('controller'=>'Todolists','action' => 'consulterlistdetail', 'id'=>$data['todolist_id'])));
+				$this->Session->setFlash(__('tâche ajoutée', null), 
+					'default', 
+					array('class' => 'flash-message-success'));
+
 			}
+			return $this->redirect($this->Auth->redirect(array('controller'=>'Todolists','action' => 'consulterlistdetail', $data['todolist_id'])));
+		}
 
 	}
 
@@ -65,7 +64,7 @@ class TasksController extends AppController{
 			'fields' => array('Task.name'),
 			'order' => array('id DESC')	));
 
-			return $task["$ligne"]["Task"]["name"];
+		return $task["$ligne"]["Task"]["name"];
 
 	}
 
@@ -77,7 +76,7 @@ class TasksController extends AppController{
 
 
 			// On passe les variables à la vues 
-			$this->set($task);
+		$this->set($task);
 
 	}
 
