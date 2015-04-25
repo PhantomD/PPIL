@@ -13,16 +13,25 @@ class TodolistsController extends AppController{
 			return true;
 		}
 
+		$id_liste = $this->request->params['pass'][0];
+		$liste_user = array_keys($this->Session->read('Auth.User.Todolist'));
+
+
+		if ($this->action ==='consulterlistdetail'){
+			if(!in_array($id_liste, $liste_user))
+				return false;
+		}
+
 		if (in_array($this->action,array('modifylist','supprimer'))){
-			$id_liste = $this->request->params['pass'][0];
 
-			$liste_user = $this->Session->read('Auth.User.Todolist');
+			$estProprio = $this->Session->Read('Auth.User.Todolist.'.$id_liste);
 
-			if (in_array($id_liste,$liste_user)){
+			if ($estProprio==1){
 				return true;
 			}
-			
 			$this->Auth->authError ="Seul le propriétaire de la liste peut modifier ou supprimer une liste";
+			$this->Auth->unauthorizedRedirect= array('controller' => 'Todolists', 'action' => 'consulterlistdetail',$id_liste);
+			///$this->redirect(array('action'=>'consulterlistdetail',$id_liste));
 			return false;
 		}
 		

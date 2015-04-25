@@ -19,6 +19,7 @@ class TasksController extends AppController{
 				return true;
 			}
 			$this->Auth->authError ="Vous n avez pas les autorisations recquis pour ajouter une tâche";
+			$this->Auth->unauthorizedRedirect= array('controller' => 'Todolists', 'action' => 'consulterlistdetail',$id_liste);
 			return false;
 		}
 		return true;

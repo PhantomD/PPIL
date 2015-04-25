@@ -35,8 +35,6 @@ if(empty($this->request->data)){
 	</div>
 
 	<?php
-
-
 	echo $this->Form->create('inscription',array(
 		'type'=>'post',
 		'data-ajax' => 'false',

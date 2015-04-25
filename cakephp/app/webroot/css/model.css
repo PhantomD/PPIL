@@ -50,7 +50,7 @@ body{
 background-color: transparent;
 }
 
-#newlistNewlistForm .ui-body-c fieldset, #modifylistModifylistForm .ui-body-c fieldset, #newTacheConsulterlistdetailForm .ui-body-c fieldset{
+#newlistNewlistForm .ui-body-c fieldset, #modifylistModifylistForm .ui-body-c fieldset, #newTacheConsulterlistdetailForm .ui-body-f fieldset{
 padding: 5px 15px;
 margin : 5px 10px;
   border-style: solid;
