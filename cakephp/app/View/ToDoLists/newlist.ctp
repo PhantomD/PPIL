@@ -59,7 +59,7 @@ else{
 
 //plus tard
 // echo $this->Form->input('User.id', array('type' => 'hidden'));
-
+			echo $this->Form->input('Todolist.user_id',array('type' => 'hidden','required'=>true,'value'=>$this->Session->read('Auth.User.id')));
 			?>
 			<a href="#" data-role="button" data-inline="true" style ="margin-top:20px;">Ajouter un Membre</a>
 		</fieldset>

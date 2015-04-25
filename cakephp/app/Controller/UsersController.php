@@ -2,18 +2,31 @@
 class UsersController extends AppController{
 
 	public $scaffold;
-//	public $uses =...;
-
+	public $uses = array('User','Todolist');
 
 	function beforeFilter(){
 		parent::beforeFilter();
-		//on autorise l'inscription,la connexion 
-		$this->Auth->allow(array('inscription','login','logout'));
+		$this->Auth->allow(array('inscription','login'));
 	}
-	
+
+
+	 function isAuthorized($user){
+
+		if(parent::isAuthorized($user)){
+			return true;
+		}
+
+		return true;
+	}
+
+
+
 	public function login(){
+
+
 		//si un utilisateur est deja connecté, on verifie la variable id dans sa session si non null alors on le renvoie vers l'url redirect
 		if( !AuthComponent::user('id')==NULL){
+
 
 			$this->redirect($this->Auth->loginRedirect);
 		}
@@ -27,6 +40,12 @@ class UsersController extends AppController{
 
 				$this->Session->setFlash(__('Bienvenue'),'default', array('class' => 'flash-message-success'));
 
+				$d = $this->Todolist->find("all",array('fields'=>array('Todolist.id'),'recursive' => -1,'conditions'=> array('User_id'=>AuthComponent::user('id'))));
+				
+				foreach( $d as $key => $value ){
+					$v1 = $value['Todolist']['id'];
+					$this->Session->write('Auth.User.Todolist.'.$key, $v1);
+				}
 
 				$this->redirect($this->Auth->loginRedirect);
 
@@ -41,7 +60,7 @@ class UsersController extends AppController{
 
 
 	public function logout(){
-	//recupere la variable definie dans Auth ( AppControler)
+		$this->Session->destroy();
 		return $this->redirect($this->Auth->logout());
 	}
 
@@ -85,8 +104,6 @@ class UsersController extends AppController{
 		}
 
 	}
-
-
 
 
 	public	function profil(){

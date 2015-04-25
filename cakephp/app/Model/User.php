@@ -3,6 +3,13 @@ App::uses('AppModel', 'Model');
 App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
 class User extends AppModel{
 
+	public $hasMany = array (
+		'Todolist_user' => array (
+			'foreignKey'=>'user_id',
+			'dependent' => true
+			)
+		);
+
 
 	public $validate = array(
 /*		'pseudo' => array(

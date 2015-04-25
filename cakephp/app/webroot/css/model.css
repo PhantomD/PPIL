@@ -36,17 +36,17 @@ body{
 
 #inscriptionInscriptionForm input,#inscriptionInscriptionForm .ui-input-text, #loginLoginForm input,  #loginLoginForm .ui-input-text,
 #UserModificationProfilForm input ,#UserModificationProfilForm .ui-input-text, #newlistNewlistForm input, #newlistNewlistForm .ui-input-text,
-#modifylistModifylistForm input, #modifylistModifylistForm .ui-input-text{
+#modifylistModifylistForm input, #modifylistModifylistForm .ui-input-text, #newTacheConsulterlistdetailForm input, #newTacheConsulterlistdetailForm .ui-input-text{
 	background-color: white;
 	color:gray;
 }
 
 /* FORMULAIRE NOUVELLE LISTE // MODIFICATION LISTE */
-#newlistNewlistForm .ui-body-c, #modifylistModifylistForm .ui-body-c{
+#newlistNewlistForm .ui-body-c, #modifylistModifylistForm .ui-body-c, #newTacheConsulterlistdetailForm .ui-body-c{
 background-color: transparent;
 }
 
-#newlistNewlistForm .ui-body-c fieldset, #modifylistModifylistForm .ui-body-c fieldset{
+#newlistNewlistForm .ui-body-c fieldset, #modifylistModifylistForm .ui-body-c fieldset, #newTacheConsulterlistdetailForm .ui-body-c fieldset{
 padding: 5px 15px;
 margin : 5px 10px;
   border-style: solid;
@@ -55,7 +55,7 @@ margin : 5px 10px;
   border-radius: 13px;
 
  }
-#newlistNewlistForm .ui-body-c fieldset legend,  #modifylistModifylistForm .ui-body-c fieldset legend{
+#newlistNewlistForm .ui-body-c fieldset legend,  #modifylistModifylistForm .ui-body-c fieldset legend,  #newTacheConsulterlistdetailForm fieldset legend{
 margin-left: 20px;
 }
 
@@ -90,3 +90,10 @@ margin-left: 20px;
 }
 
 /************************************************/
+
+.center{
+  text-align: center;
+}
+.center * {
+  margin: 0 auto;
+}

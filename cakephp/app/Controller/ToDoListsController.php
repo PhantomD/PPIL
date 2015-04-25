@@ -2,16 +2,38 @@
 
 class TodolistsController extends AppController{
 
+
 	function beforeFilter(){
 		parent::beforeFilter();
 	}
 
+	function isAuthorized($user){
 
-	public function newlist(){
+		if(parent::isAuthorized($user)){
+			return true;
+		}
+
+		if (in_array($this->action,array('modifylist','supprimer'))){
+			$id_liste = $this->request->params['pass'][0];
+
+			$liste_user = $this->Session->read('Auth.User.Todolist');
+
+			if (in_array($id_liste,$liste_user)){
+				return true;
+			}
+			
+			$this->Auth->authError ="Seul le propriétaire de la liste peut modifier ou supprimer une liste";
+			return false;
+		}
+		
+		return true;
+	}
+
+
+	public function newlist($id_user){
 
 		if($this->request->is('post')){
 			$data = $this->request->data;
-			debug($data);
 
 				// Conversion des dates dans le bon format
 			$tableaudateDebut = explode("/",$data['Todolist']['dateBegin']);
@@ -36,7 +58,6 @@ class TodolistsController extends AppController{
 				$this->Session->setFlash(__('erreur liste non ajoutée'),'default', array('class' => 'flash-message-error'));
 			}
 		}
-
 	}
 
 	public function modifylist($name){
@@ -87,54 +108,44 @@ class TodolistsController extends AppController{
 		}
 	}
 
-	public function taillelist(){
-		// retourne le nombre de todolist
-		$taille = $this->Todolist->find('count');
-		return $taille;
-
-	}
 
 	public function consulterlist(){
 
 		// On récupère le nom des todolists
-		$lists = array('name' => $this->Todolist->find('all', array('fields' => array('Todolist.name'))));
+		$d['listes'] = $this->Todolist->find('all', array('recursive'=>-1,'fields' => array('Todolist.name, Todolist.id')));
 		// On envoie les données à la vue
-		$this->set($lists);
+		$this->set($d);
 	}
 
-	public function supprimer($nom){
+	public function supprimer($id_liste){
 
 		$this->autoRender = false;
-		if(!empty($nom)){
-			if ($this->Todolist->deleteAll(array('Todolist.name'=>$nom))){
+
+			if ($this->Todolist->delete($id_liste)){
 
 				$this->Session->setFlash(__('liste supprimée', null), 
 					'default', 
 					array('class' => 'flash-message-success'));
+			}
 
 				return $this->redirect(array('controller'=>'Todolists','action' => 'consulterlist'));
-			}
-		}
+
+		
 	}
 
 
+	public function consulterlistdetail($id){
 
-
-
-	
-
-	public function consulterlistdetail($nom){
+		//$id = $this->request->params['id'];
 
 		// On recupere les données de la liste associées au nom
-		$list = array('name' => $this->Todolist->find('all', array('fields' => array('Todolist.name'),'conditions' => array('Todolist.name' => $nom))),
-			'text' => $this->Todolist->find('all', array('fields' => array('Todolist.text'),'conditions' => array('Todolist.name' => $nom))),
-			'dateBegin' => $this->Todolist->find('all', array('fields' => array('Todolist.dateBegin'),'conditions' => array('Todolist.name' => $nom))),
-			'dateEnd' => $this->Todolist->find('all', array('fields' => array('Todolist.dateEnd'),'conditions' => array('Todolist.name' => $nom))),
-			'frequency' => $this->Todolist->find('all', array('fields' => array('Todolist.frequency'),'conditions' => array('Todolist.name' => $nom)))  );
+		$d['liste'] = $this->Todolist->find('first', array('conditions' => array('Todolist.id'=>$id)));
 
-
+		$data['liste'] = $d['liste']['Todolist'];
+		$data['taches'] = $d['liste']['Task']; 
+		
 			// On passe les variables à la vues 
-		$this->set($list);
+		$this->set($data);
 
 	}
 

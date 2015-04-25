@@ -13,16 +13,16 @@ if(empty($this->request->data)){
 
 
 <div data-role="page" data-theme="b" id="page_option">
-		<div>
-			<?php echo $this->Session->flash(); ?>
-			<h1>Bienvenue</h1>
-			Veuillez vous connecter pour accéder à l'application
-		</div>
+	<div>
+		<?php echo $this->Session->flash(); ?>
+		<h1>Bienvenue</h1>
+		Veuillez vous connecter pour accéder à l'application
+	</div>
 
-<?php
+	<?php
 
 //creation du formulaire de connexion
-echo $this->form->create('login',array('data-ajax' => 'false'));
+	echo $this->form->create('login',array('data-ajax' => 'false'));
 
 
 //pseudo
@@ -47,33 +47,33 @@ echo $this->form->create('login',array('data-ajax' => 'false'));
 	echo "<br/>";
 	?>
 
-<!--a faire -->
-		<!--<a href data-role="button">Connexion via Google+</a> -->
+	<!--a faire -->
+	<!--<a href data-role="button">Connexion via Google+</a> -->
 
-		<?php	echo $this->Html->link(
-    'Connexion via Facebook',
-    array( 'controller' => 'Users','action' => 'inscription'),array('data-role'=>'button','style'=>'margin-left: auto;margin-right: auto;width: 70%;'));
-	?> 
+	<?php	echo $this->Html->link(
+		'Connexion via Facebook',
+		array( 'controller' => 'Users','action' => 'inscription'),array('data-role'=>'button','style'=>'margin-left: auto;margin-right: auto;width: 70%;'));
+		?> 
 
 
 		<div>
 			<!-- inscrition !-->
 			<h3>Pas de compte ? </h3>
 
-		<?php	echo $this->Html->link(
-    'S\'inscrire au site',
-    array( 'controller' => 'Users','action' => 'inscription'));
-	?> 
+			<?php	echo $this->Html->link(
+				'S\'inscrire au site',
+				array( 'controller' => 'Users','action' => 'inscription'));
+				?> 
 
-	<!-- Fin inscrition !-->
+				<!-- Fin inscrition !-->
 
 <!--
 			<h4>OU</h4>
 			<a href data-role="button">Inscription via Facebook</a>
 			ou
 			<a href data-role="button">Inscription via Google+</a>
--->
-		</div>
+		-->
 	</div>
+</div>
 
 

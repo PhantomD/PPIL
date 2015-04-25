@@ -2,6 +2,12 @@
 
 class Todolist extends AppModel{
 
+public $hasMany = array (
+	'Task' => array (
+		'foreignKey'=>'todolist_id',
+		'dependent'    => true
+		)
+	);
 
 		public $validate = array(
 			'name' => array(

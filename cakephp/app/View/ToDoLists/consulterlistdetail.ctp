@@ -1,3 +1,9 @@
+<?php
+  $message ="";
+  if($this->Session->check('Message.auth')){
+    $message = $this->Session->flash('auth');
+  }
+  ?>
 
 <div data-role="page" data-theme="a" id="page_mainScreen">
   <div data-role="header" data-position="inline" data-theme="a">
@@ -14,14 +20,23 @@
       <div data-role="popup" id="popupMenu" data-theme="b">
         <ul data-role="listview" data-inset="true" style="min-width:210px;">
           <li data-role="list-divider">Menu</li>
-          <!--  <li><a href="afficherProfil.html">Afficher profil</a></li> -->
-          <li>   <?php echo $this->Html->link('Modifier la liste',array('controller' => 'Todolists','action' => 'modifylist',$name[0]['Todolist']['name']),array("data-ajax"=> "false")); ?></li>
+         
 
-          <li>   <?php echo $this->Html->link('supprimer la liste',array('controller' => 'Todolists','action' => 'supprimer',$name[0]['Todolist']['name']),array("data-ajax"=> "false")); ?></li>
-          <!--  <li><a href="#popupDisconnect" data-rel="popup" data-transition="flow">Déconnexion</a></li> -->
+          <li>   <?php echo $this->Html->link('Modifier la liste',array('controller' => 'Todolists','action' => 'modifylist', $liste['id']),array("data-ajax"=> "false")); ?></li>
+
+          <li>   <?php echo $this->Html->link('supprimer la liste',array('controller' => 'Todolists','action' => 'supprimer', $liste['id']),array("data-ajax"=> "false")); ?></li>
+          
           <li>   <?php echo $this->Html->link('Deconnexion',array('controller' => 'Users','action' => 'logout'),array("data-ajax"=> "false")); ?></li>
         </ul> 
       </div>
+
+      <!-- ajouter tache -->
+
+      <a href="#popupTache" data-role="button" data-rel="popup" data-inline="true" data-icon="plus" data-iconpos="notext" data-mini="true" >nouvlle tache</a>
+
+      <!-- ***************** -->
+
+
       <a href="#popupDisconnect" data-role="button" data-rel="popup" data-inline="true" data-icon="back" data-iconpos="notext" data-mini="true" >Déconnexion</a>
       <div data-role="popup" id="popupDisconnect" data-position-to="window"  data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
         <div data-role="header" data-theme="a"><h1>Déconnexion</h1></div>
@@ -36,17 +51,58 @@
     </div>
   </div>
   <div data-role="content">
-    <h4 class="ui-bar ui-bar-a"><?php echo $name[0]['Todolist']['name'] ?></h4>
+     <?php echo $this->Session->flash(); ?>
+    <h4 class="ui-bar ui-bar-a"><?php echo $liste['name'] ?></h4>
     <?php
-    $url = array('controller'=>'Todolists','action'=>'modifylist',$name[0]['Todolist']['name']);
-    echo "Description : ".$text[0]['Todolist']['text'];
+
+    $url = array('controller'=>'Todolists','action'=>'modifylist',$liste['name']);
+    echo "Description : ".$liste['text'];
     ?> <br><br> <?php
-    echo "Date de début : ".$dateBegin[0]['Todolist']['dateBegin'];
+    echo "Date de début : ".$liste['dateBegin'];
     ?> <br><br> <?php
-    echo "Date de fin : ".$dateEnd[0]['Todolist']['dateEnd'];
-    ?> <br><br> <?php
-    echo "Fréquence :".$frequency[0]['Todolist']['frequency'];
-    ?> <br><br> 
+    echo "Date de fin : ".$liste['dateEnd'];
+    ?> 
   </div>
-</div>
-</html>
+
+
+
+
+  <!-- popup new tache -->
+  <div data-role="popup" id="popupTache" data-position-to="window"  data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+    <div data-role="header" data-theme="a"><h1>Ajouter une tâche</h1></div>
+    <div role="main" class="ui-content">
+
+      <?php echo $this->Form->create('newTache',array(
+        'type'=>'post',
+        'url'=>array('controller'=>'Tasks','action'=>'newtask',$liste['id']),
+        'data-ajax' => 'false',
+        'inputDefaults' => array(
+          'label' => false,
+          'data-clear-btn' =>true)));
+
+      echo "<div data-role='content' data-theme='c'>";
+
+          echo "<div style ='width:90%;margin:auto;padding-left:15px;padding-bottom:0'>"; // barbare
+          echo $this->Form->input('Task.name', array('type' => 'text','required' => true, 'placeholder'=>'intitulé de la tâche')); 
+          echo "</div>";
+          ?>
+          <fieldset>
+            <legend>Facultatif</legend>
+
+            <?php
+            echo $this->Form->input('Task.comment', array('type' => 'text','required'=>false, 'placeholder'=>"Commentaire")); 
+            echo $this->Form->input('Task.todolist_id', array('type' => 'hidden','required'=>true, "value"=>$liste['id'])); 
+
+            ?>
+          </fieldset>
+
+          <div class="center">
+            <a href="#" data-role="button" data-inline="true" data-icon="delete" data-rel="back">Annuler</a>
+
+            <?php echo $this->form->end(array('label'=>'Valider','data-role'=>"button",'data-inline'=>"true",'data-icon'=>"check",'div'=>false));?>
+          </div>
+        </div>
+      </div>
+       </div>
+
+

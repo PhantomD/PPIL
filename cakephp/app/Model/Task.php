@@ -2,6 +2,9 @@
 
 class Task extends AppModel{
 	public $useTable = 'tasks';
+
+
+	
 		public $validate = array(
 			'name' => array(
 				'rule' => 'alphanumeric',

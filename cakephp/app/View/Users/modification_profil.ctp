@@ -19,9 +19,9 @@ if(isset($profil) && !empty($profil)){
 		</h1>
 
 		<div data-role="controlgroup" data-type="horizontal" data-mini="true" class="ui-btn-right">
-			 <?php echo $this->Html->link('Page principale',array('controller' => 'Todolists','action' => 'consulterlist'), array('data-role'=>"button",'data-inline'=>"true", 'data-icon'=>"home", 'data-iconpos'=>'notext','data-mini'=>"true" )); ?>
+			<?php echo $this->Html->link('Page principale',array('controller' => 'Todolists','action' => 'consulterlist'), array('data-role'=>"button",'data-inline'=>"true", 'data-icon'=>"home", 'data-iconpos'=>'notext','data-mini'=>"true" )); ?>
 
-			 <a data-role="button" data-inline="true" data-icon="bars" data-iconpos="notext" data-mini="true" >Menu</a>
+			<a data-role="button" data-inline="true" data-icon="bars" data-iconpos="notext" data-mini="true" >Menu</a>
 
 		</div>
 	</div>
@@ -96,7 +96,7 @@ if(isset($profil) && !empty($profil)){
 			<!-- input name="cb_removeAcount" type="checkbox">Supprimer le compte -->
 			<a href="#popupDelete" data-role="button" data-rel="popup"  style='margin-left:auto;margin-right: auto;width:70%;'>Supprimer le compte</a>
 			<div data-role="popup" id="popupDelete" data-position-to="window"  data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
-				<div data-role="header" data-theme="a"><h1>Supprimer le vompte</h1></div>
+				<div data-role="header" data-theme="a"><h1>Supprimer le compte</h1></div>
 				<div role="main" class="ui-content">
 					<h3 class="ui-title">Pour confirmer la suppression de votre compte, veuillez saisir votre mot de passe</h3>
 

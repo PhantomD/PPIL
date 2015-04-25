@@ -31,7 +31,7 @@
     </ul> 
   </div>
   <a href="#popupDisconnect" data-role="button" data-rel="popup" data-inline="true" data-icon="back" data-iconpos="notext" data-mini="true" >Deconnexion</a>
-  <div data-role="popup" id="popupDisconnect" data-position-to="window"  data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
+  <div data-role="popup" id="popupDisconnect" data-position-to="window"  data-overlay-theme="b" data-theme="b" data-dismissible="true" style="max-width:400px;">
     <div data-role="header" data-theme="a"><h1>Deconnexion</h1></div>
     <div role="main" class="ui-content">
       <h3 class="ui-title">Voulez-vous vraiment vous déconnecter ?</h3>
@@ -44,20 +44,58 @@
 </div>
 </div>
 <div data-role="content">
-  <h4 class="ui-bar ui-bar-a">Aujourd'hui</h4>
+  <?php echo $this->Session->flash(); ?>
+  <?php 
+
+  $message ="";
+  if($this->Session->check('Message.auth')){
+    $message = $this->Session->flash('auth');
+  }
+
+  ?>
+
+  <h4 class="ui-bar ui-bar-a">Aujourd'hui</h4> 
+
   <?php
+  foreach( $listes as $key => $value ){
+    $nom = $value['Todolist']['name'];
+    $id = $value['Todolist']['id'];
 
-
-  $ligne = 0;
-  for ($ligne = 0; $ligne < $this->requestAction('/Todolists/taillelist'); $ligne++) {
-    echo $name[$ligne]['Todolist']['name'];
-    $url = array('controller'=>'Todolists','action'=>'consulterlistdetail',$name[$ligne]['Todolist']['name']);
-    echo $this->form->button('f', array('type' => 'button','name' => 'aa','id'=>'name', 'value'=>'','data-inline'=>'true','data-icon'=>'carat-r','data-iconpos'=>'notext', 'data-mini'=>'true','onclick' => "location.href='".$this->Html->url($url)."'")); ?> <br> <?php
+    echo $nom." ";
+    echo $this->Html->link('f',array('controller'=>'Todolists','action' => 'consulterlistdetail',$id),array('data-role'=>"button",'data-inline'=>"true",'data-icon'=>"carat-r",'data-ajax' => 'false', 'data-iconpos'=>"notext", 'data-mini'=>"true"));
+    echo "<br/>";
   }
   ?>
+
   <br/>
   <h4 class="ui-bar ui-bar-a">Demain</h4>
   <br/>
 </div>
+
+
+<div data-role="popup" id="popupErreur" style="border-radius:0" data-position-to="window"  data-overlay-theme="b" data-theme="b"  data-dismissible="false" style="max-width:400px;">
+  <a href="#" data-rel="back" data-role="button" data-theme="b" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+  <div data-role="header" data-theme="a"> <h3 class="ui-title" style="color:#800024;">failure</h3></div>
+  <div role="main" class="ui-content">
+    <?php echo $message ?>
+
+  </div>
 </div>
-</html>
+
+
+</div>
+
+
+
+
+<script type="text/javascript">
+  $(document).on({
+    "pageshow": function () {
+      var msg='<?PHP echo $message;?>';
+
+      if(!(msg === "")){
+        $("#popupErreur").popup('open');
+      }
+    }
+  }, "#page_mainScreen");
+</script>

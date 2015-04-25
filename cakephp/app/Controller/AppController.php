@@ -35,7 +35,27 @@ App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
 
 class AppController extends Controller {
 
-	public $components = array(
+    public $components = array(
+
+      'Session',
+      'DebugKit.Toolbar',
+      'RequestHandler',
+      'Auth' => array(
+        'loginRedirect' => array('controller' => 'Todolists', 'action' => 'consulterlist'),//lors d'une connexion reussi
+        'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),//lors d'une deconnexion
+        'authError' => 'Pensiez-vous réellement que vous étiez autorisés à voir cela ?',
+        'authorize' => array('Controller'),
+        'unauthorizedRedirect' => array('controller' => 'Todolists', 'action' => 'consulterlist'),
+        'authenticate' => array(
+            'Form' => array(
+                'fields' => array('username' => 'pseudo'), //notre moyen d'identification se base sur le pseudo, par defaut cakephp utilise le champs username
+                'userFields' => array('User.id') // 'Todolist_user.toDoList_id on ne garde que l'id dans la variable session
+                )
+            )
+        )
+      );
+/*
+public $components = array(
         'Session','Auth' => array(
         'loginRedirect' => array('controller' => 'Todolists', 'action' => 'consulterlist'),//lors d'une connexion reussi
         'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),//lors d'une deconnexion
@@ -47,11 +67,19 @@ class AppController extends Controller {
                 )
             ), 'DebugKit.Toolbar','RequestHandler') ;
 
-
-
+*/
     public function beforeFilter(){
         $this->disableCache();
-         $this->response->disableCache();
-
+        $this->response->disableCache();
     }
+
+     public function isAuthorized($user) {
+
+        // Par défaut n'autorise pas
+        return false;
+    }
+
+
+
+
 }
