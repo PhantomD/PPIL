@@ -32,30 +32,35 @@
   <?php 
 //debug($taches);
   foreach($taches as $key=>$value) :  
-    $icone = ($value['isChecked']==true?"check":"none"); 
+    $icone = ($value['isChecked']==true?"check":"false"); 
 
 
- echo '<div id=div'.$value['id'].' data-role="collapsible" data-collapsed-icon='.$icone.' data-expanded-icon='.$icone. ">";
-  ?>
-    <h2><?php echo $value['name']; ?> </h2>
-    <div>
-     <?php echo $this->Form->input("valider",array('type'=>'checkbox','id'=>$value['id'],'name'=>$value['id'],"checked"=>$value['isChecked'],'hiddenField' => false,
-     'label'=>array("class"=>"ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-checkbox-off"),'data-ajax' => 'false', 'onclick' => 'checkbox(this)')); ?>
-   </div>
+  echo '<div id=div'.$value['id'].' data-role="collapsible"
+  data-collapsed-icon='.$icone.' data-expanded-icon='.$icone. " data-iconpos='left' >";?>
 
-   <div class="ui-grid-b center">
-     <div class="ui-block-a"><a href="#popupDeleteTask" data-role="button"  data-rel="popup" data-inline="true" data-icon="delete" data-iconpos="notext" data-mini="true" >Supprimet tâche</a></div>
-
-     <div class="ui-block-b"><a href="#popupEditTask" data-role="button"  data-rel="popup" data-inline="true" data-icon="edit" data-iconpos="notext" data-mini="true" >Modifier tâche</a></div>
-
-     <div class="ui-block-c"><a href="#popupAddComment" data-role="button"  data-rel="popup" data-inline="true" data-icon="comment" data-iconpos="notext" data-mini="true" >Ajouter commentaire</a></div>
-   </div>
-
+  <h2><?php echo $value['name']; ?> </h2>
+  
+  <div>
+   <?php echo $this->Form->input("valider",array('type'=>'checkbox','id'=>$value['id'],'name'=>$value['id'],"checked"=>$value['isChecked'],'hiddenField' => false,
+   'label'=>array("class"=>"ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-checkbox-off"),'data-ajax' => 'false', 'onclick' => 'cocher(this)')); ?>
  </div>
 
- <?php 
+ <div class="ui-grid-b center">
+   <div class="ui-block-a">
+   <?php
+  echo "<a href='' id=delete".$value["id"]." data-role='button' data-rel='popup' data-inline='true' data-icon='delete' data-iconpos='notext' data-mini='true' onclick ='deleteTask(".$value['id'].")' >Supprimet tâche <span> </a>";
+?>
+ </div>
+   <div class="ui-block-b"><a href="#popupEditTask" data-role="button"  data-rel="popup" data-inline="true" data-icon="edit" data-iconpos="notext" data-mini="true" >Modifier tâche</a></div>
 
- endforeach; ?>
+   <div class="ui-block-c"><a href="#popupAddComment" data-role="button"  data-rel="popup" data-inline="true" data-icon="comment" data-iconpos="notext" data-mini="true" >Ajouter commentaire</a></div>
+ </div>
+
+</div>
+
+<?php 
+
+endforeach; ?>
 
 </div>
 
@@ -122,10 +127,6 @@
 
 
 
-
-
-
-
   <!-- popup new tache -->
   <div data-role="popup" id="popupTache" data-position-to="window"  data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
     <div data-role="header" data-theme="a"><h1>Ajouter une tâche</h1></div>
@@ -165,14 +166,27 @@
 
 
 
-
+<!-- popup delete tache -->
     <div data-role="popup" id="popupDeleteTask" data-position-to="window" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
       <div role="main" class="ui-content">
         <h3 class="ui-title">Voulez-vous vraiment vous supprimer cette tâche ?</h3>
-        <a href="#" data-role="button" data-inline="true" data-icon="delete" data-rel="back">Annuler</a>
-        <a href="#" data-role="button" data-inline="true" data-icon="check"  data-rel="back">Valider</a>
+        <a href="#" id="DeleteTaskAnnule" data-role="button" data-inline="true" data-icon="delete" data-rel="back">Annuler</a>
+        <a href="#" data-role="button" data-inline="true" data-icon="check"  data-rel="back" >Valider</a>
       </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div data-role="popup" id="popupEditTask" data-position-to="window" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
       <div role="main" class="ui-content">
         <div data-role="header" data-theme="a"><h1>Ajouter un commentaire</h1></div>

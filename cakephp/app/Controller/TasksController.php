@@ -81,17 +81,23 @@ class TasksController extends AppController{
 
 	}
 
-	public function supprimer($nom){
+	public function supprimer($id){
 		$this->autoRender = false;
-		if(!empty($nom)){
-			if ($this->Tasks->deleteAll(array('Tasks.name'=>$nom))){
-				$this->Session->setFlash(__('élément supprimé', null), 
+
+		if($this->request->is('ajax')){
+			if ($this->Task->delete($id)){
+
+				/*$this->Session->setFlash(__('tâche supprimée', null), 
 					'default', 
 					array('class' => 'flash-message-success'));
-				return $this->redirect(array('controller'=>'Tasks','action' => 'consultertask'));
+					*/
 			}
+		} else {
+			$this->redirect($this->referer());	
 		}
+//return $this->redirect(array('controller'=>'Todolists','action' => 'consulterlist'));
 	}
+
 
 	public function cocher($id,$value){
 

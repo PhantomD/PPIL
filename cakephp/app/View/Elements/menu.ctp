@@ -9,7 +9,7 @@
 
       <!--RAFRAICHIR -->
       <?php 
-      if(! in_array($this->action, array('modificationProfil','profil','newlist','modifylist'))){
+      if(! in_array($this->action, array('modificationProfil','profil','newlist','modifylist','consulterlistdetail'))){
         echo $this->Html->link('Rafraichir',array('controller' => $this->request->params['controller'],'action' => $this->action), array('data-role'=>'button','data-inline'=>true,'data-icon'=>'recycle', 'data-iconpos'=>'notext', 'data-ajax'=>'false', 'data-mini'=>true));
       } 
 

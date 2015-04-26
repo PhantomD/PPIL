@@ -61,7 +61,7 @@ if(empty($this->request->data)){
 			<h3>Pas de compte ? </h3>
 
 			<?php	echo $this->Html->link(
-				'S\'inscrire au site',
+				'S inscrire au site',
 				array( 'controller' => 'Users','action' => 'inscription'));
 				?> 
 
