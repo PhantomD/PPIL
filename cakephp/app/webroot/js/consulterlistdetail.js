@@ -10,10 +10,24 @@ function checkbox(check){
 	$.ajax({
 		async:true,
 		type : "POST",
+		cache: false,
 		url:"/PPIL/cakephp/Tasks/cocher/"+caseId+"/"+caseValue,
-		success: function(error) {
+
+		success: function() {
+			var link = $("#div"+caseId+" .ui-collapsible-heading a");
+
+			if(check.checked){
+				link.removeClass("ui-icon-none");
+				link.addClass("ui-icon-check");
+			}
+			else {
+				link.removeClass("ui-icon-check");
+				link.addClass("ui-icon-none");
+			}
 		},
+
 		error: function(){
+
 		}
 	});	
 

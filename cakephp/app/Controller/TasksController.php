@@ -95,10 +95,11 @@ class TasksController extends AppController{
 
 	public function cocher($id,$value){
 
+		$this->autoRender=false;
 
 		if($this->request->is('ajax')){
 			$this->Task->id = $id;
-			$this->Task->saveField('isChecked', $value);
+			$this->Task->saveField('isChecked', $value); 
 		} else {
 			$this->redirect($this->referer());			
 		}

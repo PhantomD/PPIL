@@ -38,7 +38,7 @@ Projet PPIL
 
 	echo $this->Html->script('jquery-1.11.1.min');
 	echo $this->Html->script('jquery.mobile-1.4.5.min');
-	echo $this->Html->script('jquery-1.11.1.min');
+
 
 	echo $this->Html->css('model');
 

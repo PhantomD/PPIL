@@ -29,27 +29,36 @@
 
  <div data-role="collapsibleset" data-theme="a" data-content-theme="a" data-iconpos="right">
 
-<?php 
+  <?php 
 //debug($taches);
-foreach($taches as $key=>$value) :  
-$icone = ($value['isChecked']==true?"check":"none");
+  foreach($taches as $key=>$value) :  
+    $icone = ($value['isChecked']==true?"check":"none"); 
+
+
+ echo '<div id=div'.$value['id'].' data-role="collapsible" data-collapsed-icon='.$icone.' data-expanded-icon='.$icone. ">";
   ?>
-
-
-  <div data-role="collapsible" data-collapsed-icon= <?php echo $icone; ?> data-expanded-icon= <?php echo $icone; ?> >
     <h2><?php echo $value['name']; ?> </h2>
     <div>
      <?php echo $this->Form->input("valider",array('type'=>'checkbox','id'=>$value['id'],'name'=>$value['id'],"checked"=>$value['isChecked'],'hiddenField' => false,
-      'label'=>array("class"=>"ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-checkbox-off"),'data-ajax' => 'false', 'onclick' => 'checkbox(this)')); ?>
-   </div>
+     'label'=>array("class"=>"ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-checkbox-off"),'data-ajax' => 'false', 'onclick' => 'checkbox(this)')); ?>
    </div>
 
-<?php 
+   <div class="ui-grid-b center">
+     <div class="ui-block-a"><a href="#popupDeleteTask" data-role="button"  data-rel="popup" data-inline="true" data-icon="delete" data-iconpos="notext" data-mini="true" >Supprimet tâche</a></div>
 
-endforeach; ?>
+     <div class="ui-block-b"><a href="#popupEditTask" data-role="button"  data-rel="popup" data-inline="true" data-icon="edit" data-iconpos="notext" data-mini="true" >Modifier tâche</a></div>
+
+     <div class="ui-block-c"><a href="#popupAddComment" data-role="button"  data-rel="popup" data-inline="true" data-icon="comment" data-iconpos="notext" data-mini="true" >Ajouter commentaire</a></div>
+   </div>
+
+ </div>
+
+ <?php 
+
+ endforeach; ?>
 
 </div>
- 
+
  <!-------
       <div data-role="collapsibleset" data-theme="a" data-content-theme="a" data-iconpos="right">
         <div data-role="collapsible" data-collapsed-icon="" data-expanded-icon="">
@@ -190,3 +199,4 @@ echo $this->element('popup_erreur') ;
 echo $this->Html->script('consulterlistdetail');
 ?>
 </div>
+
