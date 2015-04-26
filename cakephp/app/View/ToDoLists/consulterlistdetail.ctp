@@ -5,7 +5,7 @@
       <?php echo $this->Html->image('icone_entete.png', array('alt' => 'icone_entete','style'=>'vertical-align : middle'));?>
       Liste 
     </h1>
-    <?php echo $this->element('menu') ?>
+    <?php echo $this->element('menu',array($liste)) ?>
   </div>
 
 

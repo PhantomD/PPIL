@@ -71,6 +71,10 @@
 
             //afficher profil
             echo "  <li>". $this->Html->link('Afficher profil',array('controller' => 'Users','action' => 'profil'),array('data-ajax'=>'false'))."</li>";
+            // Supprimer Liste
+            if($this->action==='consulterlistdetail'){
+               echo "<li>".   $this->Html->link('supprimer la liste',array('controller' => 'Todolists','action' => 'supprimer',$id),array("data-ajax"=> "false"))."</li>";
+            }
             // deconnexion
             echo " <li>". $this->Html->link('Deconnexion',array('controller'=>'Users','action' =>'logout'),array('data-ajax'=>'false'))." </li>";
             echo " </ul>"; 

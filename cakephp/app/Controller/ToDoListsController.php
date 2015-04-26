@@ -179,6 +179,7 @@ public function consulterlistdetail($id){
 	$d['liste'] = $this->Todolist->find('first', array('conditions' => array('Todolist.id'=>$id)));
 
 	$data['liste'] = $d['liste']['Todolist'];
+	$data['id'] = $id;
 	$data['taches'] = $d['liste']['Task']; 
 			// On passe les variables à la vues 
 	$this->set($data);
