@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Sam 25 Avril 2015 à 16:34
+-- Généré le :  Dim 26 Avril 2015 à 13:33
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -60,24 +60,24 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `todolist_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `comment` text,
-  `idChecked` tinyint(1) NOT NULL DEFAULT '0',
+  `isChecked` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `FOREIGN KEY` (`todolist_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
 
 --
 -- Contenu de la table `tasks`
 --
 
-INSERT INTO `tasks` (`id`, `todolist_id`, `name`, `comment`, `idChecked`) VALUES
-(13, 46, 'dfdff', '', 0),
-(14, 46, 'f', '', 0),
-(15, 46, 'e', '', 0),
-(16, 46, 'd', '', 0),
-(17, 46, 'fgfg', '', 0),
-(18, 46, 'd', '', 0),
-(19, 46, 'fggg', '', 0),
-(20, 46, 'ff', '', 0);
+INSERT INTO `tasks` (`id`, `todolist_id`, `name`, `comment`, `isChecked`) VALUES
+(25, 71, 'fgg', '', 0),
+(26, 71, 'dff', '', 0),
+(27, 71, 'fgg', '', 0),
+(28, 72, 'd', '', 0),
+(29, 73, 'sddd', '', 0),
+(30, 68, 'po', 'cc', 0),
+(31, 68, 'ererr', '', 0),
+(32, 68, 'tache3', '', 0);
 
 -- --------------------------------------------------------
 
@@ -93,17 +93,20 @@ CREATE TABLE IF NOT EXISTS `todolists` (
   `dateEnd` date DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=50 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=75 ;
 
 --
 -- Contenu de la table `todolists`
 --
 
 INSERT INTO `todolists` (`id`, `name`, `text`, `dateBegin`, `dateEnd`, `user_id`) VALUES
-(46, 'test', '', NULL, NULL, 6),
-(47, 'fgfggg', '', NULL, NULL, 6),
-(48, 'user2', NULL, NULL, NULL, 3),
-(49, 'user2', NULL, NULL, NULL, 3);
+(68, 's', '', NULL, NULL, 6),
+(69, 'user 2', NULL, NULL, NULL, 2),
+(70, 'user 2', NULL, NULL, NULL, 2),
+(71, 'test', '', NULL, NULL, 6),
+(72, 'test', '', NULL, NULL, 6),
+(73, 'ssss', '', NULL, NULL, 6),
+(74, 'err', '', NULL, NULL, 6);
 
 -- --------------------------------------------------------
 
@@ -117,6 +120,19 @@ CREATE TABLE IF NOT EXISTS `todolist_users` (
   PRIMARY KEY (`todolist_id`,`user_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `todolist_users`
+--
+
+INSERT INTO `todolist_users` (`todolist_id`, `user_id`) VALUES
+(70, 2),
+(68, 6),
+(70, 6),
+(71, 6),
+(72, 6),
+(73, 6),
+(74, 6);
 
 -- --------------------------------------------------------
 
@@ -136,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `pseudo` (`pseudo`,`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Contenu de la table `users`
@@ -146,7 +162,11 @@ INSERT INTO `users` (`id`, `pseudo`, `email`, `name`, `firstname`, `birthdate`, 
 (1, 'xxxxx', 'gg@hotmail.fr', 'xx', 'xx', '1993-02-27', 1, '', 'b0e7046dfa48873ff202c6277f86c21aebcf78de'),
 (2, 'testt', 'geo@hotmail.fr', 'test', 'test', '1993-02-27', 1, '', 'b0e7046dfa48873ff202c6277f86c21aebcf78de'),
 (3, 'tests', 'geoo@hotmail.fr', 'test', 'test', '1993-02-27', 1, '', 'b0e7046dfa48873ff202c6277f86c21aebcf78de'),
-(6, 'geo', 'ggf@hotmail.fr', 'deremetz', 'geoffrey', '1980-02-27', 0, '', 'd520312ce4e9a1e0de383acad959071d6a77fd8b');
+(6, 'geo', 'ggzfz@hotmail.fr', 'deremetz', 'geoffrey', '1980-02-27', 1, '', 'd520312ce4e9a1e0de383acad959071d6a77fd8b'),
+(7, 'coucou', 'gggg@hotmail.fr', 'cestmoi', 'oupas', '1993-02-27', 1, '', '3aa76fd1fb5717bf90f452496cea83f1f8a1b669'),
+(8, '', '', '', '', '0000-00-00', 0, '', ''),
+(10, 'tytytyty', '', '', '', '0000-00-00', 0, '', ''),
+(11, 'rtrtret', 'ertetetett', 'ertetet', 'ertetete', '2015-04-09', 1, '', 'rtetertet');
 
 --
 -- Contraintes pour les tables exportées
@@ -162,8 +182,9 @@ ALTER TABLE `tasks`
 -- Contraintes pour la table `todolist_users`
 --
 ALTER TABLE `todolist_users`
+  ADD CONSTRAINT `todolist_users_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `todolist_users_ibfk_1` FOREIGN KEY (`toDoList_id`) REFERENCES `todolists` (`id`),
-  ADD CONSTRAINT `todolist_users_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `todolist_users_ibfk_2` FOREIGN KEY (`todolist_id`) REFERENCES `todolists` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
