@@ -31,12 +31,15 @@
 
 <?php 
 //debug($taches);
-foreach($taches as $key=>$value) : ?>
+foreach($taches as $key=>$value) :  
+$icone = ($value['isChecked']==true?"check":"none");
+  ?>
 
-  <div data-role="collapsible" data-collapsed-icon="" data-expanded-icon="">
+
+  <div data-role="collapsible" data-collapsed-icon= <?php echo $icone; ?> data-expanded-icon= <?php echo $icone; ?> >
     <h2><?php echo $value['name']; ?> </h2>
     <div>
-     <?php echo $this->Form->input("valider",array('type'=>'checkbox', 'id'=>$value['id'],'name'=>$value['id'],'hiddenField' => false,
+     <?php echo $this->Form->input("valider",array('type'=>'checkbox','id'=>$value['id'],'name'=>$value['id'],"checked"=>$value['isChecked'],'hiddenField' => false,
       'label'=>array("class"=>"ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-checkbox-off"),'data-ajax' => 'false', 'onclick' => 'checkbox(this)')); ?>
    </div>
    </div>
