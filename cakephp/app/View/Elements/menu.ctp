@@ -5,14 +5,13 @@
       <!--HOME -->
       <?php 
       if($this->action != "consulterlist")
-        echo $this->Html->link('Page principale',array('controller' => 'Todolists','action' => 'consulterlist'), array('data-role'=>"button",'data-inline'=>"true", 'data-icon'=>"home", 'data-iconpos'=>'notext','data-mini'=>"true" )); ?>
+        echo $this->Html->link('Page principale',array('controller' => 'Todolists','action' => 'consulterlist'), array('data-role'=>"button",'data-inline'=>"true", 'data-icon'=>"home", 'data-iconpos'=>'notext','data-mini'=>"true",'data-ajax'=>'false' )); ?>
 
       <!--RAFRAICHIR -->
       <?php 
       if(! in_array($this->action, array('modificationProfil','profil','newlist','modifylist'))){
-        echo $this->Html->link('Rafraichir',array('controller' => 'Todolists','action' => 'consulterlist'), array('data-role'=>'button','data-inline'=>true,'data-icon'=>'recycle', 'data-iconpos'=>'notext', 'data-mini'=>true));
+        echo $this->Html->link('Rafraichir',array('controller' => $this->request->params['controller'],'action' => $this->action), array('data-role'=>'button','data-inline'=>true,'data-icon'=>'recycle', 'data-iconpos'=>'notext', 'data-ajax'=>'false', 'data-mini'=>true));
       } 
-
 
       if ($this->action ==='consulterlist'){
         // bouton ajouter liste
@@ -71,7 +70,7 @@
             echo'  <li data-role="list-divider">Menu</li>';
 
             //afficher profil
-            echo "  <li>". $this->Html->link('Afficher profil',array('controller' => 'Users','action' => 'profil'))."</li>";
+            echo "  <li>". $this->Html->link('Afficher profil',array('controller' => 'Users','action' => 'profil'),array('data-ajax'=>'false'))."</li>";
             // deconnexion
             echo " <li>". $this->Html->link('Deconnexion',array('controller'=>'Users','action' =>'logout'),array('data-ajax'=>'false'))." </li>";
             echo " </ul>"; 

@@ -28,12 +28,9 @@
 
     <br/>
     <h4 class="ui-bar ui-bar-a">Demain</h4>
+    
     <br/>
   </div>
-  <?php 
-  debug($this->request->action);
-  ?>
-
   <?php echo $this->element('popup_erreur') ?>
 
 </div>

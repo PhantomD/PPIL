@@ -38,6 +38,7 @@ Projet PPIL
 
 	echo $this->Html->script('jquery-1.11.1.min');
 	echo $this->Html->script('jquery.mobile-1.4.5.min');
+	echo $this->Html->script('jquery-1.11.1.min');
 
 	echo $this->Html->css('model');
 
@@ -58,17 +59,7 @@ Projet PPIL
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer">
-		<!--
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false, 'id' => 'cake-powered')
-				);
-			?>
-			<p>
-				<?php echo $cakeVersion; ?>
-			</p>
-		-->
+
 	</div>
 </div>
 <?php echo $this->element('sql_dump'); ?>

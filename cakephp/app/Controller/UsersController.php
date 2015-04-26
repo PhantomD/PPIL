@@ -152,7 +152,7 @@ class UsersController extends AppController{
 				$this->User->validator()->remove('email','estUnique');
 
 				
-				if($this->User->validates(array('fieldList' => array('email', 'name','firstname','gender','birthdate')))){
+				if($this->User->validates(array('fieldList' => array('email', 'name','firstname','gender','birthdate','mailConfirmation')))){
 
 					$profil = current($profil);
 

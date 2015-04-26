@@ -28,9 +28,8 @@ else{
 	$tableau['text'] =  $todolist['text'];
 	$tableau['dateBegin'] =  $todolist['dateBegin'];
 	$tableau['dateEnd'] =  $todolist['dateEnd'];
-	
-
 }
+
 ?>
 
 <div data-role="page" data-theme="b" id="page_option">
