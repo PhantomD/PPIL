@@ -100,7 +100,7 @@ class UsersController extends AppController
                 $user = $connect->getFriends();
                 debug($user);
 
-                die();
+               // die();
 
 
                 unset($profil['password']);
