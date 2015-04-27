@@ -13,8 +13,13 @@ class TodolistsController extends AppController{
 			return true;
 		}
 
-		$id_liste = $this->request->params['pass'][0];
+
+		if ($this->action ==='newlist'){
+			return true;
+		}
+
 		$liste_user = array_keys($this->Session->read('Auth.User.Todolist'));
+		$id_liste = $this->request->params['pass'][0];
 
 
 		if ($this->action ==='consulterlistdetail'){
@@ -46,7 +51,7 @@ class TodolistsController extends AppController{
 			$data = $this->request->data;
 
 			// 2 array car c'est une association hasmany
-			$data['Todolist_user']=array(array('user_id'=>$data['Todolist']['user_id']));
+			$data['TodolistUser']=array(array('user_id'=>$data['Todolist']['user_id']));
 
 				// Conversion des dates dans le bon format
 			$tableaudateDebut = explode("/",$data['Todolist']['dateBegin']);
@@ -63,18 +68,17 @@ class TodolistsController extends AppController{
 
 
 			if ($this->Todolist->validates()){
-				$this->Todolist->saveAssociated($data,array('deep'=>true,'atomic'=>true));
 
+				$this->Todolist->saveAssociated($data,array("deep"=>true));
 				$id = $this->Todolist->getLastInsertId();
 				$this->Session->write('Auth.User.Todolist.'.$id, 1);
-
 				$this->Session->setFlash(__('liste ajoutée'),'default', array('class' => 'flash-message-success'));
-				$this->redirect(array('action'=>'consulterlist'));
 
 			} else {
 				$this->Session->setFlash(__('erreur liste non ajoutée'),'default', array('class' => 'flash-message-error'));
 			}
-		}
+			return $this->redirect(array('action' => 'consulterlist'));
+		}	
 	}
 
 
@@ -174,14 +178,15 @@ public function supprimer($id_liste){
 
 public function consulterlistdetail($id){
 
-		//$id = $this->request->params['id'];
+	
+
 		// On recupere les données de la liste associées au nom
 	$d['liste'] = $this->Todolist->find('first', array('conditions' => array('Todolist.id'=>$id)));
 
 	$data['liste'] = $d['liste']['Todolist'];
 	$data['id'] = $id;
 	$data['taches'] = $d['liste']['Task']; 
-			// On passe les variables à la vues 
+
 	$this->set($data);
 
 }

@@ -5,7 +5,7 @@ use Facebook\FacebookRequest;
 class UsersController extends AppController{
 
 	public $scaffold;
-	public $uses = array('User','Todolist_user');
+	public $uses = array('User','TodolistUser');
 
 	function beforeFilter(){
 		parent::beforeFilter();
@@ -65,8 +65,9 @@ die();
 				$this->Session->setFlash(__('Bienvenue'),'default', array('class' => 'flash-message-success'));
 
 				$id_user = AuthComponent::user('id');
-				$d = $this->Todolist_user->find("all",array('recursive' => 1,'fields'=>array('Todolist.user_id', 'Todolist.id'), 'conditions'=> array('Todolist_user.user_id'=>$id_user)));
 
+				$d = $this->TodolistUser->find("all",array('recursive' => 1,'fields'=>array('Todolist.user_id', 'Todolist.id'), 'conditions'=> array('TodolistUser.user_id'=>$id_user)));
+			
 				foreach( $d as $key => $value ){
 					$id_liste = $value['Todolist']['id'];
 					$proprietaire = ($value['Todolist']['user_id']==$id_user?1:0);

@@ -1,10 +1,15 @@
 <?php
 
 class Task extends AppModel{
-	public $useTable = 'tasks';
-
-
 	
+		/* public $belongsTo = array(
+        'Todolist' => array(
+            'className' => 'Todolist',
+            'foreignKey' => 'id'
+        )
+    );
+
+*/
 		public $validate = array(
 			'name' => array(
 				'rule' => 'alphanumeric',

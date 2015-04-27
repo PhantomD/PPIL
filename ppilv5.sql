@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Dim 26 Avril 2015 à 13:33
+-- Généré le :  Lun 27 Avril 2015 à 17:36
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `notification` (
   `reciever_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -63,21 +63,7 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `isChecked` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `FOREIGN KEY` (`todolist_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
-
---
--- Contenu de la table `tasks`
---
-
-INSERT INTO `tasks` (`id`, `todolist_id`, `name`, `comment`, `isChecked`) VALUES
-(25, 71, 'fgg', '', 0),
-(26, 71, 'dff', '', 0),
-(27, 71, 'fgg', '', 0),
-(28, 72, 'd', '', 0),
-(29, 73, 'sddd', '', 0),
-(30, 68, 'po', 'cc', 0),
-(31, 68, 'ererr', '', 0),
-(32, 68, 'tache3', '', 0);
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -93,20 +79,14 @@ CREATE TABLE IF NOT EXISTS `todolists` (
   `dateEnd` date DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=75 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=129 ;
 
 --
 -- Contenu de la table `todolists`
 --
 
 INSERT INTO `todolists` (`id`, `name`, `text`, `dateBegin`, `dateEnd`, `user_id`) VALUES
-(68, 's', '', NULL, NULL, 6),
-(69, 'user 2', NULL, NULL, NULL, 2),
-(70, 'user 2', NULL, NULL, NULL, 2),
-(71, 'test', '', NULL, NULL, 6),
-(72, 'test', '', NULL, NULL, 6),
-(73, 'ssss', '', NULL, NULL, 6),
-(74, 'err', '', NULL, NULL, 6);
+(124, 'sd', '', NULL, NULL, 6);
 
 -- --------------------------------------------------------
 
@@ -115,24 +95,20 @@ INSERT INTO `todolists` (`id`, `name`, `text`, `dateBegin`, `dateEnd`, `user_id`
 --
 
 CREATE TABLE IF NOT EXISTS `todolist_users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `todolist_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`todolist_id`,`user_id`),
+  PRIMARY KEY (`id`),
+  KEY `todolist_id` (`todolist_id`,`user_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Contenu de la table `todolist_users`
 --
 
-INSERT INTO `todolist_users` (`todolist_id`, `user_id`) VALUES
-(70, 2),
-(68, 6),
-(70, 6),
-(71, 6),
-(72, 6),
-(73, 6),
-(74, 6);
+INSERT INTO `todolist_users` (`id`, `todolist_id`, `user_id`) VALUES
+(1, 124, 6);
 
 -- --------------------------------------------------------
 
@@ -176,15 +152,14 @@ INSERT INTO `users` (`id`, `pseudo`, `email`, `name`, `firstname`, `birthdate`, 
 -- Contraintes pour la table `tasks`
 --
 ALTER TABLE `tasks`
-  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`todolist_id`) REFERENCES `todolists` (`id`);
+  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`todolist_id`) REFERENCES `todolists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `todolist_users`
 --
 ALTER TABLE `todolist_users`
-  ADD CONSTRAINT `todolist_users_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `todolist_users_ibfk_1` FOREIGN KEY (`toDoList_id`) REFERENCES `todolists` (`id`),
-  ADD CONSTRAINT `todolist_users_ibfk_2` FOREIGN KEY (`todolist_id`) REFERENCES `todolists` (`id`);
+  ADD CONSTRAINT `todolist_users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `todolist_user.todolist` FOREIGN KEY (`todolist_id`) REFERENCES `todolists` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -2,14 +2,16 @@
 
 class Todolist extends AppModel{
 
-	public $actsAs = array('Containable');
+//	public $actsAs = array('Containable');
 
 	public $hasMany = array (
 		'Task' => array (
+			'className' => 'Task',
 			'foreignKey'=>'todolist_id',
-			'dependent'    => true
+			'dependent' => true,
 			),
-		'Todolist_user' => array (
+		'TodolistUser' => array (
+			'className' => 'TodolistUser',
 			'foreignKey'=>'todolist_id',
 			'dependent' => true
 			)
@@ -41,4 +43,5 @@ class Todolist extends AppModel{
 			'allowEmpty' => true,
 			'message' => "date de fin invalide. Format JJ/MM/AAAA attendu",
 			));
+
 }
