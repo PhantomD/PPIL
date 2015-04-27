@@ -31,6 +31,13 @@
     
     <br/>
   </div>
+<!--
+    <script type="text/javascript">
+        if (window.location.hash && window.location.hash == '#_=_') {
+            window.location.hash = '';
+        }
+    </script>
+    -->
   <?php echo $this->element('popup_erreur') ?>
 
 </div>

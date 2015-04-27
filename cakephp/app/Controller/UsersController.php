@@ -1,281 +1,348 @@
 <?php
 
-use Facebook\FacebookSession; 
-use Facebook\FacebookRequest; 
-class UsersController extends AppController{
+use App\Facebook\FacebookConnect;
 
-	public $scaffold;
-	public $uses = array('User','TodolistUser');
+App::uses('autoload', 'Vendor\vendor\ ');
+App::uses('FacebookConnect', 'Vendor');
 
-	function beforeFilter(){
-		parent::beforeFilter();
-		$this->Auth->allow(array('inscription','login','facebook'));
-	}
 
+class UsersController extends AppController
+{
 
-	 function isAuthorized($user){
+    public $uses = array('User', 'TodolistUser');
 
-		if(parent::isAuthorized($user)){
-			return true;
-		}
+    function beforeFilter()
+    {
+        parent::beforeFilter();
+        $this->Auth->allow(array('inscription', 'login', 'connexionFacebook'));
+    }
 
-		return true;
-	}
 
+    function isAuthorized($user)
+    {
 
-public function facebook(){
+        if (parent::isAuthorized($user)) {
+            return true;
+        }
 
-	$appId = '1094282070597277';
-	$appSecret = 'b851006b79835cd119192ca198dc8dfd';
-FacebookSession::setDefaultApplication($appId,$appSecret);
+        return true;
+    }
 
-$session = new FacebookSession($_SESSION['fb_token']);
-if($session){
-debug($session);
-$_SESSION['fb_token'] = $session->getToken();
-//debug( $session->getToken());
 
+    public function connexionFacebook($data = null)
+    {
 
-  $me = (new FacebookRequest(
-    $session, 'GET', '/me'
-  ))->execute()->getGraphObject(GraphUser::className());
-  echo $me->getName();
+        if (!AuthComponent::user('id') == NULL) {
+            $this->redirect($this->Auth->loginRedirect);
+        }
 
-	}
-die();
-}
+        session_start();
+        $this->autoRender = false;
 
-	public function login(){
+        $connect = new FacebookConnect($this->appId, $this->appSecret);
 
 
-		//si un utilisateur est deja connecté, on verifie la variable id dans sa session si non null alors on le renvoie vers l'url redirect
-		if( !AuthComponent::user('id')==NULL){
+        try {
+            $user = $connect->connect("http://sandbox.com/PPILFINAL/PPIL/cakephp/Users/connexionFacebook/");
 
+            if (is_string($user)) {
 
-			$this->redirect($this->Auth->loginRedirect);
-		}
+                $this->redirect($user);
 
+            } else {
 
-		//si c'est un POST
-		if($this->request->is('post')){
+                $idFb = $user->getId();
+                $email = $user->getEmail();
 
-			//on essaye de se connecter
-			if($this->Auth->login()){
+                $profil = $this->User->find('first', array('conditions' => array('OR' => array(
+                    array('User.id_facebook' => $idFb),
+                    array('User.email' => $email)))));
 
-				$this->Session->setFlash(__('Bienvenue'),'default', array('class' => 'flash-message-success'));
 
-				$id_user = AuthComponent::user('id');
+                if (empty($profil)) {
+                    debug($user);
 
-				$d = $this->TodolistUser->find("all",array('recursive' => 1,'fields'=>array('Todolist.user_id', 'Todolist.id'), 'conditions'=> array('TodolistUser.user_id'=>$id_user)));
-			
-				foreach( $d as $key => $value ){
-					$id_liste = $value['Todolist']['id'];
-					$proprietaire = ($value['Todolist']['user_id']==$id_user?1:0);
-					$this->Session->write('Auth.User.Todolist.'.$id_liste, $proprietaire);
-				}
+                    $profil['id_facebook'] = $idFb;
+                    $profil['firstname'] = $user->getFirstName();
+                    $profil['name'] = $user->getLastName();
+                    $profil['birthdate'] = $user->getBirthday();
+                    $profil['birthdate'] = $profil['birthdate']->format('d-m-Y');
+                    $profil['gender'] = $user->getGender();
+                    $profil['password'] = '00';
+                    $profil['email'] = $email;
 
-				$this->redirect($this->Auth->loginRedirect);
+                    if ($profil['gender'] === 'male') {
+                        $profil['gender'] = 1;
+                    } else {
+                        $profil['gender'] = 0;
+                    }
 
-			}else{
+                    $this->User->set($profil);
 
-				$this->Session->setFlash(__('Les informations transmises n\'ont pas permis de vous authentifier'),'default', array('class' => 'flash-message-error'));
-			}
-		}
-	}
+                    debug($profil);
 
+                    $this->User->validator()->remove("password");
+                    if ($this->User->validates(array('fieldList' => array('email', 'name', 'firstname', 'gender', 'birthdate')))) {
 
+                        debug($this->User->save());
+                        $id = $this->User->getLastInsertID();;
+                        debug($id);
+                        debug(rr);
+                        $profil = array_merge($profil, array('id' => $id));
+                    } else {
+                        debug($this->User->validationErrors);
+                    }
+                    echo "non trouvé";
 
+                }
 
-	public function logout(){
-		$this->Session->destroy();
-		return $this->redirect($this->Auth->logout());
-	}
 
+                $user = $connect->getFriends();
+                debug($user);
 
+                die();
 
 
-	public	function inscription(){
+                unset($profil['password']);
+                $profil=current($profil);
+            }
 
+            if ($this->Auth->login($profil)) {
+                $this->initialisationSession();
+                $this->redirect($this->Auth->loginRedirect);
+            }
 
-		if( !AuthComponent::user('id')==NULL){
-			$this->redirect($this->Auth->redirectUrl());
-		}
+        } catch (Exception $e) {
+            debug($e);
+        }
+    }
 
-		if($this->request->is('post')){
-			$data = $this->request->data;
 
-			//cryptage mot de passe
-			//$data['User']['password'] = $this->Auth->password($data['User']['password']);
-			//on met la date d'anniversaire dans le bon format
-			//if(count($tableaudateDebut)==3)
-			$tableauBirthday = explode("/",$data['User']['birthdate']);
+    public function login()
+    {
 
-			if(count($tableauBirthday)==3){
-				$data['User']['birthdate'] = $tableauBirthday[2]."-".$tableauBirthday[1]."-".$tableauBirthday[0];
-			} else if (count($tableauBirthday)!=0){
-				$data['User']['birthdate'] = "erreur in coming";
-			}
+        //si un utilisateur est deja connecté, on verifie la variable id dans sa session si non null alors on le renvoie vers l'url redirect
+        if (!AuthComponent::user('id') == NULL) {
 
-			// on envoie les données au modèle
-			$this->User->set($data);
-			// on teste si les données sont valides, cf model User validate
-			
-			if ($this->User->validates(array('fieldList' => array('email','name','firstname','gender','birthdate','password','passwordConfirmation','mailConfirmation')))) {
-				$this->User->save($data);
-				$this->Session->setFlash(__('nouvel utilisateur inscrit', null), 
-					'default', 
-					array('class' => 'flash-message-success'));
-				$this->redirect('/users/login');
+            $this->redirect($this->Auth->loginRedirect);
+        }
 
-			}
-		}
+        //si c'est un POST
+        if ($this->request->is('post')) {
 
-	}
+            //on essaye de se connecter
+            if ($this->Auth->login()) {
 
+                $this->Session->setFlash(__('Bienvenue'), 'default', array('class' => 'flash-message-success'));
 
-	public	function profil(){
-		
-		$user = AuthComponent::user();
-		$data['profil'] = $this->User->find('first',array('conditions'=> array('User.id'=>$user['id']),
-			'fields' =>array('User.name','User.firstname','User.birthdate','User.email')
-			));
-		$data['profil'] = current($data['profil'] );
+                $this->initialisationSession();
 
-		$this->set($data);
-	}
+                $this->redirect($this->Auth->loginRedirect);
 
+            } else {
 
+                $this->Session->setFlash(__('Les informations transmises n\'ont pas permis de vous authentifier'), 'default', array('class' => 'flash-message-error'));
+            }
+        }
+    }
 
 
+    public function logout()
+    {
+        $this->Session->destroy();
+        $this->redirect($this->Auth->logout());
+    }
 
-	public function modificationProfil($type = null){
 
-		$user = AuthComponent::user();
+    public function inscription()
+    {
 
-		if($this->request->is('post')){
+        if (!AuthComponent::user('id') == NULL) {
+            $this->redirect($this->Auth->redirectUrl());
+        }
 
-			$profil = $this->request->data;
+        if ($this->request->is('post')) {
+            $data = $this->request->data;
 
-			// modification informations personnelles
-			if($type === 'infos'){
+            $data['User']['birthdate'] = str_replace('/', '-', $data['User']['birthdate']);
 
-				$data = $this->User->find('first',array('conditions'=> array('User.id'=>$user['id']),
-					'fields' =>array('User.email')));
-				$oldMail = $data['User']['email'];
+            // on envoie les données au modèle
+            $this->User->set($data);
+            // on teste si les données sont valides, cf model User validate
 
-				$tableauBirthday = explode("/",$profil['User']['birthdate']);
-				if(count($tableauBirthday)==3){
-					$profil['User']['birthdate'] = $tableauBirthday[2]."-".$tableauBirthday[1]."-".$tableauBirthday[0];
-				}
+            if ($this->User->validates(array('fieldList' => array('email', 'name', 'firstname', 'gender', 'birthdate', 'password', 'passwordConfirmation', 'mailConfirmation')))) {
+                $this->User->save($data);
+                $this->Session->setFlash(__('nouvel utilisateur inscrit', null),
+                    'default',
+                    array('class' => 'flash-message-success'));
+                $this->redirect('/users/login');
 
-				if($profil['User']['email']=== $oldMail && empty($profil['User']['mailConfirmation'])){
-					$profil['User']['mailConfirmation'] = $profil['User']['email'];
-				}
+            }
+        }
 
-				$this->User->set($profil);
+    }
 
-				$this->User->validator()->remove('email','estUnique');
 
-				
-				if($this->User->validates(array('fieldList' => array('email', 'name','firstname','gender','birthdate','mailConfirmation')))){
+    public function profil()
+    {
 
-					$profil = current($profil);
+        $user = AuthComponent::user();
+        $data['profil'] = $this->User->find('first', array('conditions' => array('User.id' => $user['id']),
+            'fields' => array('User.name', 'User.firstname', 'User.birthdate', 'User.email')
+        ));
+        $data['profil'] = current($data['profil']);
 
-					$this->User->updateAll(
-						array('User.name' => "'".$profil['name']."'",
-							'User.firstname'=> "'".$profil['firstname']."'",
-							'User.gender'=> "'".$profil['gender']."'",
-							'User.email'=> "'".$profil['email']."'",
-							'User.birthdate'=> "'".$profil['birthdate']."'"),
-						array('User.id' => $user['id'])
-						);
+        $this->set($data);
+    }
 
-					$this->Session->setFlash(__('les informations personnelles ont été mises à jour', null), 
-						'default', 
-						array('class' => 'flash-message-success'));
 
-					$this->redirect(array('action'=>'profil'));
-				}
+    public function modificationProfil($type = null)
+    {
 
-			// modification mdp
-			} elseif ($type==="mdp"){
-				$profil = current($profil);
-				//debug($profil);
+        $user = AuthComponent::user();
 
-				$passwordHasher = new SimplePasswordHasher();
-				$oldpassword = $passwordHasher->hash($profil['oldpassword']);
+        if ($this->request->is('post')) {
 
-				$data = $this->User->find('first',array('conditions'=> array('User.id'=>$user['id']),
-					'fields' =>array('User.password')));
-				$mdpCourant = $data['User']['password'];
+            $profil = $this->request->data;
 
-				$profil['mdpCourant'] = $mdpCourant; //mot de passe d'origine
-				$profil['oldpassword'] = $oldpassword; //mot de passe saisie par l'utilisateur
+            // modification informations personnelles
+            if ($type === 'infos') {
 
-				$this->User->set($profil);
+                $data = $this->User->find('first', array('conditions' => array('User.id' => $user['id']),
+                    'fields' => array('User.email')));
+                $oldMail = $data['User']['email'];
 
-				if($this->User->validates(array('fieldList' => array('oldpassword','password','passwordConfirmation')))){ // si ancien mdp correct
+                $profil['User']['birthdate'] = str_replace('/', '-', $profil['User']['birthdate']);
 
-					$nouveauMdp = $passwordHasher->hash($profil['password']);
+                if ($profil['User']['email'] === $oldMail && empty($profil['User']['mailConfirmation'])) {
+                    $profil['User']['mailConfirmation'] = $profil['User']['email'];
+                }
 
-					$this->User->updateAll(
-						array('User.password' => "'".$nouveauMdp."'"),
-						array('User.id' => $user['id'])
-						);
+                $this->User->set($profil);
 
-					$this->Session->setFlash(__('le mot de passe a été changé', null), 
-						'default', 
-						array('class' => 'flash-message-success'));
-					$this->redirect(array('action'=>'profil'));
-				}	
-			}
+                $this->User->validator()->remove('email', 'estUnique');
 
-		} 
-			// non post
-		$user = AuthComponent::user();
-		$data['profil'] = $this->User->find('first',array('conditions'=> array('User.id'=>$user['id'])));
-		$data['profil'] = current($data['profil'] );
-		$this->set($data);
-		
-	}
 
+                if ($this->User->validates(array('fieldList' => array('email', 'name', 'firstname', 'gender', 'birthdate', 'mailConfirmation')))) {
 
+                    $profil = current($profil);
 
+                    $this->User->updateAll(
+                        array('User.name' => "'" . $profil['name'] . "'",
+                            'User.firstname' => "'" . $profil['firstname'] . "'",
+                            'User.gender' => "'" . $profil['gender'] . "'",
+                            'User.email' => "'" . $profil['email'] . "'",
+                            'User.birthdate' => "'" . $profil['birthdate'] . "'"),
+                        array('User.id' => $user['id'])
+                    );
 
-	public function desinscription(){
+                    $this->Session->setFlash(__('les informations personnelles ont été mises à jour', null),
+                        'default',
+                        array('class' => 'flash-message-success'));
 
-		$this->autoRender = false;
+                    $this->redirect(array('action' => 'profil'));
+                }
 
-		$user = AuthComponent::user();
-		$data = $this->User->find('first',array('conditions'=> array('User.id'=>$user['id']),
-			'fields' =>array('User.password')));
+                // modification mdp
+            } elseif ($type === "mdp") {
+                $profil = current($profil);
+                //debug($profil);
 
+                $passwordHasher = new SimplePasswordHasher();
+                $oldpassword = $passwordHasher->hash($profil['oldpassword']);
 
-		$mdpCourant = $data['User']['password'];
+                $data = $this->User->find('first', array('conditions' => array('User.id' => $user['id']),
+                    'fields' => array('User.password')));
+                $mdpCourant = $data['User']['password'];
 
-		$mdpSaisie = $this->request->data['User']['password'];
-		
-		$passwordHasher = new SimplePasswordHasher();
-		$mdpSaisie = $passwordHasher->hash($mdpSaisie);
+                $profil['mdpCourant'] = $mdpCourant; //mot de passe d'origine
+                $profil['oldpassword'] = $oldpassword; //mot de passe saisie par l'utilisateur
 
+                $this->User->set($profil);
 
-		if($mdpSaisie === $mdpCourant){
+                if ($this->User->validates(array('fieldList' => array('oldpassword', 'password', 'passwordConfirmation')))) { // si ancien mdp correct
 
+                    $nouveauMdp = $passwordHasher->hash($profil['password']);
 
-			if ($this->User->delete($user['id'])){
-				
-				$this->Session->setFlash(__('utilisateur supprimé', null), 
-					'default', 
-					array('class' => 'flash-message-success'));
+                    $this->User->updateAll(
+                        array('User.password' => "'" . $nouveauMdp . "'"),
+                        array('User.id' => $user['id'])
+                    );
 
-				return $this->redirect(array('controller' => 'Users', 'action' => 'logout'));
-			}
-		} else {
-			$this->Session->setFlash(__('le mot de passe saisie est incorrect', null), 
-				'default', 
-				array('class' => 'flash-message-error'));
-			debug($test);
-			return $this->redirect(array('controller' => 'Users', 'action' => 'modificationProfil'));
-		}
-	}
+                    $this->Session->setFlash(__('le mot de passe a été changé', null),
+                        'default',
+                        array('class' => 'flash-message-success'));
+                    $this->redirect(array('action' => 'profil'));
+                }
+            }
+
+        }
+        // non post
+        $user = AuthComponent::user();
+        $data['profil'] = $this->User->find('first', array('conditions' => array('User.id' => $user['id'])));
+        $data['profil'] = current($data['profil']);
+        $this->set($data);
+
+    }
+
+
+    public function desinscription()
+    {
+
+        $this->autoRender = false;
+
+        $user = AuthComponent::user();
+        $data = $this->User->find('first', array('conditions' => array('User.id' => $user['id']),
+            'fields' => array('User.password')));
+
+
+        $mdpCourant = $data['User']['password'];
+
+        $mdpSaisie = $this->request->data['User']['password'];
+
+        $passwordHasher = new SimplePasswordHasher();
+        $mdpSaisie = $passwordHasher->hash($mdpSaisie);
+
+
+        if ($mdpSaisie === $mdpCourant) {
+
+
+            if ($this->User->delete($user['id'])) {
+
+                $this->Session->setFlash(__('utilisateur supprimé', null),
+                    'default',
+                    array('class' => 'flash-message-success'));
+
+                $this->redirect(array('controller' => 'Users', 'action' => 'logout'));
+            }
+        } else {
+            $this->Session->setFlash(__('le mot de passe saisie est incorrect', null),
+                'default',
+                array('class' => 'flash-message-error'));
+
+            $this->redirect(array('controller' => 'Users', 'action' => 'modificationProfil'));
+        }
+    }
+
+
+
+
+    private function initialisationSession(){
+
+        $id_user = AuthComponent::user('id');
+
+        $d = $this->TodolistUser->find("all", array('recursive' => 1, 'fields' => array('Todolist.user_id', 'Todolist.id'), 'conditions' => array('TodolistUser.user_id' => $id_user)));
+
+        foreach ($d as $key => $value) {
+            $id_liste = $value['Todolist']['id'];
+            $proprietaire = ($value['Todolist']['user_id'] == $id_user ? 1 : 0);
+            $this->Session->write('Auth.User.Todolist.' . $id_liste, $proprietaire);
+        }
+
+    }
+
+
+
+
+
 }

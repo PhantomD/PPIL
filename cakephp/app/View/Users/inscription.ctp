@@ -21,11 +21,12 @@ if(empty($this->request->data)){
 	$tableau['mail'] =  $user['email'];
 	$tableau['gender'] = $user['gender'];
 	$tableau['password'] =$user['password'];
-	$tableau['mailConfirmation'] = $this->request->data['mailConfirmation'];
-	$tableau['mdpConfirmation']=$this->request->data['mdpConfirmation'];
+	   $tableau['mailConfirmation'] = $this->request->data['mailConfirmation'];
+	$tableau['mdpConfirmation']  =$this->request->data['mdpConfirmation'];
 
 }
 ?>
+
 
 
 <div data-role="page" data-theme="b" id="page_option">

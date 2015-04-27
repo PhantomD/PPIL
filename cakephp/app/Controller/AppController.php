@@ -32,44 +32,39 @@ App::uses('Controller', 'Controller');
  */
 
 App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
+App::import('Vendor', 'vendor', array('file' => 'vendor' . DS . 'autoload.php'));
+App::import('Vendor', 'app', array('file' => 'app' . DS . 'Facebook' . DS . 'FacebookConnect.php'));
 
-class AppController extends Controller {
+class AppController extends Controller
+{
 
     public $components = array(
 
-      'Session',
-      'DebugKit.Toolbar',
-      'RequestHandler',
-      'Auth' => array(
-        'loginRedirect' => array('controller' => 'Todolists', 'action' => 'consulterlist'),//lors d'une connexion reussi
-        'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),//lors d'une deconnexion
-        'authError' => 'zone 51',
-        'authorize' => array('Controller'),
-        'unauthorizedRedirect' => array('controller' => 'Todolists', 'action' => 'consulterlist'),
-        'authenticate' => array(
-            'Form' => array(
-                'fields' => array('username' => 'pseudo'), //notre moyen d'identification se base sur le pseudo, par defaut cakephp utilise le champs username
-                'userFields' => array('User.id') // 'Todolist_user.toDoList_id on ne garde que l'id dans la variable session
+        'Session',
+        'DebugKit.Toolbar',
+        'RequestHandler',
+        'Auth' => array(
+            'loginRedirect' => array('controller' => 'Todolists', 'action' => 'consulterlist'),//lors d'une connexion reussi
+            'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),//lors d'une deconnexion
+            'authError' => 'zone 51',
+            'authorize' => array('Controller'),
+            'unauthorizedRedirect' => array('controller' => 'Todolists', 'action' => 'consulterlist'),
+            'authenticate' => array(
+                'Form' => array(
+                    'fields' => array('username' => 'email'), //notre moyen d'identification se base sur le pseudo, par defaut cakephp utilise le champs username
+                    'userFields' => array('User.id') // 'Todolist_user.toDoList_id on ne garde que l'id dans la variable session
                 )
             )
         )
-      );
-/*
-public $components = array(
-        'Session','Auth' => array(
-        'loginRedirect' => array('controller' => 'Todolists', 'action' => 'consulterlist'),//lors d'une connexion reussi
-        'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),//lors d'une deconnexion
-            'authenticate' => array(
-                'Form' => array(
-                'fields' => array('username' => 'pseudo'), //notre moyen d'identification se base sur le pseudo, par defaut cakephp utilise le champs username
-                'userFields' => array('id') //  on ne garde que l'id dans la variable session
-                )
-                )
-            ), 'DebugKit.Toolbar','RequestHandler') ;
+    );
 
-*/
+    protected $appId = '1094282070597277';
+
+    protected $appSecret = 'b851006b79835cd119192ca198dc8dfd';
+
+
+
     public function beforeFilter(){
-        $this->disableCache();
         $this->response->disableCache();
     }
 
