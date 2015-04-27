@@ -56,6 +56,15 @@ if(empty($this->request->data)){
 		?> 
 
 
+		<div class ="span8">
+		<h1> se connecter avec facebook </h1>
+		<a href= <?php echo $this->html->url(array('action'=>'facebook')); ?>  class ="facebookConnect"> se connecter avec facebook </a> 
+
+		</div>
+<
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+</fb:login-button>
+
 		<div>
 			<!-- inscrition !-->
 			<h3>Pas de compte ? </h3>

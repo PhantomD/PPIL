@@ -1,4 +1,7 @@
 <?php
+
+use Facebook\FacebookSession; 
+use Facebook\FacebookRequest; 
 class UsersController extends AppController{
 
 	public $scaffold;
@@ -6,7 +9,7 @@ class UsersController extends AppController{
 
 	function beforeFilter(){
 		parent::beforeFilter();
-		$this->Auth->allow(array('inscription','login'));
+		$this->Auth->allow(array('inscription','login','facebook'));
 	}
 
 
@@ -20,6 +23,27 @@ class UsersController extends AppController{
 	}
 
 
+public function facebook(){
+
+	$appId = '1094282070597277';
+	$appSecret = 'b851006b79835cd119192ca198dc8dfd';
+FacebookSession::setDefaultApplication($appId,$appSecret);
+
+$session = new FacebookSession($_SESSION['fb_token']);
+if($session){
+debug($session);
+$_SESSION['fb_token'] = $session->getToken();
+//debug( $session->getToken());
+
+
+  $me = (new FacebookRequest(
+    $session, 'GET', '/me'
+  ))->execute()->getGraphObject(GraphUser::className());
+  echo $me->getName();
+
+	}
+die();
+}
 
 	public function login(){
 
