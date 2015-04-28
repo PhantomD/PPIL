@@ -27,8 +27,8 @@ App::uses('Controller', 'Controller');
  * Add your application-wide methods in the class below, your controllers
  * will inherit them.
  *
- * @package		app.Controller
- * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
+ * @package        app.Controller
+ * @link        http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 
 App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
@@ -63,18 +63,17 @@ class AppController extends Controller
     protected $appSecret = 'b851006b79835cd119192ca198dc8dfd';
 
 
-
-    public function beforeFilter(){
+    public function beforeFilter()
+    {
         $this->response->disableCache();
     }
 
-     public function isAuthorized($user) {
+    public function isAuthorized($user)
+    {
 
         // Par défaut n'autorise pas
         return false;
     }
-
-
 
 
 }

@@ -2,7 +2,7 @@
 
 class Todolist extends AppModel{
 
-//	public $actsAs = array('Containable');
+	public $actsAs = array('Containable');
 
 	public $hasMany = array (
 		'Task' => array (

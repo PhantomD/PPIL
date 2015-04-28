@@ -73,13 +73,25 @@ class FacebookConnect
     }
 
 
-    function getFriends(){
+   public static function getFriends(){
 
         $session = new FacebookSession($_SESSION['fb_token']);
-        $request = new FacebookRequest($session, 'GET','/me/friends');
+        $request = new FacebookRequest($session, 'GET','/me/friends/');
         $response = $request->execute();
-        $graphObject = $response->getGraphObject();
+        $graphObject = $response->getGraphObject()->asArray();
 
         return $graphObject;
+    }
+
+    public static function getFriendProfil($id){
+        $session = new FacebookSession($_SESSION['fb_token']);
+        $request = new FacebookRequest ($session, 'GET', "/$id"
+        );
+        $response = $request->execute();
+        $graphObject = $response->getGraphObject()->asArray();
+
+        return $graphObject;
+
+
     }
 }

@@ -1,6 +1,9 @@
 <?php
 
 use App\Facebook\FacebookConnect;
+use Facebook\FacebookSession;
+use Facebook\FacebookRequest;
+use Facebook\FacebookResponse;
 
 App::uses('autoload', 'Vendor\vendor\ ');
 App::uses('FacebookConnect', 'Vendor');
@@ -21,6 +24,27 @@ class UsersController extends AppController
     function isAuthorized($user)
     {
 
+        if ($this->action == "connexionFacebook" && AuthComponent::user('id') != NULL) {
+            $this->redirect($this->Auth->loginRedirect);
+        }
+
+        if (in_array($this->action, array('myfriends', 'addMember', 'removeMember'))) {
+
+
+            if (!$this->Session->check('fb-token')) {
+                $this->Auth->authError = "Vous devez vous connecter avec facebook pour accèder à cette fonctionnalitée";
+
+                if ($this->action === "myfriends") {
+                    $this->Auth->unauthorizedRedirect = array('controller' => 'Users', 'action' => 'profil');
+                } else {
+                    $id_liste = $this->request->params['pass'][0];
+                    $this->Auth->unauthorizedRedirect = array('controller' => 'Todolists', 'action' => 'consulterlistdetail', $id_liste);
+                }
+                return false;
+            }
+
+        }
+
         if (parent::isAuthorized($user)) {
             return true;
         }
@@ -29,27 +53,32 @@ class UsersController extends AppController
     }
 
 
-    public function connexionFacebook($data = null)
+    public
+    function connexionFacebook($data = null, $id = null)
     {
+
+        $this->autoRender = false;
 
         if (!AuthComponent::user('id') == NULL) {
             $this->redirect($this->Auth->loginRedirect);
         }
 
-        session_start();
-        $this->autoRender = false;
+        if (!$this->Session->check('fb_token')) {
+            session_start();
+        }
 
         $connect = new FacebookConnect($this->appId, $this->appSecret);
 
 
         try {
-            $user = $connect->connect("http://sandbox.com/PPILFINAL/PPIL/cakephp/Users/connexionFacebook/");
+            $user = $connect->connect("http://sandbox.com/PPILFINAL/PPIL/cakephp/Users/connexionFacebook");
 
             if (is_string($user)) {
 
                 $this->redirect($user);
 
             } else {
+
 
                 $idFb = $user->getId();
                 $email = $user->getEmail();
@@ -60,7 +89,7 @@ class UsersController extends AppController
 
 
                 if (empty($profil)) {
-                    debug($user);
+
 
                     $profil['id_facebook'] = $idFb;
                     $profil['firstname'] = $user->getFirstName();
@@ -68,7 +97,7 @@ class UsersController extends AppController
                     $profil['birthdate'] = $user->getBirthday();
                     $profil['birthdate'] = $profil['birthdate']->format('d-m-Y');
                     $profil['gender'] = $user->getGender();
-                    $profil['password'] = '00';
+                    $profil['password'] = "aa";
                     $profil['email'] = $email;
 
                     if ($profil['gender'] === 'male') {
@@ -79,46 +108,37 @@ class UsersController extends AppController
 
                     $this->User->set($profil);
 
-                    debug($profil);
-
                     $this->User->validator()->remove("password");
                     if ($this->User->validates(array('fieldList' => array('email', 'name', 'firstname', 'gender', 'birthdate')))) {
 
-                        debug($this->User->save());
+                        $this->User->save();
                         $id = $this->User->getLastInsertID();;
-                        debug($id);
-                        debug(rr);
                         $profil = array_merge($profil, array('id' => $id));
-                    } else {
-                        debug($this->User->validationErrors);
                     }
-                    echo "non trouvé";
 
                 }
 
-
-                $user = $connect->getFriends();
-                debug($user);
-
-               // die();
-
-
                 unset($profil['password']);
-                $profil=current($profil);
+                $profil = current($profil);
             }
 
             if ($this->Auth->login($profil)) {
                 $this->initialisationSession();
                 $this->redirect($this->Auth->loginRedirect);
+
+            } else {
+                echo "ou pas";
             }
 
         } catch (Exception $e) {
             debug($e);
         }
+
     }
 
 
-    public function login()
+    public
+    function login()
     {
 
         //si un utilisateur est deja connecté, on verifie la variable id dans sa session si non null alors on le renvoie vers l'url redirect
@@ -147,14 +167,16 @@ class UsersController extends AppController
     }
 
 
-    public function logout()
+    public
+    function logout()
     {
         $this->Session->destroy();
         $this->redirect($this->Auth->logout());
     }
 
 
-    public function inscription()
+    public
+    function inscription()
     {
 
         if (!AuthComponent::user('id') == NULL) {
@@ -183,7 +205,8 @@ class UsersController extends AppController
     }
 
 
-    public function profil()
+    public
+    function profil()
     {
 
         $user = AuthComponent::user();
@@ -196,7 +219,8 @@ class UsersController extends AppController
     }
 
 
-    public function modificationProfil($type = null)
+    public
+    function modificationProfil($type = null)
     {
 
         $user = AuthComponent::user();
@@ -286,7 +310,8 @@ class UsersController extends AppController
     }
 
 
-    public function desinscription()
+    public
+    function desinscription()
     {
 
         $this->autoRender = false;
@@ -325,9 +350,146 @@ class UsersController extends AppController
     }
 
 
+    public
+    function myfriends()
+    {
+
+        FacebookSession::enableAppSecretProof(false);
+        $friends = FacebookConnect::getFriends();
+
+        $friends['amis'] = $friends['data'];
+
+        $this->set($friends);
+    }
 
 
-    private function initialisationSession(){
+    public
+    function Friend_profil($id)
+    {
+
+
+        if ($id == null && empty($id) && is_int($id)) {
+            $this->redirect($this->referer());
+        }
+
+        FacebookSession::enableAppSecretProof(false);
+        $friends = FacebookConnect::getFriendProfil($id);
+
+
+        //  $profil['firstname'] = $friends->getFirstName();
+        $profil['name'] = $friends['name'];
+        $profil['birthdate'] = $friends['birthday'];
+        $profil['gender'] = $friends['gender'];
+        $profil['email'] = current(current($this->User->find('first', array('recursive' => '-1', 'conditions' => array('id_facebook' => $id),
+            'fields' => 'User.email'))));
+
+
+        $this->set($profil);
+    }
+
+
+    public
+    function addListetoUser($id, $id_liste)
+    {
+        $this->autoRender = false;
+
+        if ($this->request->is('ajax')) {
+
+            $this->User->unbindModel(array('hasMany' => array('Todolist_user')));
+            $data['todolist_id'] = $id_liste;
+            $data['user_id'] = $id;
+
+            $this->TodolistUser->set($data);
+            $this->TodolistUser->save();
+
+        }
+    }
+
+
+    public
+    function addMember($id)
+    {
+        FacebookSession::enableAppSecretProof(false);
+        $friends = FacebookConnect::getFriends();
+
+        $friends['id'] = $id;
+
+        foreach ($friends['data'] as $key => $value) {
+            $friends['amis'][] = $value->id;
+        }
+
+
+        debug($friends['amis']);
+
+
+        $this->TodolistUser->unbindModel(array('hasOne' => array('Todolist')));
+
+        $d = $this->User->find("all", array('recursive' => 1, 'fields' => array('User.id', 'id_facebook', 'name', 'firstname'),
+            'conditions' => array('id_facebook !=' => '-1'),
+            'contain' => array(
+                'TodolistUser' => array(
+                    'conditions' => array('todolist_id' => $id))
+            )
+        ));
+
+        foreach ($d as $key => $value) {
+
+            if (empty($value['TodolistUser']) && in_array($value['User']['id_facebook'], $friends['amis'])) {
+                $data['amis'][] = $value['User'];
+            }
+
+        }
+
+        debug($data);
+
+
+        $data['id'] = $id;
+        $this->set($data);
+
+    }
+
+
+    public
+    function  removeMember($id, $id_liste)
+    {
+
+        if ($this->request->is('ajax')) {
+
+            $this->autoRender = false;
+
+
+            $this->TodolistUser->set($id);
+            debug(
+                $this->TodolistUser->delete($id, false));
+        } else {
+
+            $this->TodolistUser->unbindModel(array('hasOne' => array('Todolist')));
+            $users = $this->TodolistUser->find("all", array("conditions" => array(
+                'todolist_id' => $id, 'id_facebook !=' => '-1'), 'fields' => array('TodolistUser.id', 'User.id_facebook')
+            ));
+
+
+            FacebookSession::enableAppSecretProof(false);
+
+            foreach ($users as $key => $valeurs) {
+                //$valeurs = current($valeurs);
+
+                $profil = FacebookConnect::getFriendProfil($valeurs['User']['id_facebook']);
+
+                $data['profil'][$key]['id'] = $valeurs['TodolistUser']['id'];
+                $data['profil'][$key]['name'] = $profil['name'];
+            }
+
+            $data['id'] = $id;
+            $this->set($data);
+
+        }
+    }
+
+
+    private
+    function initialisationSession()
+    {
 
         $id_user = AuthComponent::user('id');
 
@@ -338,11 +500,7 @@ class UsersController extends AppController
             $proprietaire = ($value['Todolist']['user_id'] == $id_user ? 1 : 0);
             $this->Session->write('Auth.User.Todolist.' . $id_liste, $proprietaire);
         }
-
     }
-
-
-
 
 
 }

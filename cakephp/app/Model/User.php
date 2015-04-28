@@ -4,9 +4,9 @@ App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
 
 class User extends AppModel
 {
-
+    public $actsAs = array('Containable');
     public $hasMany = array(
-        'Todolist_user' => array(
+        'TodolistUser' => array(
             'foreignKey' => 'user_id',
             'dependent' => true
         )
@@ -14,23 +14,7 @@ class User extends AppModel
 
 
     public $validate = array(
-        /*		'pseudo' => array(
-                    array(
-                        'rule' => 'alphanumeric',
-                        'required' => true,
-                        'message' => "seuls les chiffres et lettres sont autorisées pour le pseudo.",
-                        'allowEmpty' =>false,
-                        ),
-                    array(
-                        'rule' => 'isUnique',
-                        'message' => "Le login est déjà pris"
-                        ),
-                    array(
-                 'rule'    => array('between', 5, 15),
-                'message' => "Le pseudo doit avoir une longueur comprise entre 5 et 15 caractéres."
-                        )
-                    ),
-                    */
+
         'email' => array(
             array(
                 'rule' => 'email',
@@ -105,8 +89,6 @@ class User extends AppModel
                 $this->data[$this->alias]['password']
             );
         }
-
-        debug($this->data[$this->alias]['birthdate']);
 
         if (!empty($this->data[$this->alias]['birthdate'])) {
 

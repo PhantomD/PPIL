@@ -28,15 +28,8 @@ $(document).ready(function() {
 
 
 
-
-
-
-
-
-
-
-		}
-	});
+        }
+    });
 
 
 
@@ -48,12 +41,17 @@ $(document).ready(function() {
 });
 
 function cocher(check){
-	var caseId = check.id;
-	var caseValue ='0';
+    var caseId = check.id;
+    var caseValue ='0';
 
-	if(check.checked){
-		caseValue='1';
-	}
+    if(check.checked){
+        caseValue='1';
+    }
+
+
+
+
+
 
 	$.ajax({
 		async:true,
@@ -83,7 +81,7 @@ function cocher(check){
 		error: function(){
 
 		}
-	});	
+	});
 
 }
 

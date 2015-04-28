@@ -58,20 +58,20 @@ if (empty($this->request->data)) {
 -->
 
 
-    <h1> se connecter avec facebook </h1>
-    <a href= <?php echo $this->html->url(array('action' => 'connexionFacebook')); ?>  data-ajax="false"  class ="facebookConnect"> se
-    connecter
-    avec facebook </a>
-
+    <h2> Pas de compte ?</h2>
+    <?php echo $this->Html->link(
+        'S\'inscrire au site',
+        array('controller' => 'Users', 'action' => 'inscription'));
+    ?>
 
     <div>
         <!-- inscrition !-->
-        <h3>Pas de compte ? </h3>
+        <h3> OU </h3>
 
-        <?php echo $this->Html->link(
-            'S inscrire au site',
-            array('controller' => 'Users', 'action' => 'inscription'));
-        ?>
+        <a href= <?php echo $this->html->url(array('action' => 'connexionFacebook', 'a')); ?> data-role="button"
+           data-ajax="false"
+           style="width:70%;margin:auto">
+            Connexion via Facebook </a>
 
         <!-- Fin inscrition !-->
 

@@ -20,47 +20,47 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <!DOCTYPE html>
 <html>
 <head>
-<?php echo $this->Html->charset(); ?>
+    <?php echo $this->Html->charset(); ?>
 
-	<title>
-Projet PPIL
-	</title>
-	<?php
-	echo $this->Html->meta('icon');
+    <title>
+        Projet PPIL
+    </title>
+    <?php
+    echo $this->Html->meta('icon');
 
-	//	echo $this->Html->css('cake.generic');
-
-
-	echo $this->Html->css('PpilBlue.min');
-	echo $this->Html->css('jquery.mobile.icons.min');
-
-	echo $this->Html->css('jquery.mobile.structure-1.4.5.min');
-
-	echo $this->Html->script('jquery-1.11.1.min');
-	echo $this->Html->script('jquery.mobile-1.4.5.min');
+    //	echo $this->Html->css('cake.generic');
 
 
-	echo $this->Html->css('model');
+    echo $this->Html->css('PpilBlue.min');
+    echo $this->Html->css('jquery.mobile.icons.min');
 
-	echo $this->fetch('meta');
-	echo $this->fetch('css');
-	echo $this->fetch('script');
-	?>
+    echo $this->Html->css('jquery.mobile.structure-1.4.5.min');
+
+    echo $this->Html->script('jquery-1.11.1.min');
+    echo $this->Html->script('jquery.mobile-1.4.5.min');
+
+
+    echo $this->Html->css('model');
+
+    echo $this->fetch('meta');
+    echo $this->fetch('css');
+    echo $this->fetch('script');
+    ?>
 </head>
 <body>
-	<div id="container">
-		<div id="header">
-			<!-- <h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1> -->
-		</div>
-		<div id="content">
+<div id="container">
+    <div id="header">
+        <!-- <h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1> -->
+    </div>
+    <div id="content">
 
-			<?php echo $this->Session->flash(); ?>
+        <?php echo $this->Session->flash(); ?>
 
-			<?php echo $this->fetch('content'); ?>
-		</div>
-		<div id="footer">
+        <?php echo $this->fetch('content'); ?>
+    </div>
+    <div id="footer">
 
-	</div>
+    </div>
 </div>
 <?php echo $this->element('sql_dump'); ?>
 </body>
