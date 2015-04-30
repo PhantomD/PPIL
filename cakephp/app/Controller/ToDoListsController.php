@@ -16,6 +16,14 @@ class TodolistsController extends AppController
         parent::beforeFilter();
     }
 
+
+    /**
+     * Fonction appelée à chaque appelle d'une fonction du controlleur ToDoLists
+     * Elle permet de savoir si un utilisateur est autorisé ou non à accéder à ce contenu
+     * Par exemple, seul le propriétaire de la liste peut supprimer la liste
+     * @param $user l'utilisateur actuelle
+     * @return bool, l'autorisation d'accès
+     */
     function isAuthorized($user)
     {
 
@@ -31,33 +39,34 @@ class TodolistsController extends AppController
         $liste_user = array_keys($this->Session->read('Auth.User.Todolist'));
         $id_liste = $this->request->params['pass'][0];
 
-
-        if ($this->action === 'consulterlistdetail') {
-            if (!in_array($id_liste, $liste_user))
-                return false;
+        if (!in_array($id_liste, $liste_user)) {
+            return false;
         }
 
-        if (in_array($this->action, array('modifylist', 'supprimer'))) {
+        if (in_array($this->action, array('supprimer'))) {
 
             $estProprio = $this->Session->Read('Auth.User.Todolist.' . $id_liste);
 
             if ($estProprio == 1) {
                 return true;
-            }
-            $this->Auth->authError = "Seul le propriétaire de la liste peut modifier ou supprimer une liste";
-            $this->Auth->unauthorizedRedirect = array('controller' => 'Todolists', 'action' => 'consulterlistdetail', $id_liste);
-            ///$this->redirect(array('action'=>'consulterlistdetail',$id_liste));
-            return false;
-        }
 
+            } else {
+                $this->Auth->authError = "Seul le propriétaire de la liste peut  supprimer une liste";
+                $this->Auth->unauthorizedRedirect = array('controller' => 'Todolists', 'action' => 'consulterlistdetail', $id_liste);
+                return false;
+            }
+        }
         return true;
     }
 
 
+    /**
+     * Fonction appelée pour ajouter une nouvelle liste
+     * Fonction accessible par tous les utilisateurs authentifiés
+     */
     public function newlist()
     {
 
-//$this->Menu->getLastInsertId();
         if ($this->request->is('post')) {
             $data = $this->request->data;
 
@@ -93,6 +102,11 @@ class TodolistsController extends AppController
     }
 
 
+    /**
+     * Fonction appelé pour modifier une liste
+     * Fonction accessible par tous les utilisateurs qui sont inscris à la liste (l'autorisation est donnée ou non par la fonction isAuthorized
+     * @param $id , id de la liste courante
+     */
     public function modifylist($id)
     {
 
@@ -114,19 +128,19 @@ class TodolistsController extends AppController
             $this->Todolist->set($data['Todolist']);
 
             // On sauvegarde les données dans la BDD
-           // $nom = $list['name']['0'];
+            // $nom = $list['name']['0'];
             debug($data['Todolist']);
 
             if ($this->Todolist->validates()) {
                 debug($data);
-              //  die();
+                //  die();
                 $this->Todolist->updateAll(
                     array('Todolist.name' => "'" . $data['Todolist']['name'] . "'",
                         'Todolist.text' => "'" . $data['Todolist']['text'] . "'",
                         'Todolist.dateBegin' => !empty($data['Todolist']['dateBegin']) ? "'" . $data['Todolist']['dateBegin'] . "'" : NULL,
                         'Todolist.dateEnd' => !empty($data['Todolist']['dateEnd']) ? "'" . $data['Todolist']['dateEnd'] . "'" : NULL
                     ),
-                    array('Todolist.id'=>$id));
+                    array('Todolist.id' => $id));
                 return $this->redirect($this->Auth->redirect(array('controller' => 'Todolists', 'action' => 'consulterlist')));
             } else {
                 $this->Session->setFlash(__('erreur liste non modifiée'), 'default', array('class' => 'flash-message-error'));
@@ -142,11 +156,12 @@ class TodolistsController extends AppController
     }
 
 
+    /**
+     * Fonction appelé pour visusalier toutes les listes de l'utilisateur
+     * Fonction accessible par tous les utilisateurs qui sont authentifiés (c'est également par la page d'accueil)
+     */
     public function consulterlist()
     {
-
-
-        $id_user = AuthComponent::user('id');
         /*
             $this->Todolist->unbindModel( array('hasMany' => array('Task','Todolist_user')));
         $d['listes'] = $this->Todolist->find('all', array(
@@ -173,6 +188,12 @@ class TodolistsController extends AppController
         $this->set($d);
     }
 
+
+    /**
+     * Fonction appelé pour supprimer une liste
+     * Fonction accessible seulement par l'auteur de la liste (l'autorisation est donnée ou non par la fonction isAuthorized)
+     * @param $id_liste , id de la liste à supprimer
+     */
     public function supprimer($id_liste)
     {
 
@@ -189,9 +210,14 @@ class TodolistsController extends AppController
     }
 
 
+
+    /**
+     * Fonction appelé pour consulter une liste
+     * Fonction accessible par tous les utilisateurs qui sont inscris à la liste (l'autorisation est donnée ou non par la fonction isAuthorized)
+     * @param $id , id de la liste courante
+     */
     public function consulterlistdetail($id)
     {
-
 
         // On recupere les données de la liste associées au nom
         $d['liste'] = $this->Todolist->find('first', array('conditions' => array('Todolist.id' => $id)));

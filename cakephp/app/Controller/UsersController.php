@@ -21,6 +21,12 @@ class UsersController extends AppController
     }
 
 
+    /**
+     * Fonction appelée à chaque appelle d'une fonction du controlleur Users
+     * Elle permet de savoir si un utilisateur est autorisé ou non à accéder à ce contenu
+     * @param $user l'utilisateur actuelle
+     * @return bool, l'autorisation d'accès
+     */
     function isAuthorized($user)
     {
 
@@ -28,10 +34,10 @@ class UsersController extends AppController
             $this->redirect($this->Auth->loginRedirect);
         }
 
+        // seul les personnes connecté via facebook peuvent effectuer ces actions
         if (in_array($this->action, array('myfriends', 'addMember', 'removeMember'))) {
 
-
-            if (!$this->Session->check('fb-token')) {
+            if (!$this->Session->check('fb_token')) {
                 $this->Auth->authError = "Vous devez vous connecter avec facebook pour accèder à cette fonctionnalitée";
 
                 if ($this->action === "myfriends") {
@@ -42,7 +48,6 @@ class UsersController extends AppController
                 }
                 return false;
             }
-
         }
 
         if (parent::isAuthorized($user)) {
@@ -53,8 +58,11 @@ class UsersController extends AppController
     }
 
 
-    public
-    function connexionFacebook($data = null, $id = null)
+    /**
+     * Fonction appelée à lorsque l'utilisateur veut se connecter via facebook
+     * Si l'zuthentification facebook est réussi : Soit c'est ça première connecion et on l'ajoute dans la bdd, soit on le connecte directement
+     */
+    public function connexionFacebook()
     {
 
         $this->autoRender = false;
@@ -137,8 +145,7 @@ class UsersController extends AppController
     }
 
 
-    public
-    function login()
+    public function login()
     {
 
         //si un utilisateur est deja connecté, on verifie la variable id dans sa session si non null alors on le renvoie vers l'url redirect
@@ -175,8 +182,7 @@ class UsersController extends AppController
     }
 
 
-    public
-    function inscription()
+    public function inscription()
     {
 
         if (!AuthComponent::user('id') == NULL) {
@@ -205,8 +211,7 @@ class UsersController extends AppController
     }
 
 
-    public
-    function profil()
+    public function profil()
     {
 
         $user = AuthComponent::user();
@@ -219,8 +224,7 @@ class UsersController extends AppController
     }
 
 
-    public
-    function modificationProfil($type = null)
+    public function modificationProfil($type = null)
     {
 
         $user = AuthComponent::user();
@@ -310,8 +314,7 @@ class UsersController extends AppController
     }
 
 
-    public
-    function desinscription()
+    public function desinscription()
     {
 
         $this->autoRender = false;
@@ -350,8 +353,7 @@ class UsersController extends AppController
     }
 
 
-    public
-    function myfriends()
+    public function myfriends()
     {
 
         FacebookSession::enableAppSecretProof(false);
@@ -363,14 +365,15 @@ class UsersController extends AppController
     }
 
 
-    public
-    function Friend_profil($id)
+    public function Friend_profil($id)
     {
 
 
         if ($id == null && empty($id) && is_int($id)) {
             $this->redirect($this->referer());
         }
+
+
 
         FacebookSession::enableAppSecretProof(false);
         $friends = FacebookConnect::getFriendProfil($id);
@@ -388,8 +391,7 @@ class UsersController extends AppController
     }
 
 
-    public
-    function addListetoUser($id, $id_liste)
+    public function addListetoUser($id, $id_liste)
     {
         $this->autoRender = false;
 
@@ -406,8 +408,7 @@ class UsersController extends AppController
     }
 
 
-    public
-    function addMember($id)
+    public function addMember($id)
     {
         FacebookSession::enableAppSecretProof(false);
         $friends = FacebookConnect::getFriends();
@@ -449,8 +450,7 @@ class UsersController extends AppController
     }
 
 
-    public
-    function  removeMember($id, $id_liste)
+    public function  removeMember($id, $id_liste)
     {
 
         if ($this->request->is('ajax')) {
@@ -487,8 +487,7 @@ class UsersController extends AppController
     }
 
 
-    private
-    function initialisationSession()
+    private function initialisationSession()
     {
 
         $id_user = AuthComponent::user('id');

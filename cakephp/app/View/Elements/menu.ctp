@@ -79,7 +79,7 @@
         echo '  <li data-role="list-divider">Menu</li>';
 
         //afficher profil
-    if (in_array($this->action, array('modificationProfil', 'profil', 'newlist', 'modifylist', 'consulterlistdetail', 'Friend_profil', 'removeMember', 'add_member', 'FriendProfil'))) {
+    if (!in_array($this->action, array('modificationProfil', 'profil', 'newlist', 'modifylist', 'consulterlistdetail', 'Friend_profil', 'removeMember', 'add_member', 'FriendProfil'))) {
         echo "  <li>" . $this->Html->link('Afficher profil', array('controller' => 'Users', 'action' => 'profil'), array('data-ajax' => 'false')) . "</li>";
     }
 

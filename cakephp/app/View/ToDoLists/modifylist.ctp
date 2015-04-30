@@ -28,7 +28,6 @@ if (isset($liste) && !empty($liste)) {
     $tableau['dateBegin'] = $todolist['dateBegin'];
     $tableau['dateEnd'] = $todolist['dateEnd'];
 }
-
 ?>
 
 <div data-role="page" data-theme="b" id="page_option">
@@ -69,7 +68,7 @@ if (isset($liste) && !empty($liste)) {
             echo $this->form->input("Todolist.dateEnd", array('type' => 'text', 'id' => 'dateEnd', 'label' => false, 'value' => $tableau['dateEnd'], 'placeholder' => "Date de fin(JJ/MM/AAA)"));
 
             $id_liste = $this->request->params['pass'][0];
-            echo  $this->Html->link('Ajouter un Membre', array('controller' => 'Users', 'action' => 'addMember', $id_liste), array("data-ajax" => "false",'data-role'=>"button", 'data-inline'=>"true")) . "</li>";
+            echo $this->Html->link('Ajouter un Membre', array('controller' => 'Users', 'action' => 'addMember', $id_liste), array("data-ajax" => "false", 'data-role' => "button", 'data-inline' => "true")) . "</li>";
             ?>
 
         </fieldset>

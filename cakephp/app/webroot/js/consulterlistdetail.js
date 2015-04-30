@@ -1,93 +1,82 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
-	$( "#DeleteTaskAnnule" ).click(function() {
-		$("#popupDeleteTask" ).data("id","null");
-	});
+    $("#DeleteTaskAnnule").click(function () {
+        $("#popupDeleteTask").data("id", "null");
+    });
 
-	$( "#popupDeleteTask" ).popup({
-		afterclose: function( event, ui ) {
-			var id= $(this).data("id");
+    $("#popupDeleteTask").popup({
+        afterclose: function (event, ui) {
+            var id = $(this).data("id");
 
-			if(id=="null"){
-				return false;
-			}
+            if (id == "null") {
+                return false;
+            }
 
-		$.ajax({
-		async:true,
-		type : "POST",
-		cache: false,
-		url:"/PPIL/cakephp/Tasks/supprimer/"+id,
+            $.ajax({
+                async: true,
+                type: "POST",
+                cache: false,
+                url: "/PPIL/cakephp/Tasks/supprimer/" + id,
 
-		success: function() {
-	$("#div"+id).remove();
-		},
+                success: function () {
+                    $("#div" + id).remove();
+                },
 
-		error: function(){
-		}
-	});
-
+                error: function () {
+                }
+            });
 
 
         }
     });
 
 
-
-
-
-
-
-
 });
 
-function cocher(check){
+function cocher(check) {
     var caseId = check.id;
-    var caseValue ='0';
+    var caseValue = '0';
 
-    if(check.checked){
-        caseValue='1';
+    if (check.checked) {
+        caseValue = '1';
     }
 
 
+    $.ajax({
+            async: true,
+            type: "POST",
+            cache: false,
+            url: "/PPIL/cakephp/Tasks/cocher/" + caseId + "/" + caseValue,
 
+            success: function () {
+                var link = $("#div" + caseId + " .ui-collapsible-heading a");
 
+                if (check.checked) {
+                    $("#div" + caseId).collapsible({
+                        collapsedIcon: "check"
+                    });
+                    $("#div" + caseId).collapsible({
+                        expandedIcon: "check"
+                    });
+                }
+                else {
+                    $("#div" + caseId).collapsible({
+                        collapsedIcon: false
+                    });
+                }
 
+            },
 
-	$.ajax({
-		async:true,
-		type : "POST",
-		cache: false,
-		url:"/PPIL/cakephp/Tasks/cocher/"+caseId+"/"+caseValue,
+            error: function () {
 
-		success: function() {
-			var link = $("#div"+caseId+" .ui-collapsible-heading a");
-
-			if(check.checked){
-				$("#div"+caseId).collapsible({
-					collapsedIcon: "check"
-				});
-				$("#div"+caseId).collapsible({
-					expandedIcon: "check"
-				});
-			}
-			else {
-				$("#div"+caseId).collapsible({
-					collapsedIcon: false
-				});
-			}
-
-		},
-
-		error: function(){
-
-		}
-	});
+            }
+        });
 
 }
 
-function deleteTask(id){
-	var popup = $( "#popupDeleteTask" );
-	popup.data("id", id);
-	popup.popup("open");
+function deleteTask(id) {
+    var popup = $("#popupDeleteTask");
+    popup.data("id", id);
+    popup.popup("open");
 }
 
