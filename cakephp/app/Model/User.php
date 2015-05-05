@@ -37,6 +37,10 @@ class User extends AppModel
             array(
                 'rule' => array('between', 6, 15),
                 'message' => "Le mot de passe doit avoir une longueur comprise entre 6 et 15 caractéres."
+            ),
+            array(
+                'rule' => array('motDePasseSecurite'),
+                'message' => "le mot de passe doit contenir une lettre majuscule, une lettre minuscule et un chiffre"
             )
 
         ),
@@ -53,10 +57,16 @@ class User extends AppModel
             'message' => "Prénom non valide."
         ),
         'birthdate' => array(
-            'rule' => '/^[0-9]{2,2}-[0-9]{2,2}-[0-9]{4,4}$/',
-            'required' => true,
-            'allowEmpty' => false,
-            'message' => "date anniversaire non valide"
+            array(
+                'rule' => '/^[0-9]{2,2}-[0-9]{2,2}-[0-9]{4,4}$/',
+                'required' => true,
+                'allowEmpty' => false,
+                'message' => "le format de la date d'anniversaire est invalide"
+            ),
+            array(
+                'rule' => array('ValidationDate'),
+                'message' => 'la date est incorrect (date grégorienne attendue)'
+            )
         ),
         'gender' => array(
             'rule' => '/^[0|1]{1,1}$/',
@@ -80,7 +90,6 @@ class User extends AppModel
     );
 
 
-//fonction de hachage du mot de passe avant la sauvegarde des données
     public function beforeSave($options = array())
     {
         if (isset($this->data[$this->alias]['password'])) {
@@ -94,17 +103,29 @@ class User extends AppModel
 
             $this->data[$this->alias]['birthdate'] = $this->dateFormatBeforeSave($this->data[$this->alias]['birthdate']);
 
-        }
 
+        }
         return true;
     }
 
-    public function dateFormatBeforeSave($dateString)
-    {
-        return date('Y-m-d', strtotime($dateString));
-    }
 
+    /**
+     * Test si le mot de passe contient au moins une lettre minuscule, une lettre majuscule & un chiffre
+     * Fonction utilisé par validate
+     * @param $data array password => 'mot de passe'
+     * @return bool true si les conditions sont respectées
+     */
+    public function motDePasseSecurite($data)
+    {
+        $password = $data['password'];
+
+        $lettreMinuscule = preg_match("#[a-z]#", $password);
+        $lettreMajuscule = preg_match("#[A-Z]#", $password);
+        $chiffre = preg_match("#[0-9]#", $password);
+
+        return $lettreMajuscule && $lettreMinuscule && $chiffre;
+    }
 }
 
-?>
+
 

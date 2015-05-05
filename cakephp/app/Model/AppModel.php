@@ -29,22 +29,57 @@ App::uses('Model', 'Model');
  *
  * @package       app.Model
  */
-class AppModel extends Model {
+class AppModel extends Model
+{
 
 
-
-/**
+    /**
      * Retourne TRUE si les deux champs ont la même valeur.
      */
-    function estEgal($field=array(), $compare_field=null){
-        foreach( $field as $key => $value ){
+    function estEgal($field = array(), $compare_field = null)
+    {
+        foreach ($field as $key => $value) {
             $v1 = $value;
-            $v2 = $this->data[$this->name][ $compare_field ];                 
-            if($v1 !== $v2) {
+            $v2 = $this->data[$this->name][$compare_field];
+            if ($v1 !== $v2) {
                 return false;
             }
         }
         return true;
+    }
+
+    /**
+     * Permet de convertir une date dans le format anglais
+     * @param la date à convertir
+     * @return la date convertie
+     */
+    public function dateFormatBeforeSave($dateString)
+    {
+        return date('Y-m-d', strtotime($dateString));
+    }
+
+
+    /**
+     * Fonction qui vérifie que la date saisie est correct  ( = une date grégorienne)
+     * @param $date date à tester de la forme JJ/MM/AAAA
+     * @return bool true si la date est valide
+     */
+    public function ValidationDate($date)
+    {
+
+        $tableau = explode("-", current($date));
+
+        if (count($tableau) == 3) {
+            $jour = $tableau[0];
+            $mois = $tableau[1];
+            $an = $tableau[2];
+
+            if($an > 2200) return false; // ~~
+
+            return checkdate($mois, $jour, $an);
+        }
+
+        return false;
     }
 
 }

@@ -75,5 +75,10 @@ class AppController extends Controller
         return false;
     }
 
+    public function dateFormatBeforeSave($dateString)
+    {
+        return date('Y-m-d', strtotime($dateString));
+    }
+
 
 }

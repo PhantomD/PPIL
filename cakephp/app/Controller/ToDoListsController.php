@@ -32,7 +32,7 @@ class TodolistsController extends AppController
         }
 
 
-        if ($this->action === 'newlist') {
+        if ($this->action === 'newlist' || $this->action == "consulterlist") {
             return true;
         }
 
@@ -73,15 +73,9 @@ class TodolistsController extends AppController
             // 2 array car c'est une association hasmany
             $data['TodolistUser'] = array(array('user_id' => $data['Todolist']['user_id']));
 
-            // Conversion des dates dans le bon format
-            $tableaudateDebut = explode("/", $data['Todolist']['dateBegin']);
-            if (count($tableaudateDebut) == 3)
-                $data['Todolist']['dateBegin'] = $tableaudateDebut[2] . "-" . $tableaudateDebut[1] . "-" . $tableaudateDebut[0];
 
-
-            $tableaudateEnd = explode("/", $data['Todolist']['dateEnd']);
-            if (count($tableaudateEnd) == 3)
-                $data['Todolist']['dateEnd'] = $tableaudateEnd[2] . "-" . $tableaudateEnd[1] . "-" . $tableaudateEnd[0];
+            $data['Todolist']['dateBegin'] = str_replace('/', '-', $data['Todolist']['dateBegin']);
+            $data['Todolist']['dateEnd'] = str_replace('/', '-', $data['Todolist']['dateEnd']);
 
             // On envoie les données à la vue
             $this->Todolist->set($data);
@@ -93,11 +87,11 @@ class TodolistsController extends AppController
                 $id = $this->Todolist->getLastInsertId();
                 $this->Session->write('Auth.User.Todolist.' . $id, 1);
                 $this->Session->setFlash(__('liste ajoutée'), 'default', array('class' => 'flash-message-success'));
+                return $this->redirect(array('action' => 'consulterlist'));
 
             } else {
                 $this->Session->setFlash(__('erreur liste non ajoutée'), 'default', array('class' => 'flash-message-error'));
             }
-            return $this->redirect(array('action' => 'consulterlist'));
         }
     }
 
@@ -113,27 +107,23 @@ class TodolistsController extends AppController
         if ($this->request->is('post')) {
             $data = $this->request->data;
 
+
             // Conversion des dates dans le bon format
-            $tableaudateDebut = explode("/", $data['Todolist']['dateBegin']);
-            if (count($tableaudateDebut) == 3)
-                $data['Todolist']['dateBegin'] = $tableaudateDebut[2] . "-" . $tableaudateDebut[1] . "-" . $tableaudateDebut[0];
-
-
-            $tableaudateEnd = explode("/", $data['Todolist']['dateEnd']);
-            if (count($tableaudateEnd) == 3)
-                $data['Todolist']['dateEnd'] = $tableaudateEnd[2] . "-" . $tableaudateEnd[1] . "-" . $tableaudateEnd[0];
-
+            $data['Todolist']['dateBegin'] = str_replace('/', '-', $data['Todolist']['dateBegin']);
+            $data['Todolist']['dateEnd'] = str_replace('/', '-', $data['Todolist']['dateEnd']);
 
             // On envoie les données à la vue
             $this->Todolist->set($data['Todolist']);
 
             // On sauvegarde les données dans la BDD
-            // $nom = $list['name']['0'];
-            debug($data['Todolist']);
-
             if ($this->Todolist->validates()) {
-                debug($data);
-                //  die();
+
+                if (!empty($data['Todolist']['dateBegin']))
+                    $data['Todolist']['dateBegin'] = $this->dateFormatBeforeSave($data['Todolist']['dateBegin']);
+
+                if (!empty($data['Todolist']['dateEnd']))
+                    $data['Todolist']['dateEnd'] = $this->dateFormatBeforeSave($data['Todolist']['dateEnd']);
+
                 $this->Todolist->updateAll(
                     array('Todolist.name' => "'" . $data['Todolist']['name'] . "'",
                         'Todolist.text' => "'" . $data['Todolist']['text'] . "'",
@@ -180,11 +170,11 @@ class TodolistsController extends AppController
                     )
                 ));
         */
+        $this->autoRender = true;
         $listes = $this->Session->read('Auth.User.Todolist');
         $id_listes = array_keys($listes);
         $this->Todolist->unbindModel(array('hasMany' => array('Task', 'Todolist_user')));
         $d['listes'] = $this->Todolist->find('all', array('fields' => array('id', 'name'), 'conditions' => array('Todolist.id' => $id_listes)));
-
         $this->set($d);
     }
 
@@ -208,7 +198,6 @@ class TodolistsController extends AppController
 
         return $this->redirect(array('controller' => 'Todolists', 'action' => 'consulterlist'));
     }
-
 
 
     /**

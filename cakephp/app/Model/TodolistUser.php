@@ -15,8 +15,4 @@ class TodolistUser extends AppModel{
             'dependent' => false
         )
     );
-
-
-
-
 }

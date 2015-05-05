@@ -46,6 +46,7 @@ class UsersController extends AppController
                     $id_liste = $this->request->params['pass'][0];
                     $this->Auth->unauthorizedRedirect = array('controller' => 'Todolists', 'action' => 'consulterlistdetail', $id_liste);
                 }
+
                 return false;
             }
         }
@@ -255,6 +256,11 @@ class UsersController extends AppController
 
                     $profil = current($profil);
 
+
+                    $profil['birthdate'] = $this->dateFormatBeforeSave($profil['birthdate']);
+
+                    debug($profil['birthdate']);
+
                     $this->User->updateAll(
                         array('User.name' => "'" . $profil['name'] . "'",
                             'User.firstname' => "'" . $profil['firstname'] . "'",
@@ -372,7 +378,6 @@ class UsersController extends AppController
         if ($id == null && empty($id) && is_int($id)) {
             $this->redirect($this->referer());
         }
-
 
 
         FacebookSession::enableAppSecretProof(false);
