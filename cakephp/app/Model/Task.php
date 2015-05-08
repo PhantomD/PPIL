@@ -11,6 +11,17 @@ class Task extends AppModel
 );
 
 */
+
+    public $actsAs = array('Containable');
+
+    public $hasMany = array(
+        'Commentary' => array(
+            'className' => 'Commentary',
+            'foreignKey' => 'task_id',
+            'dependent' => true,
+        )
+    );
+
     public $validate = array(
         'name' => array(
             'rule' => '/^[a-zA-Z0-9 ]*$/',
@@ -26,3 +37,4 @@ class Task extends AppModel
                 'message' => "Veuillez compléter ce champ correctement (alphanumeric)",
             )));
 }
+
