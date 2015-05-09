@@ -80,7 +80,7 @@ class UsersController extends AppController
 
 
         try {
-            $user = $connect->connect("http://sandbox.com/PPILFINAL/PPIL/cakephp/Users/connexionFacebook");
+            $user = $connect->connect("http://sandbox.com/PPIL/cakephp/Users/connexionFacebook");
 
             if (is_string($user)) {
 
@@ -176,9 +176,20 @@ class UsersController extends AppController
 
 
     public
-    function logout()
+    function logout($desinscription = null)
     {
         $this->Session->destroy();
+
+        if ($desinscription) {
+            $this->Session->setFlash(__('Désinscription réussie', null),
+                'default',
+                array('class' => 'flash-message-success'));
+        } else {
+            $this->Session->setFlash(__('Déconnexion réussie', null),
+                'default',
+                array('class' => 'flash-message-success'));
+        }
+
         $this->redirect($this->Auth->logout());
     }
 
@@ -343,11 +354,9 @@ class UsersController extends AppController
 
             if ($this->User->delete($user['id'])) {
 
-                $this->Session->setFlash(__('utilisateur supprimé', null),
-                    'default',
-                    array('class' => 'flash-message-success'));
+                $this->logout(true);
 
-                $this->redirect(array('controller' => 'Users', 'action' => 'logout'));
+                //  $this->redirect(array('controller' => 'Users', 'action' => 'logout'));
             }
         } else {
             $this->Session->setFlash(__('le mot de passe saisie est incorrect', null),
