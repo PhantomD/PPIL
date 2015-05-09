@@ -83,12 +83,13 @@
         echo "  <li>" . $this->Html->link('Afficher profil', array('controller' => 'Users', 'action' => 'profil'), array('data-ajax' => 'false')) . "</li>";
     }
 
-        // Supprimer Liste
+        // consulter Liste
         if ($this->action === 'consulterlistdetail') {
             echo "<li>" . $this->Html->link('ajouter membre', array('controller' => 'Users', 'action' => 'addMember', $id), array("data-ajax" => "false")) . "</li>";
             echo "<li>" . $this->Html->link('supprimer membre', array('controller' => 'Users', 'action' => 'removeMember', $id), array("data-ajax" => "false")) . "</li>";
             echo "<li>" . $this->Html->link('modifier la liste', array('controller' => 'Todolists', 'action' => 'modifylist', $id), array("data-ajax" => "false")) . "</li>";
-            echo "<li>" . $this->Html->link('supprimer la liste', array('controller' => 'Todolists', 'action' => 'supprimer', $id), array("data-ajax" => "false")) . "</li>";
+           // echo "<li>" . $this->Html->link('supprimer la liste', array('controller' => 'Todolists', 'action' => 'supprimer', $id), array("data-ajax" => "false")) . "</li>";
+            echo "<li>" . $this->Html->link('supprimer la liste', array(''), array('id'=>'deleteList','rel'=>'external', 'data-ajax' => "false")) . "</li>";
         }
 
         // deconnexion
@@ -114,5 +115,17 @@
             <?php echo $this->Html->link('Valider', array('controller' => 'Users', 'action' => 'logout'), array('data-role' => 'button', 'data-inline' => true, 'data-icon' => 'check', "data-ajax" => "false")); ?>
         </div>
     </div>
+
+    <div data-role="popup" id="DeleteList" data-position-to="window" data-overlay-theme="b" data-theme="b"
+         data-dismissible="true" style="max-width:400px;">
+        <div data-role="header" data-theme="a"><h1>Deconnexion</h1></div>
+        <div role="main" class="ui-content">
+            <h3 class="ui-title">Voulez-vous vraiment vous déconnecter ?</h3>
+            <a href="#" id ="DeleteListAnnule" data-role="button" data-inline="true" data-icon="delete" data-rel="back">Annuler</a>
+            <!--  <a href="connexion.html" data-role="button" data-inline="true" data-icon="check">Valider</a> -->
+            <?php echo $this->Html->link('Valider', array('controller' => 'Todolists', 'action' => 'supprimer', $id), array('data-role' => 'button', 'data-inline' => true, 'data-icon' => 'check', "data-ajax" => "false")); ?>
+        </div>
+    </div>
+
 
 </div>

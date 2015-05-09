@@ -109,3 +109,22 @@ margin-left: 20px;
 background : none;
 
 }
+
+
+
+/* table liste */
+
+#table_tache_listes_today,#table_tache_listes_week,#table_tache_listes_other{
+    width : 100%;
+}
+
+#table_tache_listes_today tr td, #table_tache_listes_week tr td, #table_tache_listes_other tr td{
+    text-align : left;
+    text-indent: 3em;
+    padding-bottom: 10px;
+}
+
+#table_tache_listes_today tr td.fleche,#table_tache_listes_week tr td.fleche,#table_tache_listes_other tr td.fleche {
+    text-align: right;
+    padding-right: 50px;
+}
