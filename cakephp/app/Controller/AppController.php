@@ -46,7 +46,7 @@ class AppController extends Controller
         'Auth' => array(
             'loginRedirect' => array('controller' => 'Todolists', 'action' => 'consulterlist'),//lors d'une connexion reussi
             'logoutRedirect' => array('controller' => 'users', 'action' => 'login'),//lors d'une deconnexion
-            'authError' => false,
+            'authError' => 'zone 51',
             'authorize' => array('Controller'),
             'unauthorizedRedirect' => array('controller' => 'Todolists', 'action' => 'consulterlist'),
             'authenticate' => array(
@@ -70,6 +70,8 @@ class AppController extends Controller
 
     public function isAuthorized($user)
     {
+
+        // Par défaut n'autorise pas
         return false;
     }
 

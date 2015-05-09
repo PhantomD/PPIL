@@ -10,7 +10,6 @@ App::uses('FacebookConnect', 'Vendor');
 class TodolistsController extends AppController
 {
     public $uses = array('Todolist', 'TodolistUser');
-    public $components = array('Paginator');
 
     function beforeFilter()
     {
@@ -28,13 +27,12 @@ class TodolistsController extends AppController
     function isAuthorized($user)
     {
 
-
         if (parent::isAuthorized($user)) {
             return true;
         }
 
 
-        if ($this->action === 'newlist' || $this->action == "consulterlist" || $this->action == "refresh") {
+        if ($this->action === 'newlist' || $this->action == "consulterlist") {
             return true;
         }
 
@@ -172,25 +170,12 @@ class TodolistsController extends AppController
                     )
                 ));
         */
-        
         $this->autoRender = true;
         $listes = $this->Session->read('Auth.User.Todolist');
         $id_listes = array_keys($listes);
         $this->Todolist->unbindModel(array('hasMany' => array('Task', 'Todolist_user')));
-
-
-        $d = $this->Todolist->find('all', array('recursive' => -1,
-            'conditions' => array('Todolist.id' => $id_listes),
-            'fields' => array('id', 'name', 'dateBegin')));
-
-
-        // on sépare les listes en 3 catégories
-        $data['today'] = array();
-        $data['week'] = array();
-        $data['other'] = array();
-        $this->separerListes($d, $data['today'], $data['week'], $data['other']);
-
-        $this->set($data);
+        $d['listes'] = $this->Todolist->find('all', array('fields' => array('id', 'name'), 'conditions' => array('Todolist.id' => $id_listes)));
+        $this->set($d);
     }
 
 
@@ -233,81 +218,5 @@ class TodolistsController extends AppController
         $this->set($data);
 
     }
-
-    public function refresh()
-    {
-        //Configure::write('debug', 0);
-        $user = AuthComponent::user()['id'];
-
-        $this->autoRender = false;
-
-        if ($this->request->is('ajax')) {
-            $data = $this->TodolistUser->find('list', array('recursive' => -1, 'conditions' => array('TodolistUser.user_id' => $user),
-                'fields' => array('todolist_id')));
-
-            //  debug($data);
-            $test = array();
-
-            $liste_session_user = array_keys($this->Session->read('Auth.User.Todolist'));
-
-            $tab_add = array_diff($data, $liste_session_user);
-
-            $tab_supr = array_diff($liste_session_user, $data);
-
-
-            foreach ($tab_supr as $value) {
-                $this->Session->delete('Auth.User.Todolist.' . $value);
-            }
-
-            $d = $this->Todolist->find('all', array('fields' => array('id', 'name', 'dateBegin'), 'conditions' => array('Todolist.id' => $tab_add),
-                'recursive' => -1));
-
-            unset($data);
-            $data['today'] = array();
-            $data['week'] = array();
-            $data['other'] = array();
-
-            $this->separerListes($d, $data['today'], $data['week'], $data['other']);
-
-            $toSend['listeAdd'] = $data;
-            $toSend['listeRemove'] = $tab_supr;
-
-            echo json_encode($toSend);
-
-
-        } else {
-            $this->redirect($this->Auth->loginRedirect);
-        }
-    }
-
-
-    public function separerListes($data, &$today, &$week, &$other)
-    {
-        $dateCourante = new DateTime("now");
-
-        // $interval = $datetime1->diff($datetime2)
-        foreach ($data as $key => $value) {
-            $value = current($value);
-
-            if ($value['dateBegin'] == null) {
-                $other[] = $value;
-                continue;
-            }
-            $dateListe = new DateTime($value['dateBegin']);
-            $dif = date_diff($dateCourante, $dateListe);
-            $jour = $dif->format('%R%a ');
-
-            if ($jour == 0) {
-
-                $today[] = $value;
-
-            } else if ($jour <= 7) {
-                $week[] = $value;
-            } else {
-                $other[] = $value;
-            }
-        };
-    }
-
 
 }

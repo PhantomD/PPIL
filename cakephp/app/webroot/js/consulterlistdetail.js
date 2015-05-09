@@ -1,7 +1,5 @@
 $(document).ready(function () {
 
-
-    // SUPPRIMER TACHE
     $("#DeleteTaskAnnule").click(function () {
         $("#popupDeleteTask").data("id", "null");
     });
@@ -33,25 +31,7 @@ $(document).ready(function () {
     });
 
 
-    //SUPPRIMER LISTE
-    $("#deleteList").click(function () {
-
-
-        $("#popupMenu").bind({
-            popupafterclose: function (event, ui) {
-                var popup = $("#DeleteList");
-                popup.popup();
-                popup.popup("open");
-            }
-        });
-
-        $("#popupMenu").popup('close');
-        return false;
-    });
 });
-
-
-
 
 function cocher(check) {
     var caseId = check.id;
@@ -63,39 +43,37 @@ function cocher(check) {
 
 
     $.ajax({
-        async: true,
-        type: "POST",
-        cache: false,
-        url: "/PPIL/cakephp/Tasks/cocher/" + caseId + "/" + caseValue,
+            async: true,
+            type: "POST",
+            cache: false,
+            url: "/PPIL/cakephp/Tasks/cocher/" + caseId + "/" + caseValue,
 
-        success: function () {
-            var link = $("#div" + caseId + " .ui-collapsible-heading a");
+            success: function () {
+                var link = $("#div" + caseId + " .ui-collapsible-heading a");
 
-            if (check.checked) {
-                $("#div" + caseId).collapsible({
-                    collapsedIcon: "check"
-                });
-                $("#div" + caseId).collapsible({
-                    expandedIcon: "check"
-                });
+                if (check.checked) {
+                    $("#div" + caseId).collapsible({
+                        collapsedIcon: "check"
+                    });
+                    $("#div" + caseId).collapsible({
+                        expandedIcon: "check"
+                    });
+                }
+                else {
+                    $("#div" + caseId).collapsible({
+                        collapsedIcon: false
+                    });
+                }
+
+            },
+
+            error: function () {
+
             }
-            else {
-                $("#div" + caseId).collapsible({
-                    collapsedIcon: false
-                });
-            }
-
-        },
-
-        error: function () {
-
-
-        }
-    });
+        });
 
 }
 
-// ouverture popup confirmation pour supprimer tache
 function deleteTask(id) {
     var popup = $("#popupDeleteTask");
     popup.data("id", id);
