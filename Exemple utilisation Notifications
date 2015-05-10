@@ -1,0 +1,21 @@
+<html>
+<head>
+<script type="text/javascript">
+function check_demande() {
+        $.ajax({
+     
+            url: "nbr_notifications.php",
+         
+ 
+            ifModified:true,
+            success: function(content){
+                $('#demandes').html(content); //span où tu veux que ce nombre apparaisse
+            }
+        });
+        setTimeout(check_demande, 5000);
+    }
+    check_demande();
+</script>
+ 
+</head><body> <h1> Bonjour </h1>
+ Coucou tu as <!-- la je veux afficher le nombre de notif donc je place $('#demandes') ? !>
