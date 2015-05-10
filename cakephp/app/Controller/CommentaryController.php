@@ -56,12 +56,6 @@ class CommentaryController extends AppController
 
 
 
-    public function taillelist()
-    {
-        // retourne le nombre de l'élément
-        $taille = $this->Commentary->find('count');
-        return $taille;
-
-    }
+ 
     
 }
