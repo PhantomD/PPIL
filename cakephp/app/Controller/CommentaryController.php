@@ -2,7 +2,7 @@
 
 class CommentaryController extends AppController
 {
-    public $uses = array('User','Commentary');
+    public $uses = array('User', 'Commentary');
 
     function beforeFilter()
     {
@@ -50,16 +50,16 @@ class CommentaryController extends AppController
 
             if ($this->Commentary->validates()) {
 
-                $user = $this->User->Find('first', array('recursive'=>-1,'fields'=> array('name','firstname'),
-                    'conditions' => array('id'=> AuthComponent::user()['id'])));
+                $user = $this->User->Find('first', array('recursive' => -1, 'fields' => array('name', 'firstname'),
+                    'conditions' => array('id' => AuthComponent::user()['id'])));
 
                 // On sauvegarde les données dans la BDD
                 $this->Commentary->save($data);
 
                 echo json_encode($user);
 
-            } else{
-               throw new Exception();
+            } else {
+                throw new Exception();
             }
 
             //$this->redirect( array('controller' => 'Todolists', 'action' => 'consulterlistdetail', $data['todolist_id']));
@@ -67,5 +67,7 @@ class CommentaryController extends AppController
 
     }
 
-
 }
+
+
+
