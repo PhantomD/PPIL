@@ -296,7 +296,7 @@ class TodolistsController extends AppController
             $dif = date_diff($dateCourante, $dateListe);
             $jour = $dif->format('%R%a ');
 
-            if ($jour < 0) {
+            if ($jour <= 0) {
 
                 $today[] = $value;
 
