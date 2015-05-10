@@ -128,3 +128,9 @@ background : none;
     text-align: right;
     padding-right: 50px;
 }
+
+
+.ui-collapsible-heading-toggl .ui-checkbox{
+    width: 8%;
+    margin: auto;
+}
