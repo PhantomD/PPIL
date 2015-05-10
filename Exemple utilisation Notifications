@@ -1,21 +1,32 @@
+<?php
+session_start();
+include ('page.php');
+?>
 <html>
 <head>
+ 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
 <script type="text/javascript">
-function check_demande() {
+function notif() {
         $.ajax({
      
-            url: "nbr_notifications.php",
+            url: "nombre.php",
          
  
             ifModified:true,
             success: function(content){
-                $('#demandes').html(content); //span où tu veux que ce nombre apparaisse
+             $('#notifications').html(content); //span où tu veux que ce nombre apparaisse
             }
         });
-        setTimeout(check_demande, 5000);
+        setTimeout(notif, 10000);
     }
-    check_demande();
+    notif();
+     
+     
+     
 </script>
  
-</head><body> <h1> Bonjour </h1>
- Coucou tu as <!-- la je veux afficher le nombre de notif donc je place $('#demandes') ? !>
+</head>
+<div class="fond" id="notifications">
+ 
+</div>
