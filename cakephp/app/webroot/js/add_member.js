@@ -13,7 +13,7 @@ function add_member(link) {
             async: true,
             type: "POST",
             cache: false,
-            url: "/PPILFINAL/PPIL/cakephp/Users/addListetoUser/" +id+"/"+id_liste,
+            url: "/PPIL/cakephp/Users/addListetoUser/" +id+"/"+id_liste,
 
             success: function () {
 
@@ -23,8 +23,8 @@ function add_member(link) {
             },
 
             error: function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                alert(thrownError);
+              //  alert(xhr.status);
+              //  alert(thrownError);
             }
         }
     );

@@ -46,19 +46,11 @@ class TasksController extends AppController
 
                 $this->Session->setFlash(__('tâche ajoutée', null),
                     'default',
-                    array('class' => 'flash-message-success'));
+                    array('class' => 'flash-message-success', 'timeout' => 3));
 
             }
             return $this->redirect($this->Auth->redirect(array('controller' => 'Todolists', 'action' => 'consulterlistdetail', $data['todolist_id'])));
         }
-
-    }
-
-    public function taillelist()
-    {
-        // retourne le nombre de l'élément
-        $taille = $this->Task->find('count');
-        return $taille;
 
     }
 
@@ -109,16 +101,70 @@ class TasksController extends AppController
 
     public function cocher($id, $value)
     {
-
+        Configure::write('debug', 0);
         $this->autoRender = false;
 
+        $date = ($value == 1 ? date("Y-d-m") : NULL);
+        $user = ($value == 1 ? $user = AuthComponent::user()['id'] : NULL);
+
         if ($this->request->is('ajax')) {
-            $this->Task->id = $id;
-            $this->Task->saveField('isChecked', $value);
+
+            if ($value == 0) {
+                $d = current($this->Task->Find('first', array('recursive' => -1, 'fields' => 'user_id', 'conditions' => array('id' => $id))));
+
+                if ($d['user_id'] != AuthComponent::user()['id']) {
+                    return false;
+                }
+            }
+
+
+            $this->Task->updateAll(
+                array('Task.isChecked' => "'" . $value . "'",
+                    'Task.date' => "'" . $date . "'",
+                    'Task.user_id' => "'" . $user . "'"
+                ),
+                array('Task.id' => $id));
+
+
         } else {
             $this->redirect($this->referer());
         }
 
 
     }
+
+
+    public function modifyTask($id, $nom=null)
+    {
+        Configure::write('debug', 1);
+        $this->autoRender = false;
+        $this->request->allowMethod(array('ajax'));
+
+        if(empty($nom)){
+            throw new InternalErrorException("champ vide");
+        }
+
+        $data['name'] = $nom;
+        $data['id'] = $id;
+
+        if ($this->request->is('ajax')) {
+
+            $this->Task->set($data);
+
+            if ($this->Task->validates()) {
+
+                $this->Task->updateAll(
+                    array('Task.name' => "'" . $nom . "'"
+                    ),
+                    array('Task.id' => $id));
+            } else {
+                throw new InternalErrorException("nom incorrect");
+
+            }
+
+        }
+
+    }
+
+
 }

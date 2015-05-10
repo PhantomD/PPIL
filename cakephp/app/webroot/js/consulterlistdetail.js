@@ -31,9 +31,62 @@ $(document).ready(function () {
 
         }
     });
+//****************************************
+
+    //edit task
+
+    $("a.editTask").click(function () {
+
+        var id = this.name; // id tache
+
+        var popup = $("#popupEditTask");
+        popup.data("id", id);
+        popup.popup("open");
+
+        $("#editTaskOk").click(function () {
+
+            var id = popup.data("id");
+
+            var text = $.trim($("#editTaskName").val());
+
+            if (id == "null") {
+                return false;
+            }
+
+            $.ajax({
+                async: true,
+                type: "POST",
+                cache: false,
+                url: "/PPIL/cakephp/Tasks/modifyTask/" + id + "/" + text,
+
+                success: function () {
+                    popup.popup('close');
 
 
-    //SUPPRIMER LISTE
+                    $("#nameTask" + id).text(text);
+                },
+                error: function (request) {
+                    var erreur = request.responseText;
+                    $("#erreurEditTask").empty();
+                    $("#erreurEditTask").append(erreur);
+                }
+            });
+            return false;
+        });
+
+        popup.bind({
+            popupafterclose: function (event, ui) {
+                $("#editTaskName").val('');
+                $("#erreurEditTask").empty();
+
+            }
+        });
+
+
+    });
+//****************************************
+
+//SUPPRIMER LISTE
     $("#deleteList").click(function () {
 
 
@@ -44,13 +97,65 @@ $(document).ready(function () {
                 popup.popup("open");
             }
         });
-
         $("#popupMenu").popup('close');
         return false;
     });
+//****************************************
+
+//ajout commentaire
+    $("a.comment").on('click', function (event) {
+
+        var id = this.name; // id tache
+        var popup = $("#popupAddComment");
+        popup.data("id", id);
+        popup.popup("open");
+
+        $("#commentCancel").click(function () {
+            popup.data("id", "null");
+        });
+
+        popup.popup({
+            afterclose: function (event, ui) {
+                var id = $(this).data("id");
+
+                var text = $.trim($("#inputTextCommment").val());
+                $("#inputTextCommment").val('');
+
+                if (id == "null") {
+                    return false;
+                }
+
+
+                var text_i = text.replace(/ /gm, "___");
+
+                $.ajax({
+                    async: true,
+                    type: "POST",
+                    cache: false,
+                    url: "/PPIL/cakephp/Commentary/newcommentary/" + id + "/" + text_i,
+
+                    success: function (data) {
+                        alert(data);
+                        data = JSON.parse(data);
+
+                        var liste = $("#listeCommentaire");
+
+                        liste.append("<li>" + text + " </li> <div id='comment-name'>" + data['User']['firstname'] + " " + data['User']['name'] + "</div>");
+                        //  $("#div" + id).remove();
+                    },
+
+                    error: function () {
+                    }
+                });
+
+                return false;
+            }
+        });
+
+    });
+
 });
-
-
+//****************************************
 
 
 function cocher(check) {

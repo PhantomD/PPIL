@@ -9,7 +9,7 @@ App::uses('FacebookConnect', 'Vendor');
 
 class TodolistsController extends AppController
 {
-    public $uses = array('Todolist', 'TodolistUser');
+    public $uses = array('Todolist', 'TodolistUser','Commentary');
     public $components = array('Paginator');
 
     function beforeFilter()
@@ -172,7 +172,7 @@ class TodolistsController extends AppController
                     )
                 ));
         */
-        
+
         $this->autoRender = true;
         $listes = $this->Session->read('Auth.User.Todolist');
         $id_listes = array_keys($listes);
@@ -223,8 +223,10 @@ class TodolistsController extends AppController
     public function consulterlistdetail($id)
     {
 
+        $this->Todolist->unbindModel( array('hasMany' => array('TodolistUser')));
+
         // On recupere les données de la liste associées au nom
-        $d['liste'] = $this->Todolist->find('first', array('conditions' => array('Todolist.id' => $id)));
+        $d['liste'] = $this->Todolist->find('first', array('recursive' => 3,'conditions' => array('Todolist.id' => $id)));
 
         $data['liste'] = $d['liste']['Todolist'];
         $data['id'] = $id;
@@ -236,7 +238,7 @@ class TodolistsController extends AppController
 
     public function refresh()
     {
-        //Configure::write('debug', 0);
+        Configure::write('debug', 0);
         $user = AuthComponent::user()['id'];
 
         $this->autoRender = false;
@@ -244,9 +246,6 @@ class TodolistsController extends AppController
         if ($this->request->is('ajax')) {
             $data = $this->TodolistUser->find('list', array('recursive' => -1, 'conditions' => array('TodolistUser.user_id' => $user),
                 'fields' => array('todolist_id')));
-
-            //  debug($data);
-            $test = array();
 
             $liste_session_user = array_keys($this->Session->read('Auth.User.Todolist'));
 
@@ -297,7 +296,7 @@ class TodolistsController extends AppController
             $dif = date_diff($dateCourante, $dateListe);
             $jour = $dif->format('%R%a ');
 
-            if ($jour == 0) {
+            if ($jour < 0) {
 
                 $today[] = $value;
 

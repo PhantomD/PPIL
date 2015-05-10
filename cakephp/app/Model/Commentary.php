@@ -5,22 +5,25 @@ class Commentary extends AppModel
 
     public $actsAs = array('Containable');
 
-    public $hasOne = array(
-
+    public $belongsTo = array(
         'Task' => array(
-            'foreignKey'=>false,
-            'conditions' => array('Commentary.task_id = Task.id'),
-            'dependent' => false
-        ));
-
+            'className' => 'Task',
+            'dependent' => true
+        ),
+        'User' => array(
+            'className' => 'User',
+            'fields' => array('name', 'firstname'),
+            'foreignKey' => 'user_id',
+            'dependent' => false)
+    );
 
     public $validate = array(
         'text' => array(
-            'rule' => '/^[a-zA-Z0-9 ]*$/',
+            'rule' => '/^[a-zA-Z0-9.\'\" ]*$/',
             'required' => true,
             'allowEmpty' => false,
             'message' => "Veuillez compléter ce champ correctement(alphanumeric)",
 
 
-          ));
+        ));
 }

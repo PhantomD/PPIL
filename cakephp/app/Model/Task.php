@@ -11,16 +11,25 @@ class Task extends AppModel
 );
 
 */
-
     public $actsAs = array('Containable');
+
+
+    public $belongsTo = array(
+        'User' => array(
+            'fields' => array('name', 'firstname','id'),
+            'foreignKey' => 'user_id',
+            'dependent' => false)
+    );
+
 
     public $hasMany = array(
         'Commentary' => array(
             'className' => 'Commentary',
             'foreignKey' => 'task_id',
             'dependent' => true,
-        )
+        ),
     );
+
 
     public $validate = array(
         'name' => array(
@@ -34,7 +43,7 @@ class Task extends AppModel
                 'rule' => '/^[a-zA-Z0-9 ]*$/',
                 'required' => false,
                 'allowEmpty' => true,
-                'message' => "Veuillez compléter ce champ correctement (alphanumeric)",
+                'message' => "Veuillez compléter le commentaire correctement (alphanumeric)",
             )));
 }
 

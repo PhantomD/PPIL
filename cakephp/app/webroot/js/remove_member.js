@@ -11,7 +11,7 @@ function removeMember(link) {
             async: true,
             type: "POST",
             cache: false,
-            url: "/PPILFINAL/PPIL/cakephp/Users/removeMember/"+id,
+            url: "/PPIL/cakephp/Users/removeMember/"+id,
 
             success: function () {
 
@@ -21,8 +21,7 @@ function removeMember(link) {
             },
 
             error: function (xhr, ajaxOptions, thrownError) {
-                alert(xhr.status);
-                alert(thrownError);
+              //  alert(xhr.status);
             }
         }
     );
