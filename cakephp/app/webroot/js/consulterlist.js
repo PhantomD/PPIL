@@ -25,9 +25,9 @@ $(document).ready(function () {
                                 // savoir dans quelle partie ajouter
                                 $.each(value, function (index, value) {
 
-                                    if (index === 'today') {
+                                    if (index == 'today') {
                                         var table = $("#table_tache_listes_today tbody");
-                                    } else if (index === 'week') {
+                                    } else if (index == 'week') {
                                         var table = $("#table_tache_listes_week tbody");
                                     } else {
                                         var table = $("#table_tache_listes_other tbody");
@@ -58,12 +58,12 @@ $(document).ready(function () {
 
                         });
                     }
-                    refresh();
                 },
                 error: function () {
                 }
             });
 
+            refresh();
         }, 10000);
 
     }

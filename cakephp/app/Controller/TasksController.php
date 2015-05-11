@@ -55,31 +55,6 @@ class TasksController extends AppController
     }
 
 
-    public function consultertask($ligne)
-    {
-
-        // On récupère le nom des éléments
-        $task = $this->Task->find('all', array(
-            'fields' => array('Task.name'),
-            'order' => array('id DESC')));
-
-        return $task["$ligne"]["Task"]["name"];
-
-    }
-
-    public function consultertaskdetail($id)
-    {
-
-        // On recupere les données de l'élément associées au nom
-        $task = array('name' => $this->Task->find('all', array('fields' => array('Task.name'), 'conditions' => array('Task.name' => $nom)))
-        );
-
-
-        // On passe les variables à la vues
-        $this->set($task);
-
-    }
-
     public function supprimer($id)
     {
         $this->autoRender = false;
@@ -87,10 +62,6 @@ class TasksController extends AppController
         if ($this->request->is('ajax')) {
             if ($this->Task->delete($id)) {
 
-                /*$this->Session->setFlash(__('tâche supprimée', null),
-                    'default',
-                    array('class' => 'flash-message-success'));
-                    */
             }
         } else {
             $this->redirect($this->referer());
@@ -101,11 +72,13 @@ class TasksController extends AppController
 
     public function cocher($id, $value)
     {
-        Configure::write('debug', 0);
+        Configure::write('debug', 1);
         $this->autoRender = false;
+        $this->request->allowMethod(array('ajax'));
 
         $date = ($value == 1 ? date("Y-d-m") : NULL);
         $user = ($value == 1 ? $user = AuthComponent::user()['id'] : NULL);
+
 
         if ($this->request->is('ajax')) {
 
@@ -115,6 +88,16 @@ class TasksController extends AppController
                 if ($d['user_id'] != AuthComponent::user()['id']) {
                     return false;
                 }
+            } else if ($value == 1) {
+                $d = $this->Task->find('first', array('recursive' => -1, 'conditions' => array('Task.id' => $id)));
+
+
+                if ($d['Task']['isChecked'] == true) {
+                    throw new InternalErrorException("quelqu'un à déjà pris cette tâche");
+                }
+
+            } else {
+                return false;
             }
 
 
@@ -125,22 +108,18 @@ class TasksController extends AppController
                 ),
                 array('Task.id' => $id));
 
-
-        } else {
-            $this->redirect($this->referer());
         }
-
 
     }
 
 
-    public function modifyTask($id, $nom=null)
+    public function modifyTask($id, $nom = null)
     {
         Configure::write('debug', 1);
         $this->autoRender = false;
         $this->request->allowMethod(array('ajax'));
 
-        if(empty($nom)){
+        if (empty($nom)) {
             throw new InternalErrorException("champ vide");
         }
 

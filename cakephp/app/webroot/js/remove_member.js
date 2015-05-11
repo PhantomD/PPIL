@@ -4,9 +4,6 @@ function removeMember(link) {
     var id = link.id;
     var id_liste = $("#idliste").text();
 
-    alert(id);
-    alert(id_liste);
-
     $.ajax({
             async: true,
             type: "POST",

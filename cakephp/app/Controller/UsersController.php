@@ -388,18 +388,25 @@ class UsersController extends AppController
             $this->redirect($this->referer());
         }
 
-
         FacebookSession::enableAppSecretProof(false);
         $friends = FacebookConnect::getFriendProfil($id);
-
 
         //  $profil['firstname'] = $friends->getFirstName();
         $profil['name'] = $friends['name'];
         $profil['birthdate'] = $friends['birthday'];
         $profil['gender'] = $friends['gender'];
-        $profil['email'] = current(current($this->User->find('first', array('recursive' => '-1', 'conditions' => array('id_facebook' => $id),
-            'fields' => 'User.email'))));
+        $dataBD = current($this->User->find('first', array('recursive' => '-1', 'conditions' => array('id_facebook' => $id),
+            'fields' => array('User.email', 'User.birthdate'))));
 
+
+        $profil['email'] =  $dataBD['email'];
+
+        if ($profil['birthdate'] == ""){
+            $tab = explode("-", $dataBD['birthdate']);
+            if(count($tab)==3)
+            $profil['birthdate'] = $tab[1]."/".$tab[2]."/".$tab[0];
+
+        }
 
         $this->set($profil);
     }
@@ -473,13 +480,17 @@ class UsersController extends AppController
 
 
             $this->TodolistUser->set($id);
-            debug(
-                $this->TodolistUser->delete($id, false));
+
+
+            if ($id != AuthComponent::user()['id']) {
+                $this->TodolistUser->delete($id, false);
+            }
+
         } else {
 
             $this->TodolistUser->unbindModel(array('hasOne' => array('Todolist')));
             $users = $this->TodolistUser->find("all", array("conditions" => array(
-                'todolist_id' => $id, 'id_facebook !=' => '-1'), 'fields' => array('TodolistUser.id', 'User.id_facebook')
+                'todolist_id' => $id, 'id_facebook !=' => '-1'), 'fields' => array('TodolistUser.id', 'User.id', 'User.id_facebook')
             ));
 
 
@@ -487,10 +498,10 @@ class UsersController extends AppController
 
             foreach ($users as $key => $valeurs) {
                 //$valeurs = current($valeurs);
-
                 $profil = FacebookConnect::getFriendProfil($valeurs['User']['id_facebook']);
 
                 $data['profil'][$key]['id'] = $valeurs['TodolistUser']['id'];
+                $data['profil'][$key]['User_id'] = $valeurs['User']['id'];
                 $data['profil'][$key]['name'] = $profil['name'];
             }
 
@@ -508,6 +519,8 @@ class UsersController extends AppController
 
         $d = $this->TodolistUser->find("all", array('recursive' => 1, 'fields' => array('Todolist.user_id', 'Todolist.id'), 'conditions' => array('TodolistUser.user_id' => $id_user)));
 
+
+        //  $this->Session->write('Auth.User.Todolist'.NULL);
         foreach ($d as $key => $value) {
             $id_liste = $value['Todolist']['id'];
             $proprietaire = ($value['Todolist']['user_id'] == $id_user ? 1 : 0);

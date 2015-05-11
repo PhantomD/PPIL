@@ -54,7 +54,7 @@ if (isset($liste) && !empty($liste)) {
 
 
         echo "<div data-role='content' data-theme='c'>";
-        echo $this->form->input("Todolist.name", array('type' => 'text', 'label' => false, 'required' => true, 'id' => 'name', 'value' => $tableau['name']));
+        echo $this->form->input("Todolist.name", array('type' => 'text', 'maxlength'=>'50', 'label' => false, 'required' => true, 'id' => 'name', 'value' => $tableau['name']));
         ?> <br><br>
 
         <fieldset>
@@ -63,9 +63,11 @@ if (isset($liste) && !empty($liste)) {
             <?php
             echo $this->form->input("Todolist.text", array('type' => 'text', 'id' => 'text', 'label' => false, 'value' => $tableau['text'], 'placeholder' => "Commentaire"));
 
-            echo $this->form->input("Todolist.dateBegin", array('type' => 'text', 'id' => 'dateBegin', 'label' => false, 'value' => $tableau['dateBegin'], 'placeholder' => "Date de début(JJ/MM/AAA)"));
+            echo $this->form->input("Todolist.dateBegin", array('type' => 'text', 'id' => 'dateBegin', 'label' => false,'data-role'=>'datebox' ,
+                'data-options'=> '{"mode": "calbox","afterToday":"true"}','value' => $tableau['dateBegin'], 'placeholder' => "Date de début"));
 
-            echo $this->form->input("Todolist.dateEnd", array('type' => 'text', 'id' => 'dateEnd', 'label' => false, 'value' => $tableau['dateEnd'], 'placeholder' => "Date de fin(JJ/MM/AAA)"));
+            echo $this->form->input("Todolist.dateEnd", array('type' => 'text', 'id' => 'dateEnd', 'label' => false,'data-role'=>'datebox' ,
+                'data-options'=> '{"mode": "calbox","afterToday":"true"}','value' => $tableau['dateEnd'], 'placeholder' => "Date de fin"));
 
             $id_liste = $this->request->params['pass'][0];
             echo $this->Html->link('Ajouter un Membre', array('controller' => 'Users', 'action' => 'addMember', $id_liste), array("data-ajax" => "false", 'data-role' => "button", 'data-inline' => "true")) . "</li>";

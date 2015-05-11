@@ -31,14 +31,18 @@ class CommentaryController extends AppController
     }
 
 
-    public function newcommentary($id_tache, $text)
+    public function newcommentary($id_tache, $text = null)
     {
-        Configure::write('debug', 0);
+        Configure::write('debug', 1);
         $this->autoRender = false;
+        $this->request->allowMethod(array('ajax'));
+
+        if (empty($text)) {
+            throw new InternalErrorException("champ vide");
+        }
 
         $data['task_id'] = $id_tache;
         $text = str_replace("___", " ", $text);
-
         $data['text'] = $text;
 
         if ($this->request->is('ajax')) {
@@ -59,13 +63,14 @@ class CommentaryController extends AppController
                 echo json_encode($user);
 
             } else {
-                throw new Exception();
+                throw new InternalErrorException("commentaire incorrect");
             }
 
             //$this->redirect( array('controller' => 'Todolists', 'action' => 'consulterlistdetail', $data['todolist_id']));
         }
 
     }
+
 
 }
 

@@ -9,7 +9,7 @@ App::uses('FacebookConnect', 'Vendor');
 
 class TodolistsController extends AppController
 {
-    public $uses = array('Todolist', 'TodolistUser','Commentary');
+    public $uses = array('Todolist', 'TodolistUser', 'Commentary');
     public $components = array('Paginator');
 
     function beforeFilter()
@@ -223,10 +223,10 @@ class TodolistsController extends AppController
     public function consulterlistdetail($id)
     {
 
-        $this->Todolist->unbindModel( array('hasMany' => array('TodolistUser')));
+        $this->Todolist->unbindModel(array('hasMany' => array('TodolistUser')));
 
         // On recupere les données de la liste associées au nom
-        $d['liste'] = $this->Todolist->find('first', array('recursive' => 3,'conditions' => array('Todolist.id' => $id)));
+        $d['liste'] = $this->Todolist->find('first', array('recursive' => 3, 'conditions' => array('Todolist.id' => $id)));
 
         $data['liste'] = $d['liste']['Todolist'];
         $data['id'] = $id;
@@ -243,36 +243,42 @@ class TodolistsController extends AppController
 
         $this->autoRender = false;
 
+        $data = $this->TodolistUser->find('list', array('recursive' => -1, 'conditions' => array('TodolistUser.user_id' => $user),
+            'fields' => array('todolist_id')));
+
+        if (! $this->Session->check('Auth.User.Todolist')) {
+            $this->Session->write('Auth.User.Todolist', array());
+
+        }
+        $liste_session_user = array_keys($this->Session->read('Auth.User.Todolist'));
+
+        $tab_add = array_diff($data, $liste_session_user);
+
+        $tab_supr = array_diff($liste_session_user, $data);
+
+
+        foreach ($tab_supr as $value) {
+            $this->Session->delete('Auth.User.Todolist.' . $value);
+        }
+        foreach ($tab_add as $value) {
+            $this->Session->write('Auth.User.Todolist.' . $value, '0');
+        }
+
+        $d = $this->Todolist->find('all', array('fields' => array('id', 'name', 'dateBegin'), 'conditions' => array('Todolist.id' => $tab_add),
+            'recursive' => -1));
+
+        unset($data);
+        $data['today'] = array();
+        $data['week'] = array();
+        $data['other'] = array();
+
+        $this->separerListes($d, $data['today'], $data['week'], $data['other']);
+
+        $toSend['listeAdd'] = $data;
+        $toSend['listeRemove'] = $tab_supr;
+
         if ($this->request->is('ajax')) {
-            $data = $this->TodolistUser->find('list', array('recursive' => -1, 'conditions' => array('TodolistUser.user_id' => $user),
-                'fields' => array('todolist_id')));
-
-            $liste_session_user = array_keys($this->Session->read('Auth.User.Todolist'));
-
-            $tab_add = array_diff($data, $liste_session_user);
-
-            $tab_supr = array_diff($liste_session_user, $data);
-
-
-            foreach ($tab_supr as $value) {
-                $this->Session->delete('Auth.User.Todolist.' . $value);
-            }
-
-            $d = $this->Todolist->find('all', array('fields' => array('id', 'name', 'dateBegin'), 'conditions' => array('Todolist.id' => $tab_add),
-                'recursive' => -1));
-
-            unset($data);
-            $data['today'] = array();
-            $data['week'] = array();
-            $data['other'] = array();
-
-            $this->separerListes($d, $data['today'], $data['week'], $data['other']);
-
-            $toSend['listeAdd'] = $data;
-            $toSend['listeRemove'] = $tab_supr;
-
             echo json_encode($toSend);
-
 
         } else {
             $this->redirect($this->Auth->loginRedirect);

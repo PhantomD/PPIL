@@ -18,7 +18,7 @@ function add_member(link) {
             success: function () {
 
                $("#ligne" + id).remove();
-                $("#flash").empty().append("utilisateur"+ id+" ajouté");
+                $("#flash").empty().append("utilisateur ajouté");
 
             },
 

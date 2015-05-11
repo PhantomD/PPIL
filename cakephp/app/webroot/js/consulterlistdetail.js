@@ -45,13 +45,10 @@ $(document).ready(function () {
 
         $("#editTaskOk").click(function () {
 
+            var popup = $("#popupEditTask");
             var id = popup.data("id");
 
             var text = $.trim($("#editTaskName").val());
-
-            if (id == "null") {
-                return false;
-            }
 
             $.ajax({
                 async: true,
@@ -61,7 +58,6 @@ $(document).ready(function () {
 
                 success: function () {
                     popup.popup('close');
-
 
                     $("#nameTask" + id).text(text);
                 },
@@ -101,7 +97,7 @@ $(document).ready(function () {
         return false;
     });
 //****************************************
-
+    //erreurCommentTask
 //ajout commentaire
     $("a.comment").on('click', function (event) {
 
@@ -110,49 +106,67 @@ $(document).ready(function () {
         popup.data("id", id);
         popup.popup("open");
 
-        $("#commentCancel").click(function () {
-            popup.data("id", "null");
-        });
+        $("#commentOk").click(function () {
 
+            var popup = $("#popupAddComment");
+            var id = popup.data("id");
+
+            var text = $.trim($("#inputTextCommment").val());
+
+            var text_i = text.replace(/ /gm, "___");
+
+            $.ajax({
+                async: true,
+                type: "POST",
+                cache: false,
+                url: "/PPIL/cakephp/Commentary/newcommentary/" + id + "/" + text_i,
+
+                success: function (data) {
+                    data = JSON.parse(data);
+
+                    var liste = $("#listeCommentaire" + id);
+
+                    liste.append("<li>" + text + " </li> <div id='comment-name'>" + data['User']['firstname'] + " " + data['User']['name'] + "</div>");
+                    //  $("#div" + id).remove();
+                    popup.popup('close');
+                },
+                error: function (request) {
+                    var erreur = request.responseText;
+                    $("#erreurCommentTask").empty();
+                    $("#erreurCommentTask").append(erreur);
+
+                }
+            });
+            return false;
+
+        });
         popup.popup({
             afterclose: function (event, ui) {
-                var id = $(this).data("id");
-
-                var text = $.trim($("#inputTextCommment").val());
                 $("#inputTextCommment").val('');
-
-                if (id == "null") {
-                    return false;
-                }
-
-
-                var text_i = text.replace(/ /gm, "___");
-
-                $.ajax({
-                    async: true,
-                    type: "POST",
-                    cache: false,
-                    url: "/PPIL/cakephp/Commentary/newcommentary/" + id + "/" + text_i,
-
-                    success: function (data) {
-                        alert(data);
-                        data = JSON.parse(data);
-
-                        var liste = $("#listeCommentaire");
-
-                        liste.append("<li>" + text + " </li> <div id='comment-name'>" + data['User']['firstname'] + " " + data['User']['name'] + "</div>");
-                        //  $("#div" + id).remove();
-                    },
-
-                    error: function () {
-                    }
-                });
-
-                return false;
+                $("#erreurCommentTask").empty();
             }
         });
 
     });
+
+    $("#newTaskOk").click(function () {
+        $("#erreurNewTask").empty();
+        var text = $.trim($("#inputNameNewTask").val());
+
+        if (text == "") {
+            $("#erreurNewTask").append("champ nom tâche vide");
+            return false;
+        }
+
+        var regex = /^[a-zA-Z0-9 ]*$/;
+
+        if (!regex.test(text)) {
+            $("#erreurNewTask").append("le nom de la tâche est incorrect (alphanumérique)");
+            return false;
+        }
+
+    });
+
 
 });
 //****************************************
@@ -191,11 +205,16 @@ function cocher(check) {
             }
 
         },
+        error: function (request) {
+            var erreur = request.responseText;
+            ;
+            $("#erreurTask" + caseId).append("<p class='flash-message-error' style='text-align:center' > la tâche à déjà été choisie </p>");
 
-        error: function () {
-
-
+            setTimeout(function () {
+                $("#erreurTask" + caseId).empty();
+            }, 2000);
         }
+
     });
 
 }

@@ -18,9 +18,14 @@
 
     <!--RAFRAICHIR -->
     <?php
-    if (!in_array($this->action, array('modificationProfil', 'profil', 'newlist', 'modifylist', 'consulterlistdetail', 'Friend_profil', 'removeMember', 'add_member', 'FriendProfil'))) {
+    if (!in_array($this->action, array('modificationProfil', 'profil', 'consulterlist', 'newlist', 'modifylist', 'consulterlistdetail', 'Friend_profil', 'removeMember', 'add_member', 'FriendProfil'))) {
         echo $this->Html->link('Rafraichir', array('controller' => $this->request->params['controller'], 'action' => $this->action), array('data-role' => 'button', 'data-inline' => true, 'data-icon' => 'recycle', 'data-iconpos' => 'notext', 'data-ajax' => 'false', 'data-mini' => true));
     }
+
+    if ($this->action == "consulterlist") {
+        echo $this->Html->link('Rafraichir', array('controller' => 'Todolists', 'action' => 'refresh'), array('data-role' => 'button', 'data-inline' => true, 'data-icon' => 'recycle', 'data-iconpos' => 'notext', 'data-ajax' => 'false', 'data-mini' => true));
+    }
+
 
     if ($this->action === 'consulterlist') {
         // bouton ajouter liste
@@ -30,11 +35,12 @@
         <!-- POPUP NEW TASK -->
         <a href="#popupTache" data-role="button" data-rel="popup" data-inline="true" data-icon="plus"
            data-iconpos="notext" data-mini="true">nouvlle tache</a>
+
         <div data-role="popup" id="popupTache" data-position-to="window" data-overlay-theme="b" data-theme="b"
              data-dismissible="false" style="max-width:400px;">
             <div data-role="header" data-theme="a"><h1>Ajouter une tâche</h1></div>
             <div role="main" class="ui-content">
-
+                <p id="erreurNewTask" class="flash-message-error" style="text-align:center"></p>
                 <?php echo $this->Form->create('newTache', array(
                     'type' => 'post',
                     'url' => array('controller' => 'Tasks', 'action' => 'newtask', $liste['id']),
@@ -46,7 +52,7 @@
 
                 <div data-role='content' data-theme='f'>
                     <div style='width:90%;margin:auto;padding-left:15px;padding-bottom:0'>
-                        <?php echo $this->Form->input('Task.name', array('type' => 'text', 'required' => true, 'placeholder' => 'intitulé de la tâche')); ?>
+                        <?php echo $this->Form->input('Task.name', array('type' => 'text', 'required' => true, 'id' => 'inputNameNewTask', 'placeholder' => 'intitulé de la tâche')); ?>
                     </div>
                     <fieldset>
                         <legend>Facultatif</legend>
@@ -60,7 +66,7 @@
                     <div class="center">
                         <a href="#" data-role="button" data-inline="true" data-icon="delete" data-rel="back">Annuler</a>
 
-                        <?php echo $this->form->end(array('label' => 'Valider', 'data-role' => "button", 'data-inline' => "true", 'data-icon' => "check", 'div' => false)); ?>
+                        <?php echo $this->form->end(array('id' => 'newTaskOk', 'label' => 'Valider', 'data-role' => "button", 'data-inline' => "true", 'data-icon' => "check", 'div' => false)); ?>
                     </div>
                 </div>
             </div>
@@ -79,17 +85,17 @@
         echo '  <li data-role="list-divider">Menu</li>';
 
         //afficher profil
-    if (!in_array($this->action, array('modificationProfil', 'profil', 'newlist', 'modifylist', 'consulterlistdetail', 'Friend_profil', 'removeMember', 'add_member', 'FriendProfil'))) {
-        echo "  <li>" . $this->Html->link('Afficher profil', array('controller' => 'Users', 'action' => 'profil'), array('data-ajax' => 'false')) . "</li>";
-    }
+        if (!in_array($this->action, array('modificationProfil', 'profil', 'newlist', 'modifylist', 'consulterlistdetail', 'Friend_profil', 'removeMember', 'add_member', 'FriendProfil'))) {
+            echo "  <li>" . $this->Html->link('Afficher profil', array('controller' => 'Users', 'action' => 'profil'), array('data-ajax' => 'false')) . "</li>";
+        }
 
         // consulter Liste
         if ($this->action === 'consulterlistdetail') {
             echo "<li>" . $this->Html->link('ajouter membre', array('controller' => 'Users', 'action' => 'addMember', $id), array("data-ajax" => "false")) . "</li>";
             echo "<li>" . $this->Html->link('supprimer membre', array('controller' => 'Users', 'action' => 'removeMember', $id), array("data-ajax" => "false")) . "</li>";
             echo "<li>" . $this->Html->link('modifier la liste', array('controller' => 'Todolists', 'action' => 'modifylist', $id), array("data-ajax" => "false")) . "</li>";
-           // echo "<li>" . $this->Html->link('supprimer la liste', array('controller' => 'Todolists', 'action' => 'supprimer', $id), array("data-ajax" => "false")) . "</li>";
-            echo "<li>" . $this->Html->link('supprimer la liste', array(''), array('id'=>'deleteList','rel'=>'external', 'data-ajax' => "false")) . "</li>";
+            // echo "<li>" . $this->Html->link('supprimer la liste', array('controller' => 'Todolists', 'action' => 'supprimer', $id), array("data-ajax" => "false")) . "</li>";
+            echo "<li>" . $this->Html->link('supprimer la liste', array(''), array('id' => 'deleteList', 'rel' => 'external', 'data-ajax' => "false")) . "</li>";
         }
 
         // deconnexion
@@ -120,8 +126,8 @@
          data-dismissible="true" style="max-width:400px;">
         <div data-role="header" data-theme="a"><h1>Deconnexion</h1></div>
         <div role="main" class="ui-content">
-            <h3 class="ui-title">Voulez-vous vraiment vous déconnecter ?</h3>
-            <a href="#" id ="DeleteListAnnule" data-role="button" data-inline="true" data-icon="delete" data-rel="back">Annuler</a>
+            <h3 class="ui-title">Voulez-vous vraiment vous supprimer la liste ?</h3>
+            <a href="#" id="DeleteListAnnule" data-role="button" data-inline="true" data-icon="delete" data-rel="back">Annuler</a>
             <!--  <a href="connexion.html" data-role="button" data-inline="true" data-icon="check">Valider</a> -->
             <?php echo $this->Html->link('Valider', array('controller' => 'Todolists', 'action' => 'supprimer', $id), array('data-role' => 'button', 'data-inline' => true, 'data-icon' => 'check', "data-ajax" => "false")); ?>
         </div>

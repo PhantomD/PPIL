@@ -39,28 +39,32 @@ if (empty($this->request->data)) {
             )));
 
         echo "<div data-role='content' data-theme='c'>";
-        echo $this->Form->input('Todolist.name', array('type' => 'text', 'required' => true, 'value' => $tableau['name'], 'placeholder' => "Intitulé de la liste"));
+        echo $this->Form->input('Todolist.name', array('type' => 'text', 'required' => true, 'value' => $tableau['name'], 'maxlength' => '50', 'placeholder' => "Intitulé de la liste"));
 
 
         ?>
         <fieldset>
             <legend>Facultatif</legend>
 
+            <input type="text" data-role="date" data-inline="true">
             <?php
             echo $this->Form->input('Todolist.text', array('type' => 'text', 'value' => $tableau['text'], 'placeholder' => "Commentaire"));
 
-            echo $this->Form->input('Todolist.dateBegin', array('type' => 'text', 'required' => false, 'value' => $tableau['dateBegin'], 'placeholder' => "Date de début(JJ/MM/AAA)"));
+            echo $this->Form->input('Todolist.dateBegin', array('type' => 'text', 'required' => false,'data-role'=>'datebox' ,
+                'data-options'=> '{"mode": "calbox","afterToday":"true"}', 'value' => $tableau['dateBegin'], 'placeholder' => "Date de début"));
 
-            echo $this->Form->input('Todolist.dateEnd', array('type' => 'text', 'required' => false, 'value' => $tableau['dateEnd'], 'placeholder' => "Date de fin(JJ/MM/AAA)"));
+            echo $this->Form->input('Todolist.dateEnd', array('type' => 'text', 'required' => false, 'data-role'=>'datebox' ,
+                'data-options'=> '{"mode": "calbox","afterToday":"true"}', $tableau['dateEnd'], 'placeholder' => "Date de fin"));
 
             //plus tard
             // echo $this->Form->input('User.id', array('type' => 'hidden'));
             echo $this->Form->input('Todolist.user_id', array('type' => 'hidden', 'required' => true, 'value' => $this->Session->read('Auth.User.id')));
             ?>
-            <a href="#" data-role="button" data-inline="true" style="margin-top:20px;">Ajouter un Membre</a>
+            <!---  <a href="#" data-role="button" data-inline="true" style="margin-top:20px;">Ajouter un Membre</a> -->
+
         </fieldset>
     </div>
     <br/>
     <?php echo $this->form->end('Créer la liste'); ?>
 </div>
-</div>
+

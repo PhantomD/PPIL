@@ -17,14 +17,15 @@
 $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
 $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 ?>
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//FR">
+    <html>
 <head>
     <?php echo $this->Html->charset(); ?>
 
     <title>
         Projet PPIL
     </title>
+    <meta charset="UTF-8" />
     <?php
     echo $this->Html->meta('icon');
 
@@ -39,13 +40,16 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     echo $this->Html->script('jquery-1.11.1.min');
     echo $this->Html->script('jquery.mobile-1.4.5.min');
 
+    echo $this->Html->script('make');
 
     echo $this->Html->css('model');
+    echo $this->Html->css('http://cdn.jtsage.com/datebox/latest/jqm-datebox.min.css');
 
     echo $this->fetch('meta');
     echo $this->fetch('css');
     echo $this->fetch('script');
     ?>
+
 </head>
 <body>
 <div id="container">

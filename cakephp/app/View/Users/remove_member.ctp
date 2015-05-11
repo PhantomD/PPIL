@@ -22,6 +22,12 @@ $liste = $id;
             echo "<table width = 100% >";
 
             foreach ($profil as $key => $value) {
+
+
+                if ($value['User_id'] == AuthComponent::user()['id']) {
+                    continue;
+                }
+
                 echo "<tr  id=ligne$value[id]>";
 
                 echo "<td style ='color:#ffffff;font-size: 1.1em;text-align:left;text-indent:3em;padding-bottom:10px' >";

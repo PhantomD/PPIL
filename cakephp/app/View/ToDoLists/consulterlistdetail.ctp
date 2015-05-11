@@ -33,6 +33,20 @@
 
         echo '<div id=div' . $value['id'] . ' data-role="collapsible" data-collapsed-icon=' . $icone . ' data-expanded-icon=' . $icone . " data-iconpos='left' >";
 
+
+        if(! empty($value['comment'])){
+            echo "<p style='text-align:center';> <b>Commentaire </b> : ".$value['comment']."</p>";
+        }
+
+        echo "<div id='erreurTask".$value['id']."' ></div>" ;
+
+
+        echo "<div style='width: 8%;margin: auto;'>";
+        $disable = ($value['isChecked'] == false || (AuthComponent::user()['id'] == $value['User']['id']) ? false : true);
+        echo $this->Form->input("valider", array('type' => 'checkbox', 'id' => $value['id'], 'name' => $value['id'], "checked" => $value['isChecked'], 'hiddenField' => false, 'disabled' => $disable,
+            'label' => array("class" => "ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-checkbox-off"), 'data-ajax' => 'false', 'onclick' => 'cocher(this)'));
+        echo "</div>";
+
         $value['date'];
         $nom = '';
         $date = '';
@@ -50,14 +64,14 @@
         }
         ?>
         <h2>
-            <span id="nameTask<?php echo $value["id"] ;?>"
-                style="font-size: 20px; vertical-align:middle; float:left; line-height: 38px"> <?php echo $value['name']; ?> </span>
+            <span id="nameTask<?php echo $value["id"];?>"
+                  style="font-size: 20px; vertical-align:middle; float:left; line-height: 38px"> <?php echo $value['name']; ?> </span>
             <span
                 style="font-size: 15px; vertical-align:middle; float:right; line-height: 38px"><?php echo $nomDate; ?> </span>
         </h2>
 
 
-        <ul id="listeCommentaire" style="padding-left:20%">
+        <ul id="listeCommentaire<?php echo $value["id"];?>" style="padding-left:20%">
             <?php foreach ($value['Commentary'] as $key => $commentaire) {
 
                 $nom = $commentaire['User']['firstname'] . " " . $commentaire['User']['name'];
@@ -66,16 +80,6 @@
             }
             ?>
         </ul>
-
-
-        <div>
-            <?php
-
-            $disable = ($value['isChecked'] == false || (AuthComponent::user()['id'] == $value['User']['id']) ? false : true);
-            echo $this->Form->input("valider", array('type' => 'checkbox', 'id' => $value['id'], 'name' => $value['id'], "checked" => $value['isChecked'], 'hiddenField' => false, 'disabled' => $disable,
-                'label' => array("class" => "ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-checkbox-off"), 'data-ajax' => 'false', 'onclick' => 'cocher(this)')); ?>
-        </div>
-
 
         <div class="ui-grid-b center">
             <div class="ui-block-c">
@@ -166,44 +170,6 @@
     -->
 
 
-    <!-- popup new tache -->
-    <div data-role="popup" id="popupTache" data-position-to="window" data-overlay-theme="b" data-theme="b"
-         data-dismissible="false" style="max-width:400px;">
-        <div data-role="header" data-theme="a"><h1>Ajouter une tâche</h1></div>
-        <div role="main" class="ui-content">
-
-            <?php echo $this->Form->create('newTache', array(
-                'type' => 'post',
-                'url' => array('controller' => 'Tasks', 'action' => 'newtask', $liste['id']),
-                'data-ajax' => 'false',
-                'inputDefaults' => array(
-                    'label' => false,
-                    'data-clear-btn' => true)));
-
-            echo "<div data-role='content' data-theme='c'>";
-
-            echo "<div style ='width:90%;margin:auto;padding-left:15px;padding-bottom:0'>"; // barbare
-            echo $this->Form->input('Task.name', array('type' => 'text', 'required' => true, 'placeholder' => 'intitulé de la tâche'));
-            echo "</div>";
-            ?>
-            <fieldset>
-                <legend>Facultatif</legend>
-
-                <?php
-                echo $this->Form->input('Task.comment', array('type' => 'text', 'required' => false, 'placeholder' => "Commentaire"));
-                echo $this->Form->input('Task.todolist_id', array('type' => 'hidden', 'required' => true, "value" => $liste['id']));
-
-                ?>
-            </fieldset>
-
-            <div class="center">
-                <a href="#" data-role="button" data-inline="true" data-icon="delete" data-rel="back">Annuler</a>
-
-                <?php echo $this->form->end(array('label' => 'Valider', 'data-role' => "button", 'data-inline' => "true", 'data-icon' => "check", 'div' => false)); ?>
-            </div>
-        </div>
-    </div>
-
 
     <!-- popup delete tache -->
     <div data-role="popup" id="popupDeleteTask" data-position-to="window" data-overlay-theme="b" data-theme="b"
@@ -220,7 +186,7 @@
          data-dismissible="false" style="max-width:400px;">
         <div role="main" class="ui-content">
             <div data-role="header" data-theme="a"><h1>Modifier le nom de la tâche</h1></div>
-            <p id ="erreurEditTask" class ="flash-message-error" style="text-align:center"></p>
+            <p id="erreurEditTask" class="flash-message-error" style="text-align:center"></p>
             <input id="editTaskName"></textarea>
             <a href="#" id="editTaskCancel" data-role="button" data-inline="true" data-icon="delete" data-rel="back">Annuler</a>
             <a href="#" id="editTaskOk" data-role="button" data-inline="true" data-icon="check"
@@ -233,10 +199,13 @@
          data-dismissible="false" style="max-width:400px;">
         <div role="main" class="ui-content">
             <h3 class="ui-title">Ajouter un commentaire</h3>
+
+            <p id="erreurCommentTask" class="flash-message-error" style="text-align:center"></p>
             <textarea id="inputTextCommment" name="textarea_comment" id="textarea_comment"></textarea>
             <a href="#" id="commentCancel" data-role="button" data-inline="true" data-icon="delete"
                data-rel="back">Annuler</a>
-            <a href="#" id="" data-role="button" data-inline="true" data-icon="check" data-rel="back">Valider</a>
+            <a href="#" id="commentOk" data-role="button" data-inline="true" data-icon="check"
+               data-rel="back">Valider</a>
         </div>
     </div>
 
