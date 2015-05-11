@@ -43,7 +43,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
     echo $this->Html->script('make');
 
     echo $this->Html->css('model');
-    echo $this->Html->css('http://cdn.jtsage.com/datebox/latest/jqm-datebox.min.css');
+    echo $this->Html->css('dateBox');
 
     echo $this->fetch('meta');
     echo $this->fetch('css');

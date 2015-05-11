@@ -46,7 +46,6 @@ if (empty($this->request->data)) {
         <fieldset>
             <legend>Facultatif</legend>
 
-            <input type="text" data-role="date" data-inline="true">
             <?php
             echo $this->Form->input('Todolist.text', array('type' => 'text', 'value' => $tableau['text'], 'placeholder' => "Commentaire"));
 

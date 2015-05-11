@@ -18,14 +18,9 @@
 
     <!--RAFRAICHIR -->
     <?php
-    if (!in_array($this->action, array('modificationProfil', 'profil', 'consulterlist', 'newlist', 'modifylist', 'consulterlistdetail', 'Friend_profil', 'removeMember', 'add_member', 'FriendProfil'))) {
+    if (!in_array($this->action, array('modificationProfil', 'profil', 'newlist', 'modifylist', 'consulterlistdetail', 'Friend_profil', 'removeMember', 'add_member', 'FriendProfil'))) {
         echo $this->Html->link('Rafraichir', array('controller' => $this->request->params['controller'], 'action' => $this->action), array('data-role' => 'button', 'data-inline' => true, 'data-icon' => 'recycle', 'data-iconpos' => 'notext', 'data-ajax' => 'false', 'data-mini' => true));
     }
-
-    if ($this->action == "consulterlist") {
-        echo $this->Html->link('Rafraichir', array('controller' => 'Todolists', 'action' => 'refresh'), array('data-role' => 'button', 'data-inline' => true, 'data-icon' => 'recycle', 'data-iconpos' => 'notext', 'data-ajax' => 'false', 'data-mini' => true));
-    }
-
 
     if ($this->action === 'consulterlist') {
         // bouton ajouter liste

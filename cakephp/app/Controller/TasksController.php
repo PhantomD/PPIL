@@ -3,9 +3,12 @@
 class TasksController extends AppController
 {
 
+    public $uses = array('Task', 'TodolistUser',);
+
     function beforeFilter()
     {
         parent::beforeFilter();
+
     }
 
     function isAuthorized($user)
@@ -32,6 +35,16 @@ class TasksController extends AppController
     public function newtask()
     {
 
+        $id_liste = $this->request->data['Task']['todolist_id'];
+        $user = $this->TodolistUser->find('first', array('recursive' => -1, 'fields' => 'id', 'conditions' =>
+                array('user_id' => AuthComponent::user()['id'], 'todolist_id' => $id_liste)
+            )
+        );
+
+        if (empty($user)) {
+            $this->redirect(array('controller' => 'Todolists', 'action' => 'consulterlist'));
+        }
+
         if ($this->request->is('post')) {
             $data = current($this->request->data);
 
@@ -57,16 +70,29 @@ class TasksController extends AppController
 
     public function supprimer($id)
     {
+        Configure::write('debug', 1);
         $this->autoRender = false;
+        $this->request->allowMethod(array('ajax'));
 
-        if ($this->request->is('ajax')) {
-            if ($this->Task->delete($id)) {
+        $id_liste = $this->Task->find('list', array('fields' => 'todolist_id', 'conditions' =>
+                array('id' => $id)
+            )
+        );
+        $user = $this->TodolistUser->find('first', array('recursive' => -1, 'fields' => 'id', 'conditions' =>
+                array('user_id' => AuthComponent::user()['id'], 'todolist_id' => $id_liste)
+            )
+        );
 
-            }
-        } else {
-            $this->redirect($this->referer());
+        if (empty($user)) {
+
+            throw new InternalErrorException("vous n'avez pas/plus accès à la liste");
         }
-//return $this->redirect(array('controller'=>'Todolists','action' => 'consulterlist'));
+
+        if ($this->Task->delete($id)) {
+
+        } else {
+            throw new InternalErrorException("la tâche n'à pas été supprimée");
+        }
     }
 
 
@@ -76,39 +102,51 @@ class TasksController extends AppController
         $this->autoRender = false;
         $this->request->allowMethod(array('ajax'));
 
+
+        $id_liste = $this->Task->find('list', array('fields' => 'todolist_id', 'conditions' =>
+                array('id' => $id)
+            )
+        );
+        $user = $this->TodolistUser->find('first', array('recursive' => -1, 'fields' => 'id', 'conditions' =>
+                array('user_id' => AuthComponent::user()['id'], 'todolist_id' => $id_liste)
+            )
+        );
+
+        if (empty($user)) {
+
+            throw new InternalErrorException("vous n'avez pas/plus accès à la liste");
+        }
+
+
         $date = ($value == 1 ? date("Y-d-m") : NULL);
         $user = ($value == 1 ? $user = AuthComponent::user()['id'] : NULL);
 
 
-        if ($this->request->is('ajax')) {
+        if ($value == 0) {
+            $d = current($this->Task->Find('first', array('recursive' => -1, 'fields' => 'user_id', 'conditions' => array('id' => $id))));
 
-            if ($value == 0) {
-                $d = current($this->Task->Find('first', array('recursive' => -1, 'fields' => 'user_id', 'conditions' => array('id' => $id))));
-
-                if ($d['user_id'] != AuthComponent::user()['id']) {
-                    return false;
-                }
-            } else if ($value == 1) {
-                $d = $this->Task->find('first', array('recursive' => -1, 'conditions' => array('Task.id' => $id)));
-
-
-                if ($d['Task']['isChecked'] == true) {
-                    throw new InternalErrorException("quelqu'un à déjà pris cette tâche");
-                }
-
-            } else {
+            if ($d['user_id'] != AuthComponent::user()['id']) {
                 return false;
             }
+        } else if ($value == 1) {
+            $d = $this->Task->find('first', array('recursive' => -1, 'conditions' => array('Task.id' => $id)));
 
 
-            $this->Task->updateAll(
-                array('Task.isChecked' => "'" . $value . "'",
-                    'Task.date' => "'" . $date . "'",
-                    'Task.user_id' => "'" . $user . "'"
-                ),
-                array('Task.id' => $id));
+            if ($d['Task']['isChecked'] == true) {
+                throw new InternalErrorException("quelqu'un à déjà pris cette tâche");
+            }
 
+        } else {
+            return false;
         }
+
+        $this->Task->updateAll(
+            array('Task.isChecked' => "'" . $value . "'",
+                'Task.date' => "'" . $date . "'",
+                'Task.user_id' => "'" . $user . "'"
+            ),
+            array('Task.id' => $id));
+
 
     }
 

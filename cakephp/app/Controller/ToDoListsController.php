@@ -106,6 +106,18 @@ class TodolistsController extends AppController
     public function modifylist($id)
     {
 
+
+        $user = $this->TodolistUser->find('first', array('recursive' => -1, 'fields' => 'id', 'conditions' =>
+                array('user_id' => AuthComponent::user()['id'], 'todolist_id' => $id)
+            )
+        );
+
+        if (empty($user)) {
+            $this->redirect(array('action' => 'consulterlist'));
+        }
+
+        //AuthComponent::user()['id']
+
         if ($this->request->is('post')) {
             $data = $this->request->data;
 
@@ -174,6 +186,7 @@ class TodolistsController extends AppController
         */
 
         $this->autoRender = true;
+        $this->refresh();
         $listes = $this->Session->read('Auth.User.Todolist');
         $id_listes = array_keys($listes);
         $this->Todolist->unbindModel(array('hasMany' => array('Task', 'Todolist_user')));
@@ -223,6 +236,15 @@ class TodolistsController extends AppController
     public function consulterlistdetail($id)
     {
 
+        $user = $this->TodolistUser->find('first', array('recursive' => -1, 'fields' => 'id', 'conditions' =>
+                array('user_id' => AuthComponent::user()['id'],'todolist_id'=>$id)
+            )
+        );
+
+        if (empty($user)) {
+            $this->redirect(array('action' => 'consulterlist'));
+        }
+
         $this->Todolist->unbindModel(array('hasMany' => array('TodolistUser')));
 
         // On recupere les données de la liste associées au nom
@@ -241,12 +263,11 @@ class TodolistsController extends AppController
         Configure::write('debug', 0);
         $user = AuthComponent::user()['id'];
 
-        $this->autoRender = false;
 
         $data = $this->TodolistUser->find('list', array('recursive' => -1, 'conditions' => array('TodolistUser.user_id' => $user),
             'fields' => array('todolist_id')));
 
-        if (! $this->Session->check('Auth.User.Todolist')) {
+        if (!$this->Session->check('Auth.User.Todolist')) {
             $this->Session->write('Auth.User.Todolist', array());
 
         }
@@ -278,15 +299,14 @@ class TodolistsController extends AppController
         $toSend['listeRemove'] = $tab_supr;
 
         if ($this->request->is('ajax')) {
+            $this->autoRender = false;
             echo json_encode($toSend);
 
-        } else {
-            $this->redirect($this->Auth->loginRedirect);
         }
     }
 
 
-    public function separerListes($data, &$today, &$week, &$other)
+    private function separerListes($data, &$today, &$week, &$other)
     {
         $dateCourante = new DateTime("now");
 
