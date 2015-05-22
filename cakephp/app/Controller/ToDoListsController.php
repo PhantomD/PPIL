@@ -9,7 +9,7 @@ App::uses('FacebookConnect', 'Vendor');
 
 class TodolistsController extends AppController
 {
-    public $uses = array('Todolist', 'TodolistUser', 'Commentary');
+    public $uses = array('Todolist', 'TodolistUser', 'Commentary', 'Notification');
     public $components = array('Paginator');
 
     function beforeFilter()
@@ -32,7 +32,6 @@ class TodolistsController extends AppController
         if (parent::isAuthorized($user)) {
             return true;
         }
-
 
         if ($this->action === 'newlist' || $this->action == "consulterlist" || $this->action == "refresh") {
             return true;
@@ -196,8 +195,11 @@ class TodolistsController extends AppController
             'conditions' => array('Todolist.id' => $id_listes),
             'fields' => array('id', 'name', 'dateBegin')));
 
+        $notification = array();
+        parent::getNotifications($notification, 10);
 
         // on sépare les listes en 3 catégories
+        $data['notifications'] = $notification;
         $data['today'] = array();
         $data['week'] = array();
         $data['other'] = array();
@@ -237,7 +239,7 @@ class TodolistsController extends AppController
     {
 
         $user = $this->TodolistUser->find('first', array('recursive' => -1, 'fields' => 'id', 'conditions' =>
-                array('user_id' => AuthComponent::user()['id'],'todolist_id'=>$id)
+                array('user_id' => AuthComponent::user()['id'], 'todolist_id' => $id)
             )
         );
 
@@ -255,12 +257,10 @@ class TodolistsController extends AppController
         $data['taches'] = $d['liste']['Task'];
 
         $this->set($data);
-
     }
 
     public function refresh()
     {
-        Configure::write('debug', 0);
         $user = AuthComponent::user()['id'];
 
 
@@ -299,8 +299,90 @@ class TodolistsController extends AppController
         $toSend['listeRemove'] = $tab_supr;
 
         if ($this->request->is('ajax')) {
+            Configure::write('debug', 0);
             $this->autoRender = false;
             echo json_encode($toSend);
+
+        }
+    }
+
+
+    public function addListetoUser($id_liste, $id)
+    {
+
+        $this->autoRender = false;
+        $this->request->allowMethod(array('ajax'));
+
+        $data['todolist_id'] = $id_liste;
+        $data['user_id'] = $id;
+
+        $this->TodolistUser->set($data);
+
+        if ($this->TodolistUser->save()) {
+
+            $data = array();
+            $sender = AuthComponent::user()['id'];
+            $date = date("Y-m-d H:i:s");
+            $nomListe = current($this->Todolist->find('first', array('recursive' => -1, 'fields' => 'name', 'conditions' => array('id' => $id_liste))));
+            $nomListe = $nomListe['name'];
+
+            $data[] = array('message' => "On vous a ajouté dans la liste " . $nomListe, 'isReaded' => 0, 'sender_id' => $sender,
+                'reciever_id' => $id, 'date' => $date, 'todolist_id' => $id_liste);
+
+            $this->Notification->saveMany($data, array('atomic' => false));
+        }
+    }
+
+
+    public function  removeMember($id_liste, $id = null)
+    {
+
+        if ($this->request->is('ajax')) {
+
+            $this->autoRender = false;
+
+
+            $this->TodolistUser->set($id);
+
+            $user_id = $this->TodolistUser->find('first', array('condition' => array('id' => '$id')));
+            $user_id = $user_id['TodolistUser']['user_id'];
+
+                if ($this->TodolistUser->delete($id, false)) {
+
+                    die();
+                    $data = array();
+                    $sender = AuthComponent::user()['id'];
+                    $date = date("Y-m-d H:i:s");
+                    $nomListe = current($this->Todolist->find('first', array('recursive' => -1, 'fields' => 'name', 'conditions' => array('id' => $id_liste))));
+                    $nomListe = $nomListe['name'];
+
+                    $data[] = array('message' => "On vous a surpprimé de la liste " . $nomListe, 'isReaded' => 0, 'sender_id' => $sender,
+                        'reciever_id' => $user_id, 'date' => $date, 'todolist_id' => $id_liste);
+
+                    $this->Notification->saveMany($data, array('atomic' => false));
+                }
+
+        } else {
+
+            $this->TodolistUser->unbindModel(array('hasOne' => array('Todolist')));
+            $users = $this->TodolistUser->find("all", array("conditions" => array(
+                'todolist_id' => $id_liste, 'id_facebook !=' => '-1'), 'fields' => array('TodolistUser.id', 'User.id', 'User.id_facebook')
+            ));
+
+
+            FacebookSession::enableAppSecretProof(false);
+
+            foreach ($users as $key => $valeurs) {
+                //$valeurs = current($valeurs);
+                $profil = FacebookConnect::getFriendProfil($valeurs['User']['id_facebook']);
+
+                $data['profil'][$key]['id'] = $valeurs['TodolistUser']['id'];
+                $data['profil'][$key]['User_id'] = $valeurs['User']['id'];
+                $data['profil'][$key]['name'] = $profil['name'];
+            }
+
+            $data['id'] = $id_liste;
+            $this->set($data);
 
         }
     }

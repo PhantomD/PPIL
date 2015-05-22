@@ -24,7 +24,24 @@ $(document).ready(function () {
                     $("#div" + id).remove();
                 },
 
-                error: function () {
+                error: function (xhRequest, ErrorText, thrownError) {
+                    var erreur = xhRequest.responseText;
+
+                    $("#erreurTask" + id).append("<p class='flash-message-error' style='text-align:center' > " + erreur + " </p>");
+
+                    if (xhRequest.status == "503") {
+
+                        setTimeout(function () {
+                            $("#erreurTask" + id).empty();
+                        }, 2000);
+
+                    } else if (xhRequest.status == "502") {
+
+                        setTimeout(function () {
+                            $(location).attr('href', "http://sandbox.com/PPIL/cakephp/Todolists/consulterlist/");
+                        }, 2000);
+
+                    }
                 }
             });
 
@@ -105,49 +122,51 @@ $(document).ready(function () {
         var popup = $("#popupAddComment");
         popup.data("id", id);
         popup.popup("open");
+    });
 
-        $("#commentOk").click(function () {
+    $("#commentOk").click(function () {
 
-            var popup = $("#popupAddComment");
-            var id = popup.data("id");
+        var popup = $("#popupAddComment");
+        var id = popup.data("id");
 
-            var text = $.trim($("#inputTextCommment").val());
+        var text = $.trim($("#inputTextCommment").val());
 
-            var text_i = text.replace(/ /gm, "___");
+        var text_i = text.replace(/ /gm, "___");
 
-            $.ajax({
-                async: true,
-                type: "POST",
-                cache: false,
-                url: "/PPIL/cakephp/Commentary/newcommentary/" + id + "/" + text_i,
+        $.ajax({
+            async: true,
+            type: "POST",
+            cache: false,
+            url: "/PPIL/cakephp/Commentary/newcommentary/" + id + "/" + text_i,
 
-                success: function (data) {
-                    data = JSON.parse(data);
+            success: function (data) {
+                data = JSON.parse(data);
 
-                    var liste = $("#listeCommentaire" + id);
+                var liste = $("#listeCommentaire" + id);
 
-                    liste.append("<li>" + text + " </li> <div id='comment-name'>" + data['User']['firstname'] + " " + data['User']['name'] + "</div>");
-                    //  $("#div" + id).remove();
-                    popup.popup('close');
-                },
-                error: function (request) {
-                    var erreur = request.responseText;
-                    $("#erreurCommentTask").empty();
-                    $("#erreurCommentTask").append(erreur);
-
-                }
-            });
-            return false;
-
-        });
-        popup.popup({
-            afterclose: function (event, ui) {
-                $("#inputTextCommment").val('');
+                liste.append("<li>" + text + " </li> <div id='comment-name'>" + data['User']['firstname'] + " " + data['User']['name'] + "</div>");
+                //  $("#div" + id).remove();
+                popup.popup('close');
+            },
+            error: function (request) {
+                var erreur = request.responseText;
                 $("#erreurCommentTask").empty();
+                $("#erreurCommentTask").append(erreur);
+
             }
         });
 
+        return false;
+
     });
+
+    $("#popupAddComment").popup({
+        afterclose: function (event, ui) {
+            $("#inputTextCommment").val('');
+            $("#erreurCommentTask").empty();
+        }
+    });
+
 
     $("#newTaskOk").click(function () {
         $("#erreurNewTask").empty();
@@ -173,7 +192,7 @@ $(document).ready(function () {
 
 
 function cocher(check) {
-    var caseId = check.id;
+    var caseId = check.name;
     var caseValue = '0';
 
     if (check.checked) {
@@ -205,14 +224,26 @@ function cocher(check) {
             }
 
         },
-        error: function (request) {
-            var erreur = request.responseText;
-            ;
-            $("#erreurTask" + caseId).append("<p class='flash-message-error' style='text-align:center' > la tâche à déjà été choisie </p>");
+        error: function (xhRequest, ErrorText, thrownError) {
+            var erreur = xhRequest.responseText;
 
-            setTimeout(function () {
-                $("#erreurTask" + caseId).empty();
-            }, 2000);
+            $("#erreurTask" + caseId).append("<p class='flash-message-error' style='text-align:center' > " + erreur + " </p>");
+
+            if (xhRequest.status == "503") {
+
+                $("#validerBouton" + caseId).checkboxradio('disable');
+
+                setTimeout(function () {
+                    $("#erreurTask" + caseId).empty();
+                }, 2000);
+
+            } else if (xhRequest.status == "502") {
+
+                setTimeout(function () {
+                    $(location).attr('href', "http://sandbox.com/PPIL/cakephp/Todolists/consulterlist/");
+                }, 2000);
+
+            }
         }
 
     });

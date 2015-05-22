@@ -13,7 +13,7 @@ function add_member(link) {
             async: true,
             type: "POST",
             cache: false,
-            url: "/PPIL/cakephp/Users/addListetoUser/" +id+"/"+id_liste,
+            url: "/PPIL/cakephp/Todolists/addListetoUser/" +id_liste+"/"+id,
 
             success: function () {
 

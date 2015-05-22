@@ -412,23 +412,6 @@ class UsersController extends AppController
     }
 
 
-    public function addListetoUser($id, $id_liste)
-    {
-        $this->autoRender = false;
-
-        if ($this->request->is('ajax')) {
-
-            $this->User->unbindModel(array('hasMany' => array('Todolist_user')));
-            $data['todolist_id'] = $id_liste;
-            $data['user_id'] = $id;
-
-            $this->TodolistUser->set($data);
-            $this->TodolistUser->save();
-
-        }
-    }
-
-
     public function addMember($id)
     {
         FacebookSession::enableAppSecretProof(false);
@@ -439,10 +422,6 @@ class UsersController extends AppController
         foreach ($friends['data'] as $key => $value) {
             $friends['amis'][] = $value->id;
         }
-
-
-        debug($friends['amis']);
-
 
         $this->TodolistUser->unbindModel(array('hasOne' => array('Todolist')));
 
@@ -462,53 +441,9 @@ class UsersController extends AppController
 
         }
 
-        debug($data);
-
-
         $data['id'] = $id;
         $this->set($data);
 
-    }
-
-
-    public function  removeMember($id, $id_liste)
-    {
-
-        if ($this->request->is('ajax')) {
-
-            $this->autoRender = false;
-
-
-            $this->TodolistUser->set($id);
-
-
-            if ($id != AuthComponent::user()['id']) {
-                $this->TodolistUser->delete($id, false);
-            }
-
-        } else {
-
-            $this->TodolistUser->unbindModel(array('hasOne' => array('Todolist')));
-            $users = $this->TodolistUser->find("all", array("conditions" => array(
-                'todolist_id' => $id, 'id_facebook !=' => '-1'), 'fields' => array('TodolistUser.id', 'User.id', 'User.id_facebook')
-            ));
-
-
-            FacebookSession::enableAppSecretProof(false);
-
-            foreach ($users as $key => $valeurs) {
-                //$valeurs = current($valeurs);
-                $profil = FacebookConnect::getFriendProfil($valeurs['User']['id_facebook']);
-
-                $data['profil'][$key]['id'] = $valeurs['TodolistUser']['id'];
-                $data['profil'][$key]['User_id'] = $valeurs['User']['id'];
-                $data['profil'][$key]['name'] = $profil['name'];
-            }
-
-            $data['id'] = $id;
-            $this->set($data);
-
-        }
     }
 
 

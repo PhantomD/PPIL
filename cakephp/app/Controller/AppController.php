@@ -79,4 +79,23 @@ class AppController extends Controller
     }
 
 
+    public function getNotifications(&$data, $limit = null)
+    {
+
+        if ($limit == null) {
+            $data = $this->Notification->find('all', array('conditions' =>
+                    array('reciever_id' => AuthComponent::user()['id']),
+                    'order' => 'date DESC')
+            );
+
+        } else {
+            $data = $this->Notification->find('all', array('conditions' =>
+                    array('reciever_id' => AuthComponent::user()['id']),
+                    'order' => 'date DESC',
+                    'limit' => $limit)
+            );
+
+        }
+    }
+
 }

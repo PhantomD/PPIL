@@ -43,7 +43,7 @@
 
         echo "<div style='width: 8%;margin: auto;'>";
         $disable = ($value['isChecked'] == false || (AuthComponent::user()['id'] == $value['User']['id']) ? false : true);
-        echo $this->Form->input("valider", array('type' => 'checkbox', 'id' => $value['id'], 'name' => $value['id'], "checked" => $value['isChecked'], 'hiddenField' => false, 'disabled' => $disable,
+        echo $this->Form->input("valider", array('type' => 'checkbox', 'id' =>'validerBouton'.$value['id'], 'name' => $value['id'], "checked" => $value['isChecked'], 'hiddenField' => false, 'disabled' => $disable,
             'label' => array("class" => "ui-btn ui-corner-all ui-btn-inherit ui-btn-icon-left ui-checkbox-off"), 'data-ajax' => 'false', 'onclick' => 'cocher(this)'));
         echo "</div>";
 

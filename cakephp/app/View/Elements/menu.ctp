@@ -12,6 +12,8 @@
 
     <!--HOME -->
     <?php
+
+
     if ($this->action != "consulterlist")
         echo $this->Html->link('Page principale', array('controller' => 'Todolists', 'action' => 'consulterlist'),
             array('data-role' => "button", 'data-inline' => "true", 'data-icon' => "home", 'data-iconpos' => 'notext', 'data-mini' => "true", 'data-ajax' => 'false')); ?>
@@ -24,6 +26,7 @@
 
     if ($this->action === 'consulterlist') {
         // bouton ajouter liste
+        echo $this->element('notification');
         echo $this->Html->link('Ajouter une liste', array('controller' => 'Todolists', 'action' => 'newlist'), array('data-role' => 'button', 'data-inline' => true, 'data-icon' => 'plus', 'data-iconpos' => 'notext', 'data-mini' => true, "data-ajax" => false));
     } elseif ($this->action === 'consulterlistdetail') {
         ?>
@@ -87,7 +90,7 @@
         // consulter Liste
         if ($this->action === 'consulterlistdetail') {
             echo "<li>" . $this->Html->link('ajouter membre', array('controller' => 'Users', 'action' => 'addMember', $id), array("data-ajax" => "false")) . "</li>";
-            echo "<li>" . $this->Html->link('supprimer membre', array('controller' => 'Users', 'action' => 'removeMember', $id), array("data-ajax" => "false")) . "</li>";
+            echo "<li>" . $this->Html->link('supprimer membre', array('controller' => 'Todolists', 'action' => 'removeMember', $id), array("data-ajax" => "false")) . "</li>";
             echo "<li>" . $this->Html->link('modifier la liste', array('controller' => 'Todolists', 'action' => 'modifylist', $id), array("data-ajax" => "false")) . "</li>";
             // echo "<li>" . $this->Html->link('supprimer la liste', array('controller' => 'Todolists', 'action' => 'supprimer', $id), array("data-ajax" => "false")) . "</li>";
             echo "<li>" . $this->Html->link('supprimer la liste', array(''), array('id' => 'deleteList', 'rel' => 'external', 'data-ajax' => "false")) . "</li>";
@@ -102,7 +105,7 @@
 
     if (!in_array($this->action, array('Friend_profil',))) {
         ?>
-        <a href="#popupDisconnect" data-role="button" data-rel="popup" data-inline="true" data-icon="delete"
+        <a href="#popupDisconnect" title="déconnexion" data-role="button" data-rel="popup" data-inline="true" data-icon="power"
            data-iconpos="notext" data-mini="true">Deconnexion</a>
     <?php } ?>
 

@@ -3,7 +3,7 @@
 class TasksController extends AppController
 {
 
-    public $uses = array('Task', 'TodolistUser',);
+    public $uses = array('Task', 'TodolistUser', 'Notification');
 
     function beforeFilter()
     {
@@ -61,6 +61,36 @@ class TasksController extends AppController
                     'default',
                     array('class' => 'flash-message-success', 'timeout' => 3));
 
+
+                // partie notification
+                $nom_tache = $this->request->data['Task']['name'];
+
+                $this->TodolistUser->unbindModel(array('hasOne' => array('User')));
+                $d = $this->TodolistUser->find('all', array('recursive' => 2, 'fields' => array('user_id', 'todolist_id'), 'conditions' =>
+                        array('todolist_id' => $id_liste)
+                    )
+                );
+
+                $data_notif = array();
+                $sender = AuthComponent::user()['id'];
+                $date = date("Y-m-d H:i:s");
+
+                foreach ($d as $key => $d) {
+                    $id_user = $d['TodolistUser']['user_id'];
+
+                    if ($sender == $id_user)
+                        continue;
+
+                    $nom_liste = $d['Todolist']['name'];
+                    //$
+                    $data_notif[] = array('message' => "nouvelle tache \"".$nom_tache."\" dans la liste \"".$nom_liste."\"", 'isReaded' => 0, 'sender_id' => $sender,
+                        'reciever_id' => $id_user, 'date' => $date, 'todolist_id' => $id_liste);
+                }
+
+                $this->Notification->saveMany($data_notif, array('atomic' => false));
+
+
+
             }
             return $this->redirect($this->Auth->redirect(array('controller' => 'Todolists', 'action' => 'consulterlistdetail', $data['todolist_id'])));
         }
@@ -70,7 +100,6 @@ class TasksController extends AppController
 
     public function supprimer($id)
     {
-        Configure::write('debug', 1);
         $this->autoRender = false;
         $this->request->allowMethod(array('ajax'));
 
@@ -84,21 +113,21 @@ class TasksController extends AppController
         );
 
         if (empty($user)) {
-
-            throw new InternalErrorException("vous n'avez pas/plus accès à la liste");
+            Configure::write('debug', 1);
+            throw new InternalErrorException("vous n'avez pas/plus accès à la liste", 502);
         }
 
         if ($this->Task->delete($id)) {
 
         } else {
-            throw new InternalErrorException("la tâche n'à pas été supprimée");
+            Configure::write('debug', 1);
+            throw new InternalErrorException("la tâche n'à pas été supprimée", 503);
         }
     }
 
 
     public function cocher($id, $value)
     {
-        Configure::write('debug', 1);
         $this->autoRender = false;
         $this->request->allowMethod(array('ajax'));
 
@@ -112,13 +141,14 @@ class TasksController extends AppController
             )
         );
 
-        if (empty($user)) {
 
-            throw new InternalErrorException("vous n'avez pas/plus accès à la liste");
+        if (empty($user)) {
+            Configure::write('debug', 1);
+            throw new InternalErrorException("vous n'avez pas/plus accès à la liste", 502);
         }
 
 
-        $date = ($value == 1 ? date("Y-d-m") : NULL);
+        $date = ($value == 1 ? date("Y-m-d") : NULL);
         $user = ($value == 1 ? $user = AuthComponent::user()['id'] : NULL);
 
 
@@ -133,31 +163,65 @@ class TasksController extends AppController
 
 
             if ($d['Task']['isChecked'] == true) {
-                throw new InternalErrorException("quelqu'un à déjà pris cette tâche");
+                Configure::write('debug', 1);
+                throw new InternalErrorException("quelqu'un à déjà pris cette tâche", 503);
             }
 
         } else {
             return false;
         }
-
+        $this->Task->FilesFolders->recursive = -1;
         $this->Task->updateAll(
             array('Task.isChecked' => "'" . $value . "'",
+                'Task.user_id' => "'" . $user . "'",
                 'Task.date' => "'" . $date . "'",
-                'Task.user_id' => "'" . $user . "'"
             ),
             array('Task.id' => $id));
 
 
+        $data_tache = $this->Task->find('first', array('recursive' => -1, 'fields' => array('todolist_id', 'name'),
+                'conditions' => array('id' => $id)
+            )
+        );
+
+        $id_liste = $data_tache['Task']['todolist_id'];
+        $nom_tache = $data_tache['Task']['name'];
+
+        $this->TodolistUser->unbindModel(array('hasOne' => array('User')));
+        $d = $this->TodolistUser->find('all', array('recursive' => 2, 'fields' => array('user_id', 'todolist_id'), 'conditions' =>
+                array('todolist_id' => $id_liste)
+            )
+        );
+
+
+        $data = array();
+        $sender = AuthComponent::user()['id'];
+        $date = date("Y-m-d H:i:s");
+        $cocher = ($value == 0 ? "décocher" : "cocher");
+
+        foreach ($d as $key => $d) {
+            $id_user = $d['TodolistUser']['user_id'];
+
+            if ($sender == $id_user)
+                continue;
+
+            $nom_liste = $d['Todolist']['name'];
+            //$
+            $data[] = array('message' => "la tâche " . $nom_tache . " de la liste " . $nom_liste . " a été " . $cocher, 'isReaded' => 0, 'sender_id' => $sender,
+                'reciever_id' => $id_user, 'date' => $date, 'todolist_id' => $id_liste);
+        }
+
+        $this->Notification->saveMany($data, array('atomic' => false));
     }
 
 
     public function modifyTask($id, $nom = null)
     {
-        Configure::write('debug', 1);
         $this->autoRender = false;
         $this->request->allowMethod(array('ajax'));
 
         if (empty($nom)) {
+            Configure::write('debug', 1);
             throw new InternalErrorException("champ vide");
         }
 
@@ -174,7 +238,9 @@ class TasksController extends AppController
                     array('Task.name' => "'" . $nom . "'"
                     ),
                     array('Task.id' => $id));
+
             } else {
+                Configure::write('debug', 1);
                 throw new InternalErrorException("nom incorrect");
 
             }

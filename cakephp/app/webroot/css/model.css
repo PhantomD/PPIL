@@ -1,130 +1,149 @@
+
 #comment-name {
-	text-align: right ;
+    text-align: right;
 }
 
-#page_option{
-	text-align: center ;
+#page_option {
+    text-align: center;
 }
 
-.error{
-	color : red;
+.error {
+    color: red;
 }
 
 .flash-message-success {
-	color: green;
+    color: green;
 }
 
-.flash-message-error{
-	color : red;
+.flash-message-error {
+    color: red;
 }
 
-body{
-	background-color: #6b7b9a;	
+body {
+    background-color: #6b7b9a;
 }
 
+.ui-overlay-b, .ui-page-theme-b, .ui-page-theme-b .ui-panel-wrapper {
 
-.ui-overlay-b, .ui-page-theme-b, .ui-page-theme-b .ui-panel-wrapper
-{
-
-	background-color: #6b7b9a;
+    background-color: #6b7b9a;
 }
 
-#inscriptionInscriptionForm, #loginLoginForm, #UserModificationProfilForm,#newlistNewlistForm,#modifylistModifylistForm, .ui-link .ui-btn .ui-shadow .ui-corner-all{
+#inscriptionInscriptionForm, #loginLoginForm, #UserModificationProfilForm, #newlistNewlistForm, #modifylistModifylistForm, .ui-link .ui-btn .ui-shadow .ui-corner-all {
 
-	margin-left: auto;
-	margin-right: auto;
-	width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
 }
 
-
-
-#inscriptionInscriptionForm input,#inscriptionInscriptionForm .ui-input-text, #loginLoginForm input,  #loginLoginForm .ui-input-text,
-#UserModificationProfilForm input ,#UserModificationProfilForm .ui-input-text, #newlistNewlistForm input, #newlistNewlistForm .ui-input-text,
-#modifylistModifylistForm input, #modifylistModifylistForm .ui-input-text, #newTacheConsulterlistdetailForm input, #newTacheConsulterlistdetailForm .ui-input-text{
-	background-color: white;
-	color:gray;
+#inscriptionInscriptionForm input, #inscriptionInscriptionForm .ui-input-text, #loginLoginForm input, #loginLoginForm .ui-input-text,
+#UserModificationProfilForm input, #UserModificationProfilForm .ui-input-text, #newlistNewlistForm input, #newlistNewlistForm .ui-input-text,
+#modifylistModifylistForm input, #modifylistModifylistForm .ui-input-text, #newTacheConsulterlistdetailForm input, #newTacheConsulterlistdetailForm .ui-input-text {
+    background-color: white;
+    color: gray;
 }
 
 /* FORMULAIRE NOUVELLE LISTE // MODIFICATION LISTE */
-#newlistNewlistForm .ui-body-c, #modifylistModifylistForm .ui-body-c, #newTacheConsulterlistdetailForm .ui-body-c{
-background-color: transparent;
+#newlistNewlistForm .ui-body-c, #modifylistModifylistForm .ui-body-c, #newTacheConsulterlistdetailForm .ui-body-c {
+    background-color: transparent;
 }
 
-#newlistNewlistForm .ui-body-c fieldset, #modifylistModifylistForm .ui-body-c fieldset, #newTacheConsulterlistdetailForm .ui-body-f fieldset{
-padding: 5px 15px;
-margin : 5px 10px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #e1e4ea;
-  border-radius: 13px;
+#newlistNewlistForm .ui-body-c fieldset, #modifylistModifylistForm .ui-body-c fieldset, #newTacheConsulterlistdetailForm .ui-body-f fieldset {
+    padding: 5px 15px;
+    margin: 5px 10px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #e1e4ea;
+    border-radius: 13px;
 
- }
-#newlistNewlistForm .ui-body-c fieldset legend,  #modifylistModifylistForm .ui-body-c fieldset legend,  #newTacheConsulterlistdetailForm fieldset legend{
-margin-left: 20px;
+}
+
+#newlistNewlistForm .ui-body-c fieldset legend, #modifylistModifylistForm .ui-body-c fieldset legend, #newTacheConsulterlistdetailForm fieldset legend {
+    margin-left: 20px;
 }
 
 /************************************************/
-
-
 
 /* RADIO BUTTON */
-.ui-radio .ui-btn,  .ui-radio .ui-page-theme-b .ui-btn .ui-btn-active{
-	background-color: #6b7b9a;
-	background-image: url("boutonselect.png");
-	background-repeat: no-repeat;
-	border: none;
-	background-position: left;
-	padding-left: 30px;
+.ui-radio .ui-btn, .ui-radio .ui-page-theme-b .ui-btn .ui-btn-active {
+    background-color: #6b7b9a;
+    background-image: url("boutonselect.png");
+    background-repeat: no-repeat;
+    border: none;
+    background-position: left;
+    padding-left: 30px;
 }
 
-.ui-radio .ui-btn{
-	background-image: url("boutonselect.png");
+.ui-radio .ui-btn {
+    background-image: url("boutonselect.png");
 }
 
-.ui-radio  .ui-btn-active{
-	background-image: url("boutonselect2.png");
+.ui-radio .ui-btn-active {
+    background-image: url("boutonselect2.png");
 }
 
-.ui-radio .ui-btn:hover{
-	background-color: #6b7b9a;
+.ui-radio .ui-btn:hover {
+    background-color: #6b7b9a;
 }
 
-.ui-radio  .ui-btn.ui-btn-active{
-	background-color: #6b7b9a;
+.ui-radio .ui-btn.ui-btn-active {
+    background-color: #6b7b9a;
 }
 
 /************************************************/
 
-.center{
-  text-align: center;
+.center {
+    text-align: center;
 }
+
 .center * {
-  margin: 0 auto;
+    margin: 0 auto;
 }
 
-
-
-.ui-icon-none
-{
-background : none;
+.ui-icon-none {
+    background: none;
 
 }
-
-
 
 /* table liste */
 
-#table_tache_listes_today,#table_tache_listes_week,#table_tache_listes_other{
-    width : 100%;
+#table_tache_listes_today, #table_tache_listes_week, #table_tache_listes_other {
+    width: 100%;
 }
 
-#table_tache_listes_today tr td, #table_tache_listes_week tr td, #table_tache_listes_other tr td{
-    text-align : left;
+#table_tache_listes_today tr td, #table_tache_listes_week tr td, #table_tache_listes_other tr td {
+    text-align: left;
     text-indent: 3em;
     padding-bottom: 10px;
 }
 
-#table_tache_listes_today tr td.fleche,#table_tache_listes_week tr td.fleche,#table_tache_listes_other tr td.fleche {
+#table_tache_listes_today tr td.fleche, #table_tache_listes_week tr td.fleche, #table_tache_listes_other tr td.fleche {
     text-align: right;
     padding-right: 50px;
+}
+
+.ui-listview {
+    margin: 0 !important;
+}
+
+.wrapper {
+    width: 55%;
+    margin: auto;
+}
+
+.wrapper .ui-link {
+    background-color: #b4beda;
+    box-shadow: 0 4px 2px -2px gray;
+
+}
+
+.wrapper .newNotif {
+    -moz-box-shadow: inset 10px 10px 30px 2px #3531ff;
+    -webkit-box-shadow: inset 10px 10px 30px 2px #3531ff;
+    -o-box-shadow: inset 10px 10px 30px 2px #3531ff;
+    box-shadow: inset 10px 10px 30px 2px #3531ff;
+
+}
+
+.wrapper .ui-btn-active {
+    background: none !important
 }
