@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Dim 10 Mai 2015 à 23:37
+-- Généré le :  Sam 23 Mai 2015 à 16:54
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -32,46 +32,102 @@ CREATE TABLE IF NOT EXISTS `commentaries` (
   `task_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=70 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=50 ;
 
 --
 -- Contenu de la table `commentaries`
 --
 
 INSERT INTO `commentaries` (`ID`, `text`, `task_id`, `user_id`) VALUES
-(54, 'cxcc', 25, 67),
-(55, 'hihi', 25, 67),
-(56, 'oo', 25, 67),
-(57, 'errr', 25, 67),
-(58, 'dd', 25, 67),
-(59, 'dd', 25, 67),
-(60, 'd', 25, 67),
-(61, 'sd', 25, 67),
-(62, 'z', 25, 67),
-(63, 's', 25, 67),
-(64, 'd', 25, 67),
-(65, 'dd', 25, 67),
-(66, 'ah ah', 25, 67),
-(67, 'ah ah ', 25, 67),
-(68, 'cklllllllllllllllllllllddp dp fd pdf odfkd ld dl fd dl kdfj dl jfd jdl d dlf ldj dl jd jfdl jd jdl jd jdl jdzlfn fnm fzmlfz ml fmzf zm', 25, 67),
-(69, 'cklllllllllllllllllllll cklllllllllllllllllllllddp dp fd pdf odfkd ld dl fd dl kdfj dl jfd jdl d dlf ldj dl jd jfdl jd jdl jd jdl jdzlfn fnm fzmlfz ml fmzf zmdp dp fd pdf odfkd ld dl fd dl kdfj dl jfd jdl d dlf ldj dl jd jfdl jd jdl jd jdl jdzlfn fnm fzmlfz ml fmzf zm cklllllllllllllllllllllddp dp fd pdf odfkd ld dl fd dl kdfj dl jfd jdl d dlf ldj dl jd jfdl jd jdl jd jdl jdzlfn fnm fzmlfz ml fmzf zm', 25, 67);
+(1, 'test', 6, 67),
+(2, 'coucou', 9, 67),
+(3, 'gg', 9, 67),
+(4, 'vdv ', 9, 67),
+(5, 'vdv ', 9, 67),
+(6, 'bvfkf ', 9, 67),
+(7, 'bvfkf ', 9, 67),
+(8, 'bvfkf ', 9, 67),
+(9, 'r', 9, 67),
+(10, 'c', 9, 67),
+(11, 'c', 9, 67),
+(12, 'o', 9, 67),
+(13, 'k', 9, 67),
+(14, 'k', 9, 67),
+(15, 'p', 9, 67),
+(16, 'p', 9, 67),
+(17, 'f', 8, 67),
+(18, 'fv', 8, 67),
+(19, 'fv', 8, 67),
+(20, 'f', 8, 67),
+(21, 'fff', 8, 67),
+(22, 'fff', 8, 67),
+(23, 's', 10, 67),
+(24, 'dd', 10, 67),
+(25, 'dd', 10, 67),
+(26, 'd', 10, 67),
+(27, 'ff', 10, 67),
+(28, 'dd', 10, 67),
+(29, 'dd', 10, 67),
+(30, 'c', 11, 67),
+(31, 'c', 11, 67),
+(32, 'c', 11, 67),
+(33, 's', 8, 67),
+(34, 'f', 7, 50),
+(35, 'ff', 7, 50),
+(36, 'ff', 7, 50),
+(37, 'd', 7, 50),
+(38, 'fff', 7, 50),
+(39, 'fff', 7, 50),
+(40, 'd', 7, 50),
+(41, 'dd', 7, 50),
+(42, 'dd', 7, 50),
+(43, 'e', 7, 50),
+(44, 'err', 7, 50),
+(45, 'fff', 7, 50),
+(46, 'ss', 7, 50),
+(47, 'qqqq', 7, 50);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `notification`
+-- Structure de la table `notifications`
 --
 
-CREATE TABLE IF NOT EXISTS `notification` (
+CREATE TABLE IF NOT EXISTS `notifications` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(20) NOT NULL,
   `message` text NOT NULL,
   `isReaded` tinyint(1) NOT NULL,
   `sender_id` int(11) NOT NULL,
   `reciever_id` int(11) NOT NULL,
+  `todolist_id` int(11) NOT NULL,
   `type` int(11) NOT NULL,
+  `date` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+
+--
+-- Contenu de la table `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `title`, `message`, `isReaded`, `sender_id`, `reciever_id`, `todolist_id`, `type`, `date`) VALUES
+(1, '', 'On vous a ajoutÃ© dans la liste liste1', 1, 67, 50, 178, 0, '2015-05-19 18:37:14'),
+(2, '', 'On vous a ajoutÃ© dans la liste liste1', 1, 67, 50, 178, 0, '2015-05-19 18:40:27'),
+(3, '', 'On vous a ajoutÃ© dans la liste liste1', 0, 67, 54, 178, 0, '2015-05-19 18:41:44'),
+(4, '', 'On vous a ajoutÃ© dans la liste liste1', 0, 67, 55, 178, 0, '2015-05-19 18:47:13'),
+(5, '', 'On vous a surpprimÃ© de la liste liste1', 0, 67, 24, 178, 0, '2015-05-19 19:00:02'),
+(6, '', 'On vous a ajoutÃ© dans la liste ma liste de merde', 0, 67, 54, 186, 0, '2015-05-20 12:48:11'),
+(7, '', 'On vous a ajoutÃ© dans la liste ma liste de merde', 1, 67, 50, 186, 0, '2015-05-20 12:48:12'),
+(8, '', 'On vous a ajoutÃ© dans la liste ma liste de merde', 0, 67, 55, 186, 0, '2015-05-20 12:48:13'),
+(9, '', 'On vous a ajoutÃ© dans la liste ma liste de merde', 0, 67, 55, 186, 0, '2015-05-20 12:48:13'),
+(10, '', 'On vous a ajoutÃ© dans la liste liste1', 1, 67, 50, 178, 0, '2015-05-20 13:19:22'),
+(11, '', 'nouvelle tache "tache lol" dans la liste "liste1"', 1, 67, 50, 178, 0, '2015-05-20 13:20:15'),
+(12, '', 'nouvelle tache "tache lol" dans la liste "liste1"', 0, 67, 55, 178, 0, '2015-05-20 13:20:15'),
+(13, '', 'nouvelle tache "tache lol" dans la liste "liste1"', 1, 67, 50, 178, 0, '2015-05-20 13:21:22'),
+(14, '', 'nouvelle tache "tache lol" dans la liste "liste1"', 0, 67, 55, 178, 0, '2015-05-20 13:21:22'),
+(15, '', 'On vous a surpprimÃ© de la liste ma liste de merde', 0, 67, 28, 186, 0, '2015-05-20 13:24:16'),
+(16, '', 'On vous a ajoutÃ© dans la liste ma liste de merde', 1, 67, 50, 186, 0, '2015-05-20 13:28:20'),
+(17, '', 'On vous a ajoutÃ© dans la liste ma liste de merde', 0, 67, 50, 186, 0, '2015-05-20 13:28:58');
 
 -- --------------------------------------------------------
 
@@ -89,18 +145,28 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `date` date NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FOREIGN KEY` (`todolist_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 --
 -- Contenu de la table `tasks`
 --
 
 INSERT INTO `tasks` (`id`, `todolist_id`, `name`, `comment`, `isChecked`, `user_id`, `date`) VALUES
-(25, 169, 'jj', '', 0, 0, '0000-00-00'),
-(26, 169, 'ddd', '', 1, 67, '2015-10-05'),
-(27, 169, 'vvv', NULL, 1, 50, '2015-10-05'),
-(28, 169, 'aaa', '', 0, 0, '0000-00-00'),
-(29, 173, 'fgfgfdgfd', '', 1, 67, '2015-10-05');
+(2, 183, 'dd', '', 0, 0, '0000-00-00'),
+(3, 183, 'ddd', '', 1, 50, '2015-12-05'),
+(4, 180, 'test', '', 0, 0, '2015-05-19'),
+(6, 178, 'test Ã© la', '', 1, 67, '2015-05-19'),
+(7, 181, 's', '', 0, 0, '0000-00-00'),
+(8, 184, 'ghgg', '', 1, 67, '2015-12-05'),
+(9, 184, 'liste test', 'mon commentaire prÃ©ferÃ©', 0, 0, '0000-00-00'),
+(10, 184, 's', '', 0, 0, '0000-00-00'),
+(11, 184, 'cc', '', 0, 0, '0000-00-00'),
+(13, 178, 'tache 1', '', 1, 67, '2015-05-19'),
+(14, 178, 'tache 2', '', 1, 67, '0000-00-00'),
+(15, 178, 'tache 3', '', 1, 67, '0000-00-00'),
+(17, 186, 'ma tahc', '', 0, 0, '0000-00-00'),
+(18, 178, 'tache lol', '', 0, 0, '0000-00-00'),
+(19, 178, 'tache lol', '', 0, 0, '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -116,41 +182,21 @@ CREATE TABLE IF NOT EXISTS `todolists` (
   `dateEnd` date DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=175 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=187 ;
 
 --
 -- Contenu de la table `todolists`
 --
 
 INSERT INTO `todolists` (`id`, `name`, `text`, `dateBegin`, `dateEnd`, `user_id`) VALUES
-(131, 'test', '', NULL, NULL, 48),
-(134, 'ddd', '', NULL, NULL, 50),
-(136, 'dfff', '', NULL, NULL, 52),
-(137, 'dff', '', NULL, NULL, 52),
-(138, 'ee', 'je ne sais pas trop quoi dire', '1993-02-27', NULL, 52),
-(144, 'liste1', '', NULL, NULL, 53),
-(147, 'dfdf', '', NULL, NULL, 51),
-(148, 'eere', '', NULL, NULL, 51),
-(149, 'eere', '', NULL, NULL, 51),
-(151, 'eff', '', NULL, NULL, 51),
-(152, 'dfdff', '', NULL, NULL, 56),
-(153, 'd', '', NULL, NULL, 56),
-(154, 'rtt', '', '1993-02-27', '1995-02-24', 56),
-(155, 'dfdff', '', '0000-00-00', '0000-00-00', 56),
-(156, 'dddd', '', '1970-01-01', '1970-01-01', 56),
-(157, 'ddd', '', NULL, NULL, 56),
-(158, 'aaa', '', NULL, NULL, 56),
-(159, 'bbbb', '', '2016-02-27', NULL, 56),
-(165, 'ghghh', '', NULL, NULL, 68),
-(166, 'pp', '', NULL, NULL, 68),
-(167, 'liste1', '', NULL, NULL, 67),
-(168, 'liste2', '', NULL, NULL, 67),
-(169, 'dfdff', '', '2015-05-09', NULL, 67),
-(170, 'ffdff', '', '2015-05-12', NULL, 67),
-(171, 'cvcvcvcv', '', '2015-06-09', NULL, 67),
-(172, 'pourquoi ', '', NULL, NULL, 67),
-(173, 'off', '', NULL, NULL, 67),
-(174, 'euh', '', '2015-05-10', NULL, 67);
+(178, 'liste1', '', NULL, NULL, 67),
+(180, 'ooo', '', NULL, NULL, 67),
+(181, 'cc', '', NULL, NULL, 50),
+(182, 'cc Ã© ', '', NULL, NULL, 50),
+(183, 'test date', '', '2015-05-16', '2015-05-22', 50),
+(184, 'test 5', '', NULL, NULL, 67),
+(185, 'guigui', '', NULL, NULL, 67),
+(186, 'ma liste de merde', '', '2015-05-24', '2015-05-30', 67);
 
 -- --------------------------------------------------------
 
@@ -165,41 +211,24 @@ CREATE TABLE IF NOT EXISTS `todolist_users` (
   PRIMARY KEY (`id`),
   KEY `todolist_id` (`todolist_id`,`user_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=90 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
 
 --
 -- Contenu de la table `todolist_users`
 --
 
 INSERT INTO `todolist_users` (`id`, `todolist_id`, `user_id`) VALUES
-(37, 131, 12),
-(38, 134, 12),
-(42, 136, 52),
-(43, 137, 52),
-(44, 138, 52),
-(50, 144, 53),
-(56, 147, 50),
-(64, 152, 56),
-(65, 153, 56),
-(66, 154, 56),
-(67, 155, 56),
-(68, 156, 56),
-(69, 157, 56),
-(70, 158, 56),
-(71, 159, 56),
-(77, 165, 68),
-(78, 166, 68),
-(79, 167, 67),
-(80, 168, 67),
-(86, 169, 50),
-(87, 169, 54),
-(88, 169, 55),
-(81, 169, 67),
-(82, 170, 67),
-(83, 171, 67),
-(84, 172, 67),
-(85, 173, 67),
-(89, 174, 67);
+(31, 178, 50),
+(25, 178, 55),
+(1, 178, 67),
+(5, 180, 67),
+(7, 181, 50),
+(8, 182, 50),
+(9, 183, 50),
+(14, 184, 67),
+(17, 185, 67),
+(30, 186, 55),
+(26, 186, 67);
 
 -- --------------------------------------------------------
 
@@ -228,7 +257,7 @@ INSERT INTO `users` (`id`, `id_facebook`, `email`, `name`, `firstname`, `birthda
 (12, -1, 'ggg@hotmail.fr', 'fff', 'ddd', '2015-04-06', 0, 'xxxxxx'),
 (13, -1, 'geogeoderemetz3133@hotmail.fr', 'dfdf', 'fdsf', '2015-04-06', 0, 'dfffdf'),
 (49, -1, 'g@hotmail.fr', 'erer', 'rerer', '1993-02-27', 1, 'd520312ce4e9a1e0de383acad959071d6a77fd8b'),
-(50, 10205566805723221, 'nicolas6920s@hotmail.fr', 'Deremetz', 'Nicolas', '1990-06-22', 1, 'd2bafe391800cf749d8a4fcc0e57a310c93aea6f'),
+(50, 10205566805723221, 'nicolas6920s@hotmail.fr', 'Deremetzz', 'Nicolass', '1991-06-22', 1, 'd2bafe391800cf749d8a4fcc0e57a310c93aea6f'),
 (52, -1, 'geo@hotmail.fr', 'deremetz', 'geoffrey', '0000-00-00', 0, 'd520312ce4e9a1e0de383acad959071d6a77fd8b'),
 (53, -1, 'honionÃ©@hotmail.fr', 'honion', 'jeffrey', '0000-00-00', 1, 'f32871171d3cc08bfa825aae55dafafef24b99c3'),
 (54, 10204547206095453, 'le.king.du88@hotmail.fr', 'Honion', 'Jeffrey', '1994-08-23', 1, 'd2bafe391800cf749d8a4fcc0e57a310c93aea6f'),
