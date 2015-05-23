@@ -104,7 +104,7 @@ class UsersController extends AppController
                     $profil['firstname'] = $user->getFirstName();
                     $profil['name'] = $user->getLastName();
                     $profil['birthdate'] = $user->getBirthday();
-                    if(! empty($profil))
+                    if(! empty($profil['birthdate']))
                     $profil['birthdate'] = $profil['birthdate']->format('d-m-Y');
                     $profil['gender'] = $user->getGender();
                     $profil['password'] = "aa";
