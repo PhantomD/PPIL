@@ -19,7 +19,7 @@ class Commentary extends AppModel
 
     public $validate = array(
         'text' => array(
-            'rule' => '/^[\'"a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s-]{1,60}$/',
+            'rule' => '/^[\'" ()a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s-]{1,60}$/',
             'required' => true,
             'allowEmpty' => false,
             'message' => "Veuillez compléter ce champ correctement(alphanumeric)",

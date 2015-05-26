@@ -21,13 +21,13 @@ class Todolist extends AppModel
 
     public $validate = array(
         'name' => array(
-            'rule' => '/^[\'"a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s-]{1,60}$/',
+            'rule' => '/^[\'" \(\)a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s-]{1,60}$/',
             'required' => true,
             'allowEmpty' => false,
             'message' => "le nom de la liste est incorrect",
         ),
         'text' => array(
-            'rule' => '/^[a-zA-Z0-9 \'\"]*$/',
+            'rule' => '/^[\'" \(\)a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s-]{1,60}$/',
             'required' => false,
             'allowEmpty' => true,
             'message' => "symbole dans commentaire non autorisé",

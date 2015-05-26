@@ -197,7 +197,7 @@ class TasksController extends AppController
         $data = array();
         $sender = AuthComponent::user()['id'];
         $date = date("Y-m-d H:i:s");
-        $cocher = ($value == 0 ? "décocher" : "cocher");
+        $cocher = ($value == 0 ? "décochée" : "cochée");
 
         foreach ($d as $key => $d) {
             $id_user = $d['TodolistUser']['user_id'];
@@ -207,7 +207,7 @@ class TasksController extends AppController
 
             $nom_liste = $d['Todolist']['name'];
             //$
-            $data[] = array('message' => "la tâche " . $nom_tache . " de la liste " . $nom_liste . " a été " . $cocher, 'isReaded' => 0, 'sender_id' => $sender,
+            $data[] = array('message' => "la tâche " . $nom_tache."  a été " . $cocher, 'isReaded' => 0, 'sender_id' => $sender,
                 'reciever_id' => $id_user, 'date' => $date, 'todolist_id' => $id_liste);
         }
 
